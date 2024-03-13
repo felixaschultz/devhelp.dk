@@ -1,8 +1,9 @@
-import { useLoaderData, useFetcher } from "@remix-run/react";
+import { useLoaderData, useFetcher, useOutletContext } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import mongoose from "mongoose";
+import mongoose, { set } from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import "../Blog.css";
+import { useEffect } from "react";
 
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
@@ -39,6 +40,20 @@ export const meta = ({data}) => {
 export default function BlogEntry() {
     const {post, user} = useLoaderData();
     const fetcher = useFetcher();
+    const [open, setOpen] = useOutletContext();
+
+    
+       useEffect(() => {
+        if(fetcher?.data?.message === "You need to be logged in to like a post"){
+            setOpen({
+                open: true,
+                type: "login"
+            });
+        }
+        return () => {
+            fetcher?.data?.message = null;
+        }
+       }, [fetcher?.data?.message])
 
     return (
         <>
@@ -57,9 +72,9 @@ export default function BlogEntry() {
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
-                                        user && <button className="like dislike" name="_action" value="unlike">Unlike</button>
+                                        <button className="like dislike" name="_action" value="unlike">Unlike</button>
                                     ) : (
-                                        user && <button className="like" name="_action" value="like">Like</button>
+                                        <button className="like" name="_action" value="like">Like</button>
                                     )
                                 }
                             </fetcher.Form>
