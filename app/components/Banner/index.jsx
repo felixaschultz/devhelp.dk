@@ -9,8 +9,8 @@ function Banner({user}) {
         <article className="banner">
             <section className="banner_container">
                 <div className="hero-tagline">
-                    <h2>Devhelp.dk</h2>
-                    <p>Din digitale platform til at hjælp andre</p>
+                    <h2>DEVHELP.DK</h2>
+                    <p>Vi hjælper dig med din udfordring i kodning.</p>
                     {(!user) ? (
                         <div className="cta">
                             <button className="btn" onClick={() => {
