@@ -5,6 +5,7 @@ import { Form } from "@remix-run/react";
 export default function Header({setOpen, open, user}) {
     return (
         <>
+        <p>This site is still underconstruction</p>
         <header className="header">
             <section className="header_container">
                 <Link to="/" className="header_logo">
