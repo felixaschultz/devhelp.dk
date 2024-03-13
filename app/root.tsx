@@ -32,3 +32,20 @@ export default function App() {
     </html>
   );
 }
+
+export function ErrorBoundary({ error }) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+    </div>
+  );
+}
+
+export const action = async ({ request }) => {
+  const formData = request.formData();
+  const data = Object.fromEntries(formData);
+
+  
+
+};
