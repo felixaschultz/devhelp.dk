@@ -53,7 +53,7 @@ export default function BlogEntry() {
                 {
                     post.likes && (
                         <div className="likes">
-                            <p className="like-counts">{post.likes.length} like{post.likes.length > 1 ?? "s"}</p>
+                            <p className="like-counts">{post.likes.length} like{post.likes.length > 1 || post.likes.length === 0 ? "s" : null}</p>
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
