@@ -40,20 +40,6 @@ export const meta = ({data}) => {
 export default function BlogEntry() {
     const {post, user} = useLoaderData();
     const fetcher = useFetcher();
-    const [open, setOpen] = useOutletContext();
-
-    
-       useEffect(() => {
-        if(fetcher?.data?.message === "You need to be logged in to like a post"){
-            setOpen({
-                open: true,
-                type: "login"
-            });
-        }
-        return () => {
-            fetcher?.data?.message = null;
-        }
-       }, [fetcher?.data?.message])
 
     return (
         <>
@@ -72,9 +58,9 @@ export default function BlogEntry() {
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
-                                        <button className="like dislike" name="_action" value="unlike">Unlike</button>
+                                        user ? <button className="like dislike" name="_action" value="unlike">Unlike</button> : null
                                     ) : (
-                                        <button className="like" name="_action" value="like">Like</button>
+                                        user ? <button className="like" name="_action" value="like">Like</button> : null
                                     )
                                 }
                             </fetcher.Form>
