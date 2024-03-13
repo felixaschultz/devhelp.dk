@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import { Form, redirect, useFetcher } from "@remix-run/react";
+import "../BlogWrite.css";
 
 export const meta = [
     { title: "Blog | Devhelp.dk" },
@@ -22,13 +23,15 @@ export default function BlogWrite() {
             <Form method="post">
                 <div>
                     <label htmlFor="title">Title</label>
-                    <input type="text" id="title" name="title" />
+                    <input className="input-fields" type="text" id="title" name="title" />
                 </div>
                 <div>
                     <label htmlFor="content">Content</label>
-                    <textarea id="content" name="body" />
+                    <textarea className="input-fields textarea" id="content" name="body" />
                 </div>
-                <button type="submit">Submit</button>
+                <section className="flex">
+                    <button className="post-btn" type="submit">Submit</button>
+                </section>
             </Form>
         </div>
     );

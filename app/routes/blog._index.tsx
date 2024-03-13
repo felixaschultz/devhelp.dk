@@ -4,7 +4,9 @@ import PostCard from "~/components/PostCard";
 import "../Blog.css";
 
 export const loader = async ({ request }) => {
-    const posts = await mongoose.model("BlogPost").find();
+    const posts = await mongoose.model("BlogPost").find({
+        published: true
+    });
     return { posts };
 };
 

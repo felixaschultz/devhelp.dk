@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 export const loader = async ({ request, params }) => {
     const postId = params.id;
-    const post = await mongoose.model("BlogPost").findOne({ _id: postId });
+    const post = await mongoose.model("BlogPost").findOne({ _id: postId, published: true});
 
     if(!post) {
         throw new Error("Post not found");
