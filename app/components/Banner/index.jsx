@@ -1,6 +1,7 @@
 import { useOutletContext } from "@remix-run/react";
 import { set } from "mongoose";
 import "./Style.css"
+import Logo from "../../assets/devhelp-logo-noTagLine.svg";
 
 function Banner({user}) {
     const setOpen = useOutletContext();
@@ -9,8 +10,8 @@ function Banner({user}) {
         <article className="banner">
             <section className="banner_container">
                 <div className="hero-tagline">
-                    <h2>DEVHELP.DK</h2>
-                    <p>Vi hjælper dig med din udfordring i kodning.</p>
+                    <img className="hero-logo" src={Logo} alt="DevHelp Logo" />
+                    <p>Står du med udfordinger af dit projekt? Så står vores dygtige udvikler klar til at hjælpe dig.</p>
                     {(!user) ? (
                         <div className="cta">
                             <button className="btn" onClick={() => {

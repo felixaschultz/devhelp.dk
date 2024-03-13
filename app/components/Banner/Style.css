@@ -12,7 +12,6 @@
 
 .hero-tagline{
     text-align: center;
-    font-weight: bold;
     color: #333;
     padding: 20px;
     height: 100%;
@@ -20,9 +19,9 @@
     place-content: center;
 }
 
-.hero-tagline h2{
-    font-size: 30px;
-    margin: 0;
+.hero-logo{
+    width: 250px;
+    margin: 10px auto;
 }
 
 @media screen and (max-width: 768px){
