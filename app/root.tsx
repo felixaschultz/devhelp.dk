@@ -15,6 +15,7 @@ import {
 } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import { useState } from "react";
 import Button from "./components/Button";
 import { authenticator } from "./services/auth.server";
@@ -60,6 +61,7 @@ export default function App() {
       <body>
         <Header setOpen={setOpen} open={open} user={user} />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
