@@ -11,6 +11,10 @@ a{
     color: #e4e4e4;
 }
 
+fieldset{
+    border: none;
+}
+
 body{
     margin: 0;
     padding: 0;
