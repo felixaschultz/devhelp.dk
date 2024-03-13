@@ -12,11 +12,16 @@ export default function Header({setOpen, open, user}) {
                 </Link>
                 <nav className="flex">
                     <Link className="navitem" to="/">Home</Link>
+                    {
+                        user ? (
+                            <Link className="navitem" to="/ask">Ask</Link>
+                        ) : null
+                    }
                     <Link className="navitem" to="/about">About</Link>
                     <section className="btn_container">
                         {user ? (
                             <>
-                                <Link to="/profile" className="btn">Profile</Link>
+                                <p>Moin, {user.name.firstname}</p>
                                 <Form method="post">
                                     <Button name="_action" value="logout" className="btn" type="submit">Logout</Button>
                                 </Form>
