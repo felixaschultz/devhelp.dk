@@ -8,15 +8,15 @@ export default function Header() {
         <>
         <header className="header">
             <section className="header_container">
-                <div className="header_logo">
+                <Link to="/" className="header_logo">
                     <h2>Devhelp.dk</h2>
-                </div>
+                </Link>
                 <nav className="flex">
                     <Link className="navitem" to="/">Home</Link>
                     <Link className="navitem" to="/">About</Link>
                     <section className="btn_container">
                         <Button className="btn signin" onClick={() => setOpenPop(!open)}>Login</Button>
-                        <Button className="btn" onClick={() => setOpenPop(!open)}>Signup</Button>
+                        <Link className="btn" to="/signup">Signup</Link>
                     </section>
                 </nav>
             </section>

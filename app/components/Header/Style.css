@@ -1,5 +1,5 @@
 .header{
-    background-color: #505050;
+    background-color: #292929;
     padding: 20px;
     text-align: center;
     font-weight: bold;
@@ -9,6 +9,8 @@
 
 .header_logo{
     text-transform: uppercase;
+    color: #e4e4e4;
+    text-decoration: none;
 }
 
 .header_container{
