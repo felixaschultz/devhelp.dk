@@ -60,7 +60,7 @@ export default function BlogEntry() {
                                     post.likes.includes(user?._id) ? (
                                         <button className="like dislike" name="_action" value="unlike">Unlike</button>
                                     ) : (
-                                        <button className="like" name="_action" value="like">Like</button>
+                                        <button className="like" name="_action" value="like">Like post</button>
                                     )
                                 }
                             </fetcher.Form>

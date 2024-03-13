@@ -18,13 +18,13 @@
     cursor: pointer;
     font-size: 16px;
     color: #fff;
-    text-indent: -9999px;
+    /* text-indent: -9999px; */
 }
 
-.like::before{
-    content: url('/images/like.png');
+/* .like::before{
+    content: url('/assets/like.png');
 }
 
 .dislike::before{
-    content: url('/images/dislike.png');
-}
+    content: url('/assets/dislike.png');
+} */
