@@ -1,6 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
+import "../Blog.css";
 
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
@@ -37,13 +38,20 @@ export const meta = ({data}) => {
 export default function BlogEntry() {
     const {post} = useLoaderData();
     return (
-        <div className="content">
-            <h1>{post.title}</h1>
+        <>
             {
-                post.body.split("\n").map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                ))
+                post.image && (
+                    <img className="post-image" src={post.image} alt={post.title} />
+                )
             }
-        </div>
+             <div className="content">
+                <h1>{post.title}</h1>
+                {
+                    post.body.split("\n").map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                    ))
+                }
+            </div>
+        </>
     );
 }
