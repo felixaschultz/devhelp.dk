@@ -1,11 +1,27 @@
 .banner{
     background-color: #c4c4c4;
-    padding: 20px;
-    height: 350px;
+    height: 550px;
     width: 100%;
 }
 
 .banner_container{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    place-content: center;
+}
+
+.hero-tagline{
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    padding: 20px;
+    height: 100%;
+    display: grid;
+    place-content: center;
+    color: #fff;
+}
+
+.hero-tagline h2{
+    font-size: 30px;
+    margin: 0;
 }
