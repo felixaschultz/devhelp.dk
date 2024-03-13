@@ -24,9 +24,17 @@ body{
     margin: 5px 0;
 }
 
+/* Content */
+
 .content{
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+}
+
+/* Error */
+.error{
+    color: #ff0033;
+    font-size: 14px;
 }

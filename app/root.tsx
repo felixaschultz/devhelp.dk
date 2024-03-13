@@ -16,7 +16,7 @@ import {
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./components/Button";
 import { authenticator } from "./services/auth.server";
 import mongoose from "mongoose";
@@ -32,14 +32,14 @@ export const loader = async ({ request }) => {
 
   const error = session.get("sessionErrorKey");
   session.unset("sessionErrorKey");
-
   const headers = new Headers({
     "Set-Cookie": await commitSession(session),
   });
-
+  
   return {
     user,
-    error
+    error,
+    headers
   };
 }
 
@@ -50,6 +50,16 @@ export default function App() {
   });
   const fetcher = useFetcher();
   const { user, error } = useLoaderData();
+
+  useEffect(() => {
+    if(!error){
+      setOpen({
+        open: false,
+        type: "login"
+      })
+    }
+  }, [error, user]);
+
   return (
     <html lang="en">
       <head>
@@ -66,7 +76,7 @@ export default function App() {
         <Scripts />
         <LiveReload />
         {
-            (!user && open.open && open.type == "login") && (
+            (open.open && open.type == "login") && (
                 <div className="popup">
                     <div className="popup_container">
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
@@ -76,8 +86,8 @@ export default function App() {
                             <input className="input-fields" type="password" name="password" placeholder="Password" />
                             <section>
                               {
-                                  error?.error && (
-                                      <p>{error?.error?.message}</p>
+                                  error?.message && (
+                                      <p className="error">{error?.message}</p>
                                   )
                               }
                               <Button name="_action" value="login" className="btn no-margin">Login</Button>
@@ -92,7 +102,7 @@ export default function App() {
             )
         }
         {
-            (!user && open.open && open.type == "signup") && (
+            (open.open && open.type == "signup") && (
                 <div className="popup">
                     <div className="popup_container">
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
@@ -131,7 +141,6 @@ export default function App() {
 }
 
 export const action = async ({ request }) => {
-
   return Authenticate(request);
 };
 
