@@ -89,7 +89,6 @@ export default function Me() {
                         <h1>Change profile image</h1>
                         <fetcher.Form method="post" encType="multipart/form-data">
                             <div>
-                                <label htmlFor="image">Image</label>
                                 <input className="input-fields" type="file" id="image" name="image" />
                             </div>
                             <section className="flex">
