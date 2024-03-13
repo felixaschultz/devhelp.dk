@@ -11,9 +11,9 @@ export let authenticator = new Authenticator(sessionStorage, {
 });
 
 // ...
-async function verifyUser({ mail, password }) {
+async function verifyUser({ email, password }) {
   // ...
-  const user = await mongoose.models.Account.findOne({ mail }).select("+password");
+  const user = await mongoose.models.User.findOne({ email }).select("+password");
   if (!user) {
     throw new AuthorizationError("No user found with this email");
   }
@@ -29,14 +29,15 @@ async function verifyUser({ mail, password }) {
 // Tell the Authenticator to use the form strategy
 authenticator.use(
     new FormStrategy(async ({ form }) => {
-      let mail = form.get("mail");
+      let email = form.get("mail");
       let password = form.get("password");
       let user = null;
-  
-      if (!mail || mail?.length === 0) {
+      
+
+      if (!email || email?.length === 0) {
         throw new AuthorizationError("Bad Credentials: Email is required");
       }
-      if (typeof mail !== "string") {
+      if (typeof email !== "string") {
         throw new AuthorizationError("Bad Credentials: Email must be a string");
       }
   
@@ -46,7 +47,7 @@ authenticator.use(
       if (typeof password !== "string") {
         throw new AuthorizationError("Bad Credentials: Password must be a string");
       }
-      const verifedUser = await verifyUser({mail, password});
+      const verifedUser = await verifyUser({email, password});
       if(verifedUser){
         return verifedUser;
       }
