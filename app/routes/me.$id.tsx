@@ -47,7 +47,7 @@ export default function Me() {
                 <section className="blog-grid">
                     {userPosts.map((post) => (
                         <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
-                            <PostCard post={post} />
+                            <PostCard post={post} user={user} />
                         </Link>
                     ))}
                 </section>
