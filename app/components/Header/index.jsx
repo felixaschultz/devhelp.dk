@@ -2,6 +2,7 @@ import "./Style.css";
 import { Link } from "@remix-run/react";
 import Button from "../Button";
 import { Form } from "@remix-run/react";
+import Logo from "../../assets/devhelp-logo.svg";
 export default function Header({setOpen, open, user}) {
     return (
         <>
@@ -9,7 +10,7 @@ export default function Header({setOpen, open, user}) {
         <header className="header">
             <section className="header_container">
                 <Link to="/" className="header_logo">
-                    <h2>Devhelp.dk</h2>
+                    <img src={Logo} alt="DevHelp Logo" />
                 </Link>
                 <nav className="flex">
                     <button className="openMenu" onClick={() => {
