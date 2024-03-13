@@ -1,7 +1,7 @@
 .btn{
-    background-color: #4CAF50;
+    background-color: rgb(155, 121, 44);
     border: none;
-    color: white;
+    color: rgb(229, 229, 229);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -11,10 +11,11 @@
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
+    text-transform: uppercase;
 }
 
 .btn.signin{
-    background-color: #008CBA;
+    background-color: rgb(192, 159, 83);
     border: none;
     color: white;
     padding: 15px 32px;
@@ -28,12 +29,12 @@
 }
 
 .btn:hover{
-    background-color: #45a049;
+    background-color: rgb(192, 159, 83);
+    color: white;
 }
 
 .btn:active{
-    background-color: #45a049;
-    box-shadow: 0 5px #666;
+    background-color: rgb(192, 159, 83);
     transform: translateY(4px);
 }
 

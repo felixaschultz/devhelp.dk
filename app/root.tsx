@@ -92,7 +92,7 @@ export default function App() {
                                       <p className="error">{error?.message}</p>
                                   )
                               }
-                              <Button name="_action" value="login" className="btn no-margin">Login</Button>
+                              <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
                               <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
                                   open: true,
                                   type: "signup"
@@ -126,7 +126,7 @@ export default function App() {
                                       <p>{error?.error?.message}</p>
                                   )
                               }
-                              <Button name="_action" value="signup" className="btn no-margin">Signup</Button>
+                              <Button name="_action" value="signup" className="btn signin no-margin">Signup</Button>
                               <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
                                   open: true,
                                   type: "login"
