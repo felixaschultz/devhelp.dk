@@ -11,6 +11,16 @@
     object-fit: cover;
 }
 
+.like-counts{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: #e1e1e1;
+    color: #606060;
+    width: max-content;
+    border-radius: 5px;
+}
+
 .like{
     padding: 15px;
     background: transparent;

@@ -53,14 +53,13 @@ export default function BlogEntry() {
                 {
                     post.likes && (
                         <>
-                            <p>{post.likes.length} likes</p>
-                            {fetcher?.data?.message && <p>{fetcher.data.message}</p>}
+                            <p className="like-counts">{post.likes.length} like{post.likes.length > 1 ?? "s"}</p>
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
-                                        <button className="like dislike" name="_action" value="unlike">Unlike</button>
+                                        user && <button className="like dislike" name="_action" value="unlike">Unlike</button>
                                     ) : (
-                                        <button className="like" name="_action" value="like">Like post</button>
+                                        user && <button className="like" name="_action" value="like">Like</button>
                                     )
                                 }
                             </fetcher.Form>
