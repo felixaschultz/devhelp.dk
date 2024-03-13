@@ -106,13 +106,14 @@ export const action = async ({ request, params }) => {
 
     const image = post.image;
     let newImage = null;
-    if(hiddenImage && !image) {
+
+    if(hiddenImage && image.size > 0) {
         if (image && image._name) {
             newImage = await uploadImage(image);
             if(!image){
                 return new Response(null, {
                     status: 400,
-                    text: "Image is required",
+                    statusText: "Image is required",
                 });
             }
         }
