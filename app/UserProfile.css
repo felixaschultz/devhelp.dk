@@ -3,3 +3,10 @@
     height: 250px;
     border-radius: 50%;
 }
+
+.profile-grid{
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 20px;
+    padding: 20px;
+}
