@@ -30,6 +30,52 @@ const userSchema = new Schema({
     }
 });
 
+const blogPostSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    body: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    comments: [
+        {
+            body: {
+                type: String,
+                required: true
+            },
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        }
+    ],
+    tags: [
+        {
+            type: String
+        }
+    ],
+    likes: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    published: {
+        type: Boolean,
+        default: false
+    }
+
+});
+
 const questionSchema = new Schema({
     title: {
         type: String,
@@ -96,5 +142,10 @@ export const models = [
         name: "Answer",
         schema: answerSchema,
         collection: "answers",
+    },
+    {
+        name: "BlogPost",
+        schema: blogPostSchema,
+        collection: "blogposts",
     }
 ]
