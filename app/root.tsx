@@ -10,12 +10,15 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import Header from "./components/Header";
+import { useState } from "react";
+import Button from "./components/Button";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
 export default function App() {
+  const [open, setOpen] = useState(false);
   return (
     <html lang="en">
       <head>
@@ -25,11 +28,25 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Header />
+        <Header setOpen={setOpen} open={open} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        {
+            (open) && (
+                <div className="popup">
+                    <div className="popup_container">
+                        <div>
+                            <h2>Login</h2>
+                            <input type="text" placeholder="Username" />
+                            <input type="password" placeholder="Password" />
+                            <Button>Login</Button>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
       </body>
     </html>
   );
