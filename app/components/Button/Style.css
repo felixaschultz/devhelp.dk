@@ -40,3 +40,15 @@
 .btn.no-margin{
     margin: 0;
 }
+
+.ask-btn{
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ask-btn:hover{
+    color: #4CAF50;
+}

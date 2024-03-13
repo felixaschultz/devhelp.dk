@@ -68,13 +68,17 @@ export default function App() {
                             <h2>Login</h2>
                             <input className="input-fields" type="email" name="mail" placeholder="Username" />
                             <input className="input-fields" type="password" name="password" placeholder="Password" />
-                            <section className="flex">
+                            <section>
                               {
                                   loaderData?.error && (
                                       <p>{loaderData?.error?.message}</p>
                                   )
                               }
                               <Button name="_action" value="login" className="btn no-margin">Login</Button>
+                              <p>Not a member yet? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                  open: true,
+                                  type: "signup"
+                              })}>Signup</button></p>
                             </section>
                         </fetcher.Form>
                     </div>
@@ -98,13 +102,17 @@ export default function App() {
                             <input className="input-fields" type="password" name="password" id="password" placeholder="******'" />
                             <label htmlFor="re-password">Repeat Password</label>
                             <input className="input-fields" type="password" name="repeat-password" id="re-password" placeholder="******" />
-                            <section className="flex">
+                            <section>
                               {
                                   loaderData?.error && (
                                       <p>{loaderData?.error?.message}</p>
                                   )
                               }
                               <Button name="_action" value="signup" className="btn no-margin">Signup</Button>
+                              <p>Already a member? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                  open: true,
+                                  type: "login"
+                              })}>Signin</button></p>
                             </section>
                         </fetcher.Form>
                     </div>
