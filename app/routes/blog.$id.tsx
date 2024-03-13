@@ -52,7 +52,7 @@ export default function BlogEntry() {
                 <p>By {post.user.name.firstname} {post.user.name.lastname}</p>
                 {
                     post.likes && (
-                        <>
+                        <div className="likes">
                             <p className="like-counts">{post.likes.length} like{post.likes.length > 1 ?? "s"}</p>
                             <fetcher.Form method="post">
                                 {
@@ -63,7 +63,7 @@ export default function BlogEntry() {
                                     )
                                 }
                             </fetcher.Form>
-                        </>
+                        </div>
                     )
                 }
                 {
