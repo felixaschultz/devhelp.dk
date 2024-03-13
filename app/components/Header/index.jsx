@@ -13,9 +13,9 @@ export default function Header() {
                 </div>
                 <nav>
                     <Link className="navitem" to="/">Home</Link>
-                    <Link className="navitem" to="/">Home</Link>
-                    <Link className="navitem" to="/">Home</Link>
-                    <Button onClick={() => setOpenPop(!open)}>Login</Button>
+                    <Link className="navitem" to="/">About</Link>
+                    <Button className="btn signin" onClick={() => setOpenPop(!open)}>Login</Button>
+                    <Button className="btn" onClick={() => setOpenPop(!open)}>Signup</Button>
                 </nav>
             </section>
         </header>
