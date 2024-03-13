@@ -10,3 +10,21 @@
     height: 600px;
     object-fit: cover;
 }
+
+.like{
+    padding: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    text-indent: -9999px;
+}
+
+.like::before{
+    content: url('/images/like.png');
+}
+
+.dislike::before{
+    content: url('/images/dislike.png');
+}

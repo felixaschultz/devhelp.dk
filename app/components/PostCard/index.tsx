@@ -7,6 +7,7 @@ export default function PostCard({post, user}) {
             {post.published ? null : <p style={{color: "red", marginTop: 0}}>Draft</p>}
             {post.image && <img src={post.image} alt={post.title} />}
             <h2>{post.title}</h2>
+            <p>{post.likes.length} likes</p>
             <p>{post.body}</p>
             {
                 (post.user == user?._id) ? (

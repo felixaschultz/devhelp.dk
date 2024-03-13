@@ -1,4 +1,5 @@
 import { useLoaderData, useFetcher } from "@remix-run/react";
+import { json } from "@remix-run/node";
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import "../Blog.css";
@@ -53,12 +54,13 @@ export default function BlogEntry() {
                     post.likes && (
                         <>
                             <p>{post.likes.length} likes</p>
+                            {fetcher?.data?.message && <p>{fetcher.data.message}</p>}
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
-                                        <button name="_action" value="unlike">Unlike</button>
+                                        <button className="like dislike" name="_action" value="unlike">Unlike</button>
                                     ) : (
-                                        <button name="_action" value="like">Like</button>
+                                        <button className="like" name="_action" value="like">Like</button>
                                     )
                                 }
                             </fetcher.Form>
@@ -80,6 +82,15 @@ export const action = async ({ request, params }) => {
     const postId = params.id;
     const formData = await request.formData();
     const _action = formData.get("_action");
+
+    if(!user){
+        return json(
+            { message: "You need to be logged in to like a post" },
+            {
+                status: 401
+            }
+        )
+    }
     
     if(_action === "like") {
         return  await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
