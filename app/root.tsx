@@ -12,6 +12,9 @@ import {
   useActionData,
   useFetcher,
   useLoaderData,
+  useRouteError,
+  isRouteErrorResponse,
+  Link
 } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
@@ -141,6 +144,45 @@ export default function App() {
     </html>
   );
 }
+
+export function ErrorBoundary({ error }) {
+  const user = "";
+  const [open, setOpen] = useState(false);
+
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Header setOpen={setOpen} open={open} user={user} />
+        <section className="content">
+        {isRouteErrorResponse(error) ? (
+            <h2>
+              {error?.status} – {error?.statusText}
+            </h2>
+          ) : error instanceof Error ? (
+            <p>{error?.message}</p>
+          ) : (
+            <>
+              <h2>Something happened.</h2>
+              <p>{error?.message}</p>
+            </>
+          )}
+          <Link to="/">Go back home</Link>
+        </section>
+        <Footer />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
+}
+
 
 export const action = async ({ request }) => {
   return Authenticate(request);
