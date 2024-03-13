@@ -11,6 +11,7 @@
     text-transform: uppercase;
     color: #e4e4e4;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .header_logo img{
