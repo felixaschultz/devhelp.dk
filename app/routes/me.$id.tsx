@@ -12,14 +12,13 @@ export const loader = async ({ request, params }) => {
 
     const userData = await mongoose.model("User").findOne({ _id: userId });
     const userPosts = await mongoose.model("BlogPost").find(published);
-    
-    console.log(userData);
+    const likedPosts = await mongoose.model("BlogPost").find({ likes: userId });
 
     if(!userData) {
         throw new Error("User not found");
     }
 
-    return { user, userData, userPosts };
+    return { user, userData, userPosts, likedPosts };
 }
 export const meta = [
     { title: "Me | Devhelp.dk" },
@@ -27,7 +26,7 @@ export const meta = [
 ];
 
 export default function Me() {
-    const { user, userData, userPosts } = useLoaderData();
+    const { user, userData, userPosts, likedPosts } = useLoaderData();
     return (
         <div className="profile-grid content">
             <section>
@@ -46,6 +45,14 @@ export default function Me() {
                 <h2>Blog posts</h2>
                 <section className="blog-grid">
                     {userPosts.map((post) => (
+                        <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+                            <PostCard post={post} user={user} />
+                        </Link>
+                    ))}
+                </section>
+                <h2>Liked Posts</h2>
+                <section className="blog-grid">
+                    {likedPosts.map((post) => (
                         <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
                             <PostCard post={post} user={user} />
                         </Link>
