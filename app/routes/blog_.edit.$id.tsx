@@ -100,7 +100,7 @@ export const action = async ({ request, params }) => {
     }else if(_action === "unpublish") {
         const publishedPost = await mongoose.models.BlogPost.findByIdAndUpdate(postId, { published: false });
         if(publishedPost) {
-            return redirect("/blog/" + publishedPost._id);
+            return redirect("/me/" + user._id);
         }
     }
 
