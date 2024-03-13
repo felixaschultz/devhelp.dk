@@ -74,7 +74,7 @@ export default function App() {
                                       <p>{loaderData?.error?.message}</p>
                                   )
                               }
-                              <Button name="_action" value="login" className="btn">Login</Button>
+                              <Button name="_action" value="login" className="btn no-margin">Login</Button>
                             </section>
                         </fetcher.Form>
                     </div>
@@ -104,7 +104,7 @@ export default function App() {
                                       <p>{loaderData?.error?.message}</p>
                                   )
                               }
-                              <Button name="_action" value="signup" className="btn">Signup</Button>
+                              <Button name="_action" value="signup" className="btn no-margin">Signup</Button>
                             </section>
                         </fetcher.Form>
                     </div>

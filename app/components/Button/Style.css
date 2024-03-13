@@ -10,6 +10,7 @@
     margin: 0px 6px;
     cursor: pointer;
     border-radius: 5px;
+    width: 100%;
 }
 
 .btn.signin{
@@ -34,4 +35,8 @@
     background-color: #45a049;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+}
+
+.btn.no-margin{
+    margin: 0;
 }
