@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import Header from "../components/Header";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,7 +11,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Devhelp.dk!</h1>
+      <Header />
     </div>
   );
 }
