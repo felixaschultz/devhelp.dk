@@ -1,6 +1,6 @@
+import { useOutletContext } from "@remix-run/react";
 import { set } from "mongoose";
 import "./Style.css"
-import { useOutletContext } from "@remix-run/react";
 
 function Banner({user}) {
     const setOpen = useOutletContext();
