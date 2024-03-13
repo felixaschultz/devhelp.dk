@@ -12,6 +12,9 @@ export default function Index() {
   return (
     <>
       <Banner />
+      <section className="content">
+        <p>Welcome to Devhelp by Intastellar Solutiuons, International</p>
+      </section>
     </>
   );
 }
