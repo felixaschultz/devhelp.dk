@@ -38,3 +38,11 @@ body{
     color: #ff0033;
     font-size: 14px;
 }
+
+/* Under Constraction */
+.underconstruction{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+}
