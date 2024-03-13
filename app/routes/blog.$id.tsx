@@ -6,7 +6,7 @@ import "../Blog.css";
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
     const postId = params.id;
-    const post = await mongoose.model("BlogPost").findOne({ _id: postId });
+    const post = await mongoose.model("BlogPost").findOne({ _id: postId }).populate("user");
 
     if(!post.published && (!user || (user && user?._id != post.user))) {
         throw new Response(null, {
@@ -46,6 +46,7 @@ export default function BlogEntry() {
             }
              <div className="content">
                 <h1>{post.title}</h1>
+                <p>By {post.user.name.firstname} {post.user.name.lastname}</p>
                 {
                     post.body.split("\n").map((paragraph, index) => (
                         <p key={index}>{paragraph}</p>
