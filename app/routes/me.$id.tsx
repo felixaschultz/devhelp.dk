@@ -55,7 +55,6 @@ export default function Me() {
                 {
                     (user?._id === userData?._id) && (
                         <>
-                            <Link to={`/me/${userData?.id}/edit`}>Edit</Link>
                             <Link to={`/blog/write`}>Write a new Blog post</Link>
                         </>
                     )
