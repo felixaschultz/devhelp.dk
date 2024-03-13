@@ -62,14 +62,16 @@ export default function App() {
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
                         <fetcher.Form method="post">
                             <h2>Login</h2>
-                            <input type="text" placeholder="Username" />
-                            <input type="password" placeholder="Password" />
-                            {
-                                loaderData?.error && (
-                                    <p>{loaderData?.error?.message}</p>
-                                )
-                            }
-                            <Button className="btn">Login</Button>
+                            <input className="input-fields" type="email" name="mail" placeholder="Username" />
+                            <input className="input-fields" type="password" name="password" placeholder="Password" />
+                            <section className="flex">
+                              {
+                                  loaderData?.error && (
+                                      <p>{loaderData?.error?.message}</p>
+                                  )
+                              }
+                              <Button className="btn">Login</Button>
+                            </section>
                         </fetcher.Form>
                     </div>
                 </div>

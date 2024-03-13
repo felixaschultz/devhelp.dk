@@ -13,3 +13,12 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.input-fields{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #e4e4e4;
+    margin: 5px 0;
+}
