@@ -70,7 +70,7 @@ export default function App() {
       </head>
       <body>
         <Header setOpen={setOpen} open={open} user={user} />
-        <Outlet />
+        <Outlet context={setOpen} />
         <Footer />
         <ScrollRestoration />
         <Scripts />
