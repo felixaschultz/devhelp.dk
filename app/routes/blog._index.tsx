@@ -7,6 +7,16 @@ export const loader = async ({ request }) => {
     const posts = await mongoose.model("BlogPost").find();
     return { posts };
 };
+
+export const meta = () => {
+    return [
+        {
+            title: "Blog | Devhelp.dk",
+            description: "Read the latest blog posts"
+        }
+    ]
+}
+
 export default function Blog() {
     const { posts } = useLoaderData();
     return (

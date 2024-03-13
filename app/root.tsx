@@ -153,8 +153,9 @@ async function Authenticate(request) {
   if (_action === "signup") {
     return handleSignup(Object.fromEntries(data));
   }else if (_action === "logout") {
+    const referrer = request.headers.get('Referer') || '/';
     return await authenticator.logout(request, {
-      redirectTo: "/",
+      redirectTo: referrer,
     });
   }
 }

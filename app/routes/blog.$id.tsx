@@ -12,6 +12,16 @@ export const loader = async ({ request, params }) => {
     return { post };
 };
 
+export const meta = ({data}) => {
+
+    return [
+        {
+            title: data.post.title + " | Blog Devhelp.dk",
+            description: data.post.body
+        }
+    ]
+};
+
 export default function BlogEntry() {
     const {post} = useLoaderData();
     return (
