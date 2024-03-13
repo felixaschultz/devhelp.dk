@@ -25,3 +25,13 @@
     font-size: 30px;
     margin: 0;
 }
+
+@media screen and (max-width: 768px){
+    .banner{
+        height: auto;
+    }
+    .banner_container{
+        grid-template-columns: 1fr;
+    }
+    
+}

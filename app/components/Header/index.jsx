@@ -12,13 +12,21 @@ export default function Header({setOpen, open, user}) {
                     <h2>Devhelp.dk</h2>
                 </Link>
                 <nav className="flex">
-                    <Link className="navitem" to="/">Home</Link>
-                    {
-                        user ? (
-                            <Link className="navitem" to="/ask">Ask</Link>
-                        ) : null
-                    }
-                    <Link className="navitem" to="/about">About</Link>
+                    <button className="openMenu" onClick={() => {
+                        setOpen({
+                            open: !open.open,
+                            type: "menu"
+                        })
+                    }}>Menu</button>
+                    <section className="flex nav" style={(open.open && open.type === "menu") ? {display: "block"} : {}} >
+                        <Link className="navitem" to="/">Home</Link>
+                        {
+                            user ? (
+                                <Link className="navitem" to="/ask">Ask</Link>
+                            ) : null
+                        }
+                        <Link className="navitem" to="/about">About</Link>
+                    </section>
                     <section className="btn_container">
                         {user ? (
                             <>

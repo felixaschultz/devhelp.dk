@@ -79,3 +79,43 @@
     border-radius: 50%;
     margin-right: 10px;
 }
+
+.openMenu{
+    display: none;
+    cursor: pointer;
+    color: #e4e4e4;
+    font-size: 20px;
+    margin-right: 20px;
+    border: none;
+    background: transparent;
+}
+
+@media screen and (max-width: 768px){
+    .openMenu{
+        display: block;
+    }
+    .header_container{
+        flex-direction: column;
+    }
+
+    .btn_container{
+        margin-left: 0;
+    }
+    
+    .nav{
+        display: none;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        background-color: #292929;
+        padding: 20px;
+        top: 200px;
+    }
+
+    .nav .navitem{
+        display: block;
+        margin: 20px 0;
+        padding: 20px 0;
+    }
+
+}
