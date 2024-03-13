@@ -3,7 +3,7 @@ import Header from "../components/Header";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
+    { title: "Digital platform for requesting help | Devhelp by Intastellar Solutiuons, International" },
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
