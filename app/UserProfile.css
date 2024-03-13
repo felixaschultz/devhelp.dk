@@ -6,7 +6,7 @@
 
 .profile-grid{
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: minmax(150px,  max-content) 1fr;
     gap: 20px;
     padding: 20px;
 }
