@@ -82,8 +82,10 @@ export default function App() {
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
                         <Form action="/login" method="post">
                             <h2>Login</h2>
-                            <input className="input-fields" type="email" name="mail" placeholder="Username" />
-                            <input className="input-fields" type="password" name="password" placeholder="Password" />
+                            <label htmlFor="mail">Email</label>
+                            <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
+                            <label htmlFor="password">Password</label>
+                            <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
                             <section>
                               {
                                   error?.message && (
@@ -91,10 +93,10 @@ export default function App() {
                                   )
                               }
                               <Button name="_action" value="login" className="btn no-margin">Login</Button>
-                              <p>Not a member yet? <button className="ask-btn" type="button" onClick={() => setOpen({
+                              <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
                                   open: true,
                                   type: "signup"
-                              })}>Signup</button></p>
+                              })}>Registrer dig i dag</button></p>
                             </section>
                         </Form>
                     </div>
@@ -107,10 +109,10 @@ export default function App() {
                     <div className="popup_container">
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
                         <fetcher.Form method="post">
-                            <h2>Signup</h2>
-                            <label htmlFor="firstname">Firstname</label>
+                            <h2>Registrering</h2>
+                            <label htmlFor="firstname">Fornavn</label>
                             <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
-                            <label htmlFor="lastname">Lastname</label>
+                            <label htmlFor="lastname">Efternavn</label>
                             <input className="input-fields" type="text" name="lastname" id="lastname" placeholder="Doe" />
                             <label htmlFor="email">Email</label>
                             <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
@@ -125,10 +127,10 @@ export default function App() {
                                   )
                               }
                               <Button name="_action" value="signup" className="btn no-margin">Signup</Button>
-                              <p>Already a member? <button className="ask-btn" type="button" onClick={() => setOpen({
+                              <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
                                   open: true,
                                   type: "login"
-                              })}>Signin</button></p>
+                              })}>Login</button></p>
                             </section>
                         </fetcher.Form>
                     </div>
