@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import PostCard from "~/components/PostCard";
+import "../Blog.css";
 
 export const loader = async ({ request }) => {
     const posts = await mongoose.model("BlogPost").find();
@@ -10,13 +12,13 @@ export default function Blog() {
     return (
         <div className="content">
             <h1>Blog</h1>
-            <ul>
+            <section className="blog-grid">
                 {posts.map((post) => (
-                    <li key={post._id}>
-                        <a href={`/blog/${post._id}`}>{post.title}</a>
-                    </li>
+                    <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+                        <PostCard post={post} />
+                    </Link>
                 ))}
-            </ul>
+            </section>
         </div>
     );
 }
