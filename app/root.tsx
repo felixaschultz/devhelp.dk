@@ -2,16 +2,19 @@ import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction } from "@remix-run/node";
 import "./App.css";
 import {
+  Form,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useFetcher,
 } from "@remix-run/react";
 import Header from "./components/Header";
 import { useState } from "react";
 import Button from "./components/Button";
+import { authenticator } from "./services/auth.server";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -19,6 +22,7 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   const [open, setOpen] = useState(false);
+  const fetcher = useFetcher();
   return (
     <html lang="en">
       <head>
@@ -37,12 +41,12 @@ export default function App() {
             (open) && (
                 <div className="popup">
                     <div className="popup_container">
-                        <div>
+                        <fetcher.Form method="post">
                             <h2>Login</h2>
                             <input type="text" placeholder="Username" />
                             <input type="password" placeholder="Password" />
                             <Button>Login</Button>
-                        </div>
+                        </fetcher.Form>
                     </div>
                 </div>
             )
@@ -56,15 +60,17 @@ export function ErrorBoundary({ error }) {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
+      <pre>{error?.message}</pre>
     </div>
   );
 }
 
 export const action = async ({ request }) => {
-  const formData = request.formData();
-  const data = Object.fromEntries(formData);
-
+  
+  authenticator.authenticate("user-pass", request, {
+    successRedirect: "/my-events",
+    failureRedirect: "/login"
+  })
 
 
 };
