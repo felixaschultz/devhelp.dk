@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useFetcher } from "@remix-run/react";
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import "../Blog.css";
@@ -22,7 +22,7 @@ export const loader = async ({ request, params }) => {
         });
     }
 
-    return { post };
+    return { post, user };
 };
 
 export const meta = ({data}) => {
@@ -36,7 +36,9 @@ export const meta = ({data}) => {
 };
 
 export default function BlogEntry() {
-    const {post} = useLoaderData();
+    const {post, user} = useLoaderData();
+    const fetcher = useFetcher();
+
     return (
         <>
             {
@@ -48,6 +50,22 @@ export default function BlogEntry() {
                 <h1>{post.title}</h1>
                 <p>By {post.user.name.firstname} {post.user.name.lastname}</p>
                 {
+                    post.likes && (
+                        <>
+                            <p>{post.likes.length} likes</p>
+                            <fetcher.Form method="post">
+                                {
+                                    post.likes.includes(user?._id) ? (
+                                        <button name="_action" value="unlike">Unlike</button>
+                                    ) : (
+                                        <button name="_action" value="like">Like</button>
+                                    )
+                                }
+                            </fetcher.Form>
+                        </>
+                    )
+                }
+                {
                     post.body.split("\n").map((paragraph, index) => (
                         <p key={index}>{paragraph}</p>
                     ))
@@ -56,3 +74,25 @@ export default function BlogEntry() {
         </>
     );
 }
+
+export const action = async ({ request, params }) => {
+    const user = await authenticator.isAuthenticated(request);
+    const postId = params.id;
+    const formData = await request.formData();
+    const _action = formData.get("_action");
+    
+    if(_action === "like") {
+        return  await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
+            $push: {
+                likes: user._id
+            }
+        });
+    }else if(_action === "unlike") {
+        return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
+            $pull: {
+                likes: user._id
+            }
+        });
+
+    }
+};
