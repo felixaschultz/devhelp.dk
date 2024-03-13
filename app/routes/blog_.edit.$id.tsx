@@ -27,19 +27,25 @@ export default function BlogEdit() {
     return (
         <div className="content">
             <h1>Edit a blog post</h1>
-            <Form method="post">
+            <Form method="post" onSubmit={handelSubmit}>
                 <button name="_action" value="delete" className="delete-btn">Delete</button>
                 <button name="_action" value={
                     post?.published ? "unpublish" : "publish"
                 } className="delete-btn">{
                     post?.published ? "Unpublish" : "Publish"
                 }</button>
+            </Form>
+            <Form method="post">
                 <div>
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">
+                        <h2>Title</h2>
+                    </label>
                     <input className="input-fields" type="text" id="title" name="title" defaultValue={post?.title} />
                 </div>
                 <div>
-                    <label htmlFor="content">Content</label>
+                    <label htmlFor="content">
+                        <h2>Content</h2>
+                    </label>
                     <textarea className="input-fields textarea" id="content" name="body" defaultValue={post?.body} />
                 </div>
                 <section className="flex">
@@ -84,4 +90,13 @@ export const action = async ({ request, params }) => {
         return redirect("/blog/" + newPost._id);
     }
 
+}
+
+function handelSubmit(e) {
+    const value = e.nativeEvent.submitter.value;
+    if(value === "delete" && !confirm(`Are you sure, you want to delete this event?`)){
+        e.preventDefault();
+    }else if(value === "publish" && !confirm(`Are you sure, you want to make this event ${e.nativeEvent.submitter.innerText.indexOf("Publish") > -1 ? "public" : "private"}?`)){
+        e.preventDefault();
+    }
 }

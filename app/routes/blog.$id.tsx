@@ -39,7 +39,11 @@ export default function BlogEntry() {
     return (
         <div className="content">
             <h1>{post.title}</h1>
-            <p>{post.body}</p>
+            {
+                post.body.split("\n").map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                ))
+            }
         </div>
     );
 }
