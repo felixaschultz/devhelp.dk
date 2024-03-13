@@ -1,7 +1,7 @@
 import { mongoose } from "mongoose";
 import bcrypt from "bcryptjs";
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
     email: {
@@ -36,6 +36,22 @@ const questionSchema = new Schema({
         type: String,
         required: true
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    comments: [
+        {
+            body: {
+                type: String,
+                required: true
+            },
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        }
+    ]
 });
 
 const answerSchema = new Schema({
