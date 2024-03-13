@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import { Form, redirect, useFetcher, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
 import "../BlogWrite.css";
+import { uploadImage } from "~/services/uploadImage";
 
 export const meta = [
     { title: "Blog | Devhelp.dk" },
@@ -23,6 +25,7 @@ export const loader = async ({ request, params }) => {
 
 export default function BlogEdit() {
     const {user, post} = useLoaderData();
+    const [ image, setImage ] = useState(post?.image || null);
 
     return (
         <div className="content">
@@ -35,7 +38,20 @@ export default function BlogEdit() {
                     post?.published ? "Unpublish" : "Publish"
                 }</button>
             </Form>
-            <Form method="post">
+            <Form method="post" encType="multipart/form-data">
+                {
+                    image && (
+                        <img src={image} alt="Preview" />
+                    )
+                }
+                <div>
+                    <label htmlFor="image">
+                        <h2>Image</h2>
+                    </label>
+                    <input className="input-fields" type="file" id="image" name="image" defaultValue={image} onChange={(e) => {
+                        setImage(URL.createObjectURL(e.target.files[0]));
+                    }} />
+                </div>
                 <div>
                     <label htmlFor="title">
                         <h2>Title</h2>
@@ -83,6 +99,20 @@ export const action = async ({ request, params }) => {
             return redirect("/blog/" + publishedPost._id);
         }
     }
+
+    const image = post.image;
+    let newImage = null;
+
+    if (image && image._name) {
+        newImage = await uploadImage(image);
+        if(!image){
+            return new Response(null, {
+                status: 400,
+                text: "Image is required",
+            });
+        }
+    }
+    post.image = newImage;
 
     const newPost = await mongoose.models.BlogPost.findByIdAndUpdate(postId, post);
 
