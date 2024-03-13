@@ -25,6 +25,7 @@ export const loader = async ({ request, params }) => {
 
 export default function BlogEdit() {
     const {user, post} = useLoaderData();
+    const fetcher = useFetcher();
     const [ image, setImage ] = useState(post?.image || null);
 
     return (
@@ -38,36 +39,39 @@ export default function BlogEdit() {
                     post?.published ? "Unpublish" : "Publish"
                 }</button>
             </Form>
-            <Form method="post" encType="multipart/form-data">
-                {
-                    image && (
-                        <img src={image} alt="Preview" />
-                    )
-                }
-                <div>
-                    <label htmlFor="image">
-                        <h2>Image</h2>
-                    </label>
-                    <input className="input-fields" type="file" id="image" name="image" defaultValue={image} onChange={(e) => {
-                        setImage(URL.createObjectURL(e.target.files[0]));
-                    }} />
-                </div>
-                <div>
-                    <label htmlFor="title">
-                        <h2>Title</h2>
-                    </label>
-                    <input className="input-fields" type="text" id="title" name="title" defaultValue={post?.title} />
-                </div>
-                <div>
-                    <label htmlFor="content">
-                        <h2>Content</h2>
-                    </label>
-                    <textarea className="input-fields textarea" id="content" name="body" defaultValue={post?.body} />
-                </div>
-                <section className="flex">
-                    <button className="post-btn" type="submit">Submit</button>
-                </section>
-            </Form>
+            <fetcher.Form method="post" encType="multipart/form-data">
+                <fieldset disabled={fetcher.state === "submitting"}>
+                    {
+                        image && (
+                            <img src={image} alt="Preview" />
+                        )
+                    }
+                    <div>
+                        <label htmlFor="image">
+                            <h2>Image</h2>
+                        </label>
+                        <input className="input-fields" type="file" id="image" name="image" onChange={(e) => {
+                            setImage(URL.createObjectURL(e.target.files[0]));
+                        }} />
+                        <input type="hidden" name="hiddenImage" defaultValue={post?.image || null} />
+                    </div>
+                    <div>
+                        <label htmlFor="title">
+                            <h2>Title</h2>
+                        </label>
+                        <input className="input-fields" type="text" id="title" name="title" defaultValue={post?.title} />
+                    </div>
+                    <div>
+                        <label htmlFor="content">
+                            <h2>Content</h2>
+                        </label>
+                        <textarea className="input-fields textarea" id="content" name="body" defaultValue={post?.body} />
+                    </div>
+                    <section className="flex">
+                        <button className="post-btn" type="submit">Submit</button>
+                    </section>
+                </fieldset>
+            </fetcher.Form>
         </div>
     );
 }
@@ -81,7 +85,7 @@ export const action = async ({ request, params }) => {
 
     const formData = await request.formData();
     const post = Object.fromEntries(formData);
-    const { _action } = post;
+    const { _action, hiddenImage } = post;
 
     if(_action === "delete") {
         const deletedPost = await mongoose.models.BlogPost.findByIdAndDelete(postId);
@@ -102,15 +106,18 @@ export const action = async ({ request, params }) => {
 
     const image = post.image;
     let newImage = null;
-
-    if (image && image._name) {
-        newImage = await uploadImage(image);
-        if(!image){
-            return new Response(null, {
-                status: 400,
-                text: "Image is required",
-            });
+    if(hiddenImage && !image) {
+        if (image && image._name) {
+            newImage = await uploadImage(image);
+            if(!image){
+                return new Response(null, {
+                    status: 400,
+                    text: "Image is required",
+                });
+            }
         }
+    }else {
+        newImage = hiddenImage;
     }
     post.image = newImage;
 
