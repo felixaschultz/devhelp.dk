@@ -20,7 +20,7 @@ function Banner({user}) {
                                         type: "signup"
                                     }
                                 );
-                            }}>Start nu</button>
+                            }}>Start i dag</button>
                         </div>
                     ): null}
                 </div>
