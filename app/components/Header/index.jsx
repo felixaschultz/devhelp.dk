@@ -11,11 +11,13 @@ export default function Header() {
                 <div className="header_logo">
                     <h2>Devhelp.dk</h2>
                 </div>
-                <nav>
+                <nav className="flex">
                     <Link className="navitem" to="/">Home</Link>
                     <Link className="navitem" to="/">About</Link>
-                    <Button className="btn signin" onClick={() => setOpenPop(!open)}>Login</Button>
-                    <Button className="btn" onClick={() => setOpenPop(!open)}>Signup</Button>
+                    <section className="btn_container">
+                        <Button className="btn signin" onClick={() => setOpenPop(!open)}>Login</Button>
+                        <Button className="btn" onClick={() => setOpenPop(!open)}>Signup</Button>
+                    </section>
                 </nav>
             </section>
         </header>
