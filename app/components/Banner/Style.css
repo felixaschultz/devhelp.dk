@@ -32,6 +32,11 @@
     }
     .banner_container{
         grid-template-columns: 1fr;
+        
+    }
+
+    .hero-tagline{
+        order: 2;
     }
     
 }
