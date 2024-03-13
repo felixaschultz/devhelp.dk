@@ -18,6 +18,20 @@
     align-items: center;
 }
 
+/* Nav items */
+.navitem{
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: normal;
+    color: #e4e4e4;
+}
+
+.navitem:hover{
+    color: #fff;
+}
+
 /* Popup */
 .popup{
     position: fixed;

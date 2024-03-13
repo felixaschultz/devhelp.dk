@@ -12,9 +12,9 @@ export default function Header() {
                     <h2>Devhelp.dk</h2>
                 </div>
                 <nav>
-                    <Link to="/">Home</Link>
-                    <Link to="/">Home</Link>
-                    <Link to="/">Home</Link>
+                    <Link className="navitem" to="/">Home</Link>
+                    <Link className="navitem" to="/">Home</Link>
+                    <Link className="navitem" to="/">Home</Link>
                     <Button onClick={() => setOpenPop(!open)}>Login</Button>
                 </nav>
             </section>
