@@ -8,7 +8,9 @@ import mongoose from "mongoose";
 
 export const loader = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
-  const blogPosts = await mongoose.model("BlogPost").find();
+  const blogPosts = await mongoose.model("BlogPost").find({
+    published: true
+  });
 
   return { user, blogPosts};
 };
