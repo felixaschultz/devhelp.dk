@@ -9,20 +9,38 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useActionData,
   useFetcher,
+  useLoaderData,
 } from "@remix-run/react";
+import { json } from "@remix-run/node";
 import Header from "./components/Header";
 import { useState } from "react";
 import Button from "./components/Button";
 import { authenticator } from "./services/auth.server";
+import { getSession, commitSession } from "./services/session.server";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+export const loader = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  const error = session.get("sessionErrorKey");
+  session.unset("sessionErrorKey");
+
+  const headers = new Headers({
+    "Set-Cookie": await commitSession(session),
+  });
+
+  return json({ error }, { headers })
+}
+
 export default function App() {
   const [open, setOpen] = useState(false);
   const fetcher = useFetcher();
+  const loaderData = useLoaderData();
   return (
     <html lang="en">
       <head>
@@ -41,11 +59,17 @@ export default function App() {
             (open) && (
                 <div className="popup">
                     <div className="popup_container">
+                        <Button className="close" onClick={() => setOpen(false)}>X</Button>
                         <fetcher.Form method="post">
                             <h2>Login</h2>
                             <input type="text" placeholder="Username" />
                             <input type="password" placeholder="Password" />
-                            <Button>Login</Button>
+                            {
+                                loaderData?.error && (
+                                    <p>{loaderData?.error?.message}</p>
+                                )
+                            }
+                            <Button className="btn">Login</Button>
                         </fetcher.Form>
                     </div>
                 </div>
@@ -56,20 +80,11 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }) {
-  return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error?.message}</pre>
-    </div>
-  );
-}
-
 export const action = async ({ request }) => {
   
-  authenticator.authenticate("user-pass", request, {
+  return authenticator.authenticate("user-pass", request, {
     successRedirect: "/my-events",
-    failureRedirect: "/login"
+    failureRedirect: "/",
   })
 
 
