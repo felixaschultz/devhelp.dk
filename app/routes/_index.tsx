@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Banner } from "../components/Banner";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import PostCard from "~/components/PostCard";
@@ -32,7 +32,9 @@ export default function Index() {
         <p>Read the latest blog posts</p>
         <section className="blog-grid">
           {(blogPosts) ? blogPosts.map((post) => (
-            <PostCard key={post._id} post={post} />
+            <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+              <PostCard post={post} />
+            </Link>
           )) : (
             <p>No blog posts found</p>
           )}
