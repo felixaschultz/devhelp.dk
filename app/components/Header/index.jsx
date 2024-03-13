@@ -14,7 +14,7 @@ export default function Header({setOpen, open}) {
                     <Link className="navitem" to="/">About</Link>
                     <section className="btn_container">
                         <Button className="btn signin" onClick={() => setOpen(!open)}>Login</Button>
-                        <Link className="btn" to="/signup">Signup</Link>
+                        <Button className="btn" onClick={() => setOpen(!open)}>Signup</Button>
                     </section>
                 </nav>
             </section>
