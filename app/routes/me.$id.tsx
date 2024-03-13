@@ -8,11 +8,15 @@ export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
     const userId = new mongoose.Types.ObjectId(user?.id || params?.id);
 
+    console.log(userId);
+
     const published = (!user) ? { user: userId, published: true } :  { user: userId };
 
     const userData = await mongoose.model("User").findOne({ _id: userId });
     const userPosts = await mongoose.model("BlogPost").find(published);
     const likedPosts = await mongoose.model("BlogPost").find({ likes: userId });
+
+    console.log(userPosts, userData);
 
     if(!userData) {
         throw new Error("User not found");
@@ -50,14 +54,18 @@ export default function Me() {
                         </Link>
                     ))}
                 </section>
-                <h2>Liked Posts</h2>
-                <section className="blog-grid">
-                    {likedPosts.map((post) => (
-                        <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
-                            <PostCard post={post} user={user} />
-                        </Link>
-                    ))}
-                </section>
+                {user?._id === userData?._id && (
+                    <>
+                        <h2>Liked Posts</h2>
+                        <section className="blog-grid">
+                            {likedPosts.map((post) => (
+                                <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+                                    <PostCard post={post} user={user} />
+                                </Link>
+                            ))}
+                        </section>
+                    </>
+                )}
             </section>
         </div>
     );
