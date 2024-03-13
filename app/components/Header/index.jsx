@@ -11,7 +11,7 @@ export default function Header({setOpen, open}) {
                 </Link>
                 <nav className="flex">
                     <Link className="navitem" to="/">Home</Link>
-                    <Link className="navitem" to="/">About</Link>
+                    <Link className="navitem" to="/about">About</Link>
                     <section className="btn_container">
                         <Button className="btn signin" onClick={() => setOpen({
                             open: !open.open,
