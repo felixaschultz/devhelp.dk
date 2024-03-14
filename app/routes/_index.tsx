@@ -29,9 +29,8 @@ export default function Index() {
     <>
       <Banner user={user} />
       <section className="content">
-        <p>Welcome to Devhelp by Intastellar Solutiuons, International</p>
-        <h2>Popular Blog Posts</h2>
-        <p>Read the latest blog posts</p>
+        <h2>Populær Blog Posts</h2>
+        <p>Læs vores seneste indslag.</p>
         <section className="blog-grid">
           {(blogPosts) ? blogPosts
             .map(post => ({
