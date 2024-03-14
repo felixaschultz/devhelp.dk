@@ -80,6 +80,7 @@
 
 .reply{
     padding-left: 40px;
+    padding-bottom: 20px;
 
 }
 
@@ -95,7 +96,7 @@
     width: 1px;
     left: 10px;
     background-color: #fff;
-    height: calc(100% - 12px);
+    height: calc(100% - 32px);
 }
 
 .reply .user::before{
