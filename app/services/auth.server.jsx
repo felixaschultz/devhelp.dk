@@ -26,6 +26,21 @@ async function verifyUser({ email, password }) {
   return user;
 }
 
+export async function resetPassword({ email, password }) {
+  // ...
+  const user = await mongoose.models.User.findOne({ _id: email }).select("+password");
+  if (!user) {
+    throw new AuthorizationError("No user found with this email");
+  }
+
+  const salt = await bcrypt.genSalt(10); // generate a salt
+  user.password = await bcrypt.hash(password, salt); // hash the password
+  await user.save();
+  user.password = undefined;
+  return user;
+
+}
+
 // Tell the Authenticator to use the form strategy
 authenticator.use(
     new FormStrategy(async ({ form }) => {

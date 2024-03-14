@@ -36,15 +36,12 @@ const userSchema = new Schema({
         {
             name: {
                 type: String,
-                required: true
             },
             level: {
                 type: String,
-                required: true
             },
             experience: {
                 type: String,
-                required: true
             }
         }
     ]

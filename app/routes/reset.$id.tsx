@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { useLoaderData, useFetcher } from "@remix-run/react";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, resetPassword } from "~/services/auth.server";
 
 export const loader = async ({request, params}) => {
     const user = await authenticator.isAuthenticated(request);
@@ -29,3 +29,31 @@ export default function Reset(){
         </div>
     );
 }
+
+export const action = async ({request}) => {
+    const user = await authenticator.isAuthenticated(request);
+    const formData = await request.formData();
+    const {id, password, password2} = Object.fromEntries(formData);
+    const email = id;
+
+    if(password !== password2){
+        return new Response("Passwords do not match", {
+            status: 400
+        });
+    }
+
+    const updatedUser = await resetPassword({email, password});
+
+    if(!updatedUser){
+        return new Response("User not found", {
+            status: 404
+        });
+    }
+
+    return new Response(JSON.stringify(updatedUser), {
+        status: 200,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+};

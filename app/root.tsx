@@ -78,8 +78,6 @@ export default function App() {
   const { user, error } = useLoaderData();
   const actionData = useActionData();
 
-  console.log(actionData);
-
   useEffect(() => {
     if(!error){
       setOpen({
@@ -274,7 +272,7 @@ async function handleResetPassword(infos) {
           <p>We have detected that you´ve asked for a password reset.</p>
           <p>If it wasn´t you you can forget this email.</p>
           <p>Click the link below to reset your password</p>
-          <a href="http://localhost:60565/reset/${email}">Reset</a>
+          <a href="http://localhost:3000/reset/${email}">Reset</a>
       `,
     });
 
