@@ -116,5 +116,21 @@ export const action = async ({ request, params }) => {
             }
         });
 
+    } else if(_action === "reply") {
+        const reply = Object.fromEntries(formData);
+        const commentId = formData.get("commentId");
+        reply.user = user._id;
+        return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
+            $push: {
+                "comments.$[comment].reply": reply
+            }
+        }, {
+            arrayFilters: [
+                {
+                    "comment._id": new mongoose.Types.ObjectId(commentId)
+                }
+            ]
+        });
+
     }
 };
