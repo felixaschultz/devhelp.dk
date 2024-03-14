@@ -5,6 +5,23 @@
     padding: 20px;
 }
 
+.footerText{
+    font-size: 14px;
+}
+
+.legal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e4e4e4;
+}
+
+.legal a{
+    color: #e4e4e4;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
 .copy{
     text-align: center;
     font-size: 14px;
