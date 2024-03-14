@@ -2,7 +2,7 @@ import "./Style.css";
 import { Link } from "@remix-run/react";
 import Button from "../Button";
 import { Form } from "@remix-run/react";
-import Logo from "../../assets/devhelp-logo.svg";
+import Logo from "../../assets/devhelp-logo-white.svg";
 export default function Header({setOpen, open, user}) {
     return (
         <>

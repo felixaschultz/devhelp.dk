@@ -20,7 +20,6 @@
 
 .header_logo img{
     width: 200px;
-    filter: invert(1);
 }
 
 .header_container{
