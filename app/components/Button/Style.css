@@ -48,8 +48,9 @@
     font-size: 16px;
     text-decoration: underline;
     cursor: pointer;
+    color: #e0e0e0;
 }
 
 .ask-btn:hover{
-    color: #4CAF50;
+    color: rgb(192, 159, 83);
 }

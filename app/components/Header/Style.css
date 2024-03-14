@@ -64,12 +64,17 @@
 }
 
 .popup_container{
-    background-color: #fff;
+    background-color: #3c3c3c;
     padding: 20px;
     border-radius: 5px;
     width: 450px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    color: #292929;
+    color: #dfdfdf;
+}
+
+.popup_container .input-fields{
+    background-color: #333333;
+    border-color: #5d5d5d;
 }
 
 /* User */
