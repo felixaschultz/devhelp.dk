@@ -62,7 +62,7 @@ export default function Me() {
             </section>
             <section>
                 <h2>Your top 3 popular blog posts</h2>
-                <section className="blog-grid">
+                <section className="blog-grid --popular">
                     {userPosts.map(post => ({
                     ...post,
                     popularityScore: post.likes.length + post.comments.length + post.comments.filter(comment => comment.reply).length

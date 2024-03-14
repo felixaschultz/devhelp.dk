@@ -48,3 +48,8 @@
     visibility: visible;
     transition: all 0.3s;
 }
+
+.--popular{
+    background-color: #e4e4e4;
+    border-radius: 5px;
+}
