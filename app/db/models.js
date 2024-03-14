@@ -64,6 +64,12 @@ const blogPostSchema = new Schema({
                 type: Date,
                 default: Date.now
             },
+            likes: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: "User"
+                }
+            ],
             reply: [
                 {
                     body: {
@@ -74,6 +80,12 @@ const blogPostSchema = new Schema({
                         type: Schema.Types.ObjectId,
                         ref: "User"
                     },
+                    likes: [
+                        {
+                            type: Schema.Types.ObjectId,
+                            ref: "User"
+                        }
+                    ],
                     date: {
                         type: Date,
                         default: Date.now
