@@ -69,3 +69,7 @@ body{
     align-items: center;
     color: #ffffff;
 }
+
+.search-results{
+    list-style: none;
+}
