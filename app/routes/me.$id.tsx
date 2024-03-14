@@ -28,6 +28,7 @@ export const meta = ({data}) => {
     return [
         {
             title: data.userData.name.firstname + " " + data.userData.name.lastname + " | Devhelp.dk",
+            description: "Profile page for " + data.userData.name.firstname + " " + data.userData.name.lastname
         }
     ]
 };
