@@ -24,6 +24,13 @@ export default function Ask() {
                 <div key={user._id}>
                     <img src={user.image} alt={user.name.firstname} />
                     <h2>{user.name.firstname} {user.name.lastname}</h2>
+                    {
+                        user.skills.map((skill, index) => (
+                            <p key={index}>
+                                {skill.name} - {skill.level}
+                            </p>
+                        ))
+                    }
                 </div>
             
             ))}
