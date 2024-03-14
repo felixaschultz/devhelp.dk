@@ -52,28 +52,30 @@ export default function Ask() {
         <>
             <div className="content">
                 <h1>Ask a professional</h1>
-                {proUsers.map(user => (
-                    <div key={user._id}>
-                        <img className="proUser-image" src={user.image} alt={user.name.firstname} />
-                        <h2>{user.name.firstname} {user.name.lastname}</h2>
-                        {
-                            user.skills.map((skill, index) => (
-                                <p key={index}>
-                                    {skill.name} - {skill.level}
-                                </p>
-                            ))
-                        }
-                        <button className="btn" onClick={handleClicked}>Ask {user.name.firstname} for help</button>
-                    </div>
-                
-                ))}
-                {(openAskForm) && (
-                    <Form method="post" action="/ask">
-                        <input type="hidden" name="to" value={proUsers?._id} />
-                        <textarea name="question" />
-                        <button type="submit">Ask</button>
-                    </Form>
-                )}
+                    {proUsers.map(user => (
+                        <div key={user._id}>
+                            <img className="proUser-image" src={user.image} alt={user.name.firstname} />
+                            <h2>{user.name.firstname} {user.name.lastname}</h2>
+                            <button className="btn" onClick={handleClicked}>Ask {user.name.firstname} for help</button>
+                            {
+                                user.skills.map((skill, index) => (
+                                    <p key={index}>
+                                        {skill.name} - {skill.level}
+                                    </p>
+                                ))
+                            }
+                        </div>
+                    
+                    ))}
+                    {(openAskForm) && (
+                        <Form method="post" action="/ask">
+                            <h2>Ask a professional</h2>
+                            <input type="hidden" name="to" value={proUsers?._id} />
+                            <label htmlFor="question">Question</label>
+                            <textarea id="question" name="question" placeholder={`Write your Question here...`} />
+                            <button className="btn" name="_action" value="" type="submit">Ask</button>
+                        </Form>
+                    )}
             </div>
         </>
     );
