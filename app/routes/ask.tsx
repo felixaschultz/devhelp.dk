@@ -1,5 +1,5 @@
-import { Form, useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
-import { useState } from "react";
+import { Form, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import { authenticator } from "~/services/auth.server";
 import mongoose from "mongoose";
 import "../ProUser.css";
@@ -20,8 +20,17 @@ export const meta = [
 export default function Ask() {
     const fetcher = useFetcher();
     const [openAskForm, setOpenAskForm] = useState(false);
+    const [askButtonClicked, setAskButtonClicked] = useState(false);
     const { proUsers, user } = useLoaderData();
     const [open, setOpen] = useOutletContext();
+    const location = useLocation();
+
+    useEffect(() => {
+        if(user && location.pathname === "/ask" && sessionStorage.getItem('askButtonClicked') === 'true'){
+            setOpenAskForm(true);
+            sessionStorage.removeItem('askButtonClicked');
+        }
+    }, [user, location]);
 
     function handleClicked(e) {
         e.preventDefault();
@@ -32,8 +41,9 @@ export default function Ask() {
                     type: "login"
                 }
             );
+            sessionStorage.setItem('askButtonClicked', 'true');
         }else{
-            setOpenAskForm(!openAskForm)
+            setOpenAskForm(!openAskForm);
         }
 
     }
