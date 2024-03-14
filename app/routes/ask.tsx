@@ -63,7 +63,7 @@ export default function Ask() {
                                 </p>
                             ))
                         }
-                        <button className="btn" onClick={handleClicked}>Ask {user.name.firstname}</button>
+                        <button className="btn" onClick={handleClicked}>Ask {user.name.firstname} for help</button>
                     </div>
                 
                 ))}
