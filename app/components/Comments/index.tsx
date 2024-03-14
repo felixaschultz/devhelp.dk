@@ -1,12 +1,22 @@
 import { Form, useFetcher } from "@remix-run/react";
 import "./Style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Comments({ post, user }) {
     const fetcher = useFetcher();
     const [newReply, setReply] = useState(false);
     const [activeReply, setActiveReply] = useState(null);
     
+    useEffect(() => {
+        const textarea = document.querySelectorAll('.textarea');
+        textarea.forEach(textarea => {
+            textarea.addEventListener('input', function(){
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        });
+    }, [])
+
     return (
         <div className="commentSection">
             <fetcher.Form method="post">
