@@ -59,7 +59,19 @@ const blogPostSchema = new Schema({
             user: {
                 type: Schema.Types.ObjectId,
                 ref: "User"
-            }
+            },
+            reply: [
+                {
+                    body: {
+                        type: String,
+                        required: true
+                    },
+                    user: {
+                        type: Schema.Types.ObjectId,
+                        ref: "User"
+                    }
+                }
+            ]
         }
     ],
     tags: [

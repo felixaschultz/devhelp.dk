@@ -2,6 +2,7 @@ import { useLoaderData, useFetcher, useOutletContext } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import mongoose, { set } from "mongoose";
 import { authenticator } from "~/services/auth.server";
+import Comments from "~/components/Comments";
 import "../Blog.css";
 import { useEffect } from "react";
 
@@ -10,7 +11,7 @@ export const loader = async ({ request, params }) => {
     const postId = params.id;
     const post = await mongoose.model("BlogPost").findOne({ _id: postId }).populate("user");
 
-    if(!post.published && (!user || (user && user?._id != post.user))) {
+    if(!post.published && user?._id != post.user._id) {
         throw new Response(null, {
             status: 403,
             statusText: "Post not published"
@@ -72,6 +73,7 @@ export default function BlogEntry() {
                         <p key={index}>{paragraph}</p>
                     ))
                 }
+                <Comments post={post} user={user} />
             </div>
         </>
     );
@@ -102,6 +104,15 @@ export const action = async ({ request, params }) => {
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $pull: {
                 likes: user._id
+            }
+        });
+
+    }else if(_action === "comment") {
+        const comment = Object.fromEntries(formData);
+        comment.user = user._id;
+        return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
+            $push: {
+                comments: comment
             }
         });
 

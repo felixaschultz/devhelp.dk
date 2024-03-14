@@ -1,0 +1,22 @@
+.commentSection{
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 50px;
+}
+
+.textarea.comment{
+    height: 100px;
+    resize: none;
+    border: none;
+}
+
+.comment p:first-child{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+}
