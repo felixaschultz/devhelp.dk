@@ -20,7 +20,7 @@ async function verifyUser({ email, password }) {
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid || password == null || password === "" || password === undefined) {
-    throw new AuthorizationError("Invalid password");
+    throw new AuthorizationError("Wrong password or username");
   }
   user.password = undefined;
   return user;
