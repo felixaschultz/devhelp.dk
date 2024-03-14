@@ -154,7 +154,7 @@ export default function Me() {
                                             }}>Remove</button></p>
                                         ))
                                     }
-                                    <input type="hidden" name="skills" value={JSON.stringify(newSkills)} />
+                                    <input type="hidden" name="newSkills" value={JSON.stringify(newSkills)} />
                                 </div>
                                 <section className="flex">
                                     <button name="_action" value="add-skills" type="submit">Save</button>
@@ -181,19 +181,18 @@ export const action = async ({ request }) => {
     const _action = formData.get("_action");
 
     if(_action === "add-skills"){
-        const skills = formData.get("skills");
-        console.log(skills);
-        return json({ skills });
-        /* const userId = new mongoose.Types.ObjectId(user?._id);
-        const updatedUser = await mongoose.model("User").findByIdAndUpdate(userId, {
-            $push: {
-                skills: {
-                    name: skills.name,
-                    level: skills.level,
+        const skills = formData.get("newSkills");
+        const userId = new mongoose.Types.ObjectId(user?._id);
+
+        const updatedUser = JSON.parse(skills).map(async(skill) => {
+            return await mongoose.model("User").findByIdAndUpdate(userId, {
+                $push: {
+                    skills: skill
                 }
-            }
+            })
+
         });
-        return json(updatedUser); */
+        return json(updatedUser);
     }
 
     if(image) {
