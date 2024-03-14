@@ -5,6 +5,8 @@ import { useState } from "react";
 export default function Comments({ post, user }) {
     const fetcher = useFetcher();
     const [newReply, setReply] = useState(false);
+
+    console.log(post.comments);
     
     return (
         <div className="commentSection">
@@ -25,7 +27,7 @@ export default function Comments({ post, user }) {
                         <div key={index} className="comment">
                             <p>{comment.body}</p>
                             <section className="comment-reply">
-                                <p>{comment.user}</p>
+                                <p><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
                                 <button className="reply_btn" onClick={ () => {
                                     setReply(!newReply)
                                 }}>Reply</button>
@@ -52,7 +54,7 @@ export default function Comments({ post, user }) {
                                     {comment.reply.map((reply, index) => (
                                         <div key={index} className="comment reply">
                                             <p>{reply.body}</p>
-                                            <p>{reply.user}</p>
+                                            <p><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
                                         </div>
                                     ))}
                                 </div>

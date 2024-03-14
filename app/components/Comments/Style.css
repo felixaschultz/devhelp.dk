@@ -3,6 +3,13 @@
     justify-content: space-between;
 }
 
+.comment-profileImage{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .commentSection{
     border-top: 1px solid #ccc;
     padding-top: 20px;

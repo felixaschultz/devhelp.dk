@@ -9,7 +9,7 @@ import { useEffect } from "react";
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
     const postId = params.id;
-    const post = await mongoose.model("BlogPost").findOne({ _id: postId }).populate("user");
+    const post = await mongoose.model("BlogPost").findOne({ _id: postId }).populate("user").populate("comments.user").populate("comments.reply.user");
 
     if(!post.published && user?._id != post.user._id) {
         throw new Response(null, {
