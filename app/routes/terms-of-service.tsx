@@ -4,6 +4,23 @@ export const loader = async ({request, params}) => {
     };
 }
 
+export const meta = ({data}) => {
+    return [
+        {
+            title: "Terms of Service | Devhelp.dk",
+            description: "Terms of Service content"
+        },
+        {
+            name: "og:title",
+            content: "Terms of Service"
+        },
+        {
+            name: "og:description",
+            content: "Terms of Service content"
+        }
+    ]
+};
+
 export default function TermsOfService(){
     return (
         <div className="content">
