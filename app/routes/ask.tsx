@@ -1,4 +1,4 @@
-import { Form, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
+import { Form, useActionData, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { authenticator } from "~/services/auth.server";
 import mongoose, { set } from "mongoose";
@@ -19,9 +19,11 @@ export const meta = [
 
 export default function Ask() {
     const fetcher = useFetcher();
+    const actionData = useActionData();
     const [openAskForm, setOpenAskForm] = useState({
         open: false,
-        profesional: ""
+        profesional: "",
+        pro_id: ""
     });
 
     const { proUsers, user } = useLoaderData();
@@ -33,7 +35,8 @@ export default function Ask() {
         if(user && location.pathname === "/ask" && sessionStorage.getItem('askButtonClicked') === 'true'){
             setOpenAskForm({
                 open: true,
-                profesional: ""
+                profesional: "",
+                pro_id: ""
             });
             sessionStorage.removeItem('askButtonClicked');
         }
@@ -52,8 +55,8 @@ export default function Ask() {
         }else{
             setOpenAskForm({
                 open: !openAskForm.open,
-                profesional: e.target.getAttribute("data-user")
-            
+                profesional: e.target.getAttribute("data-user"),
+                pro_id: e.target.getAttribute("data-userId")
             });
         }
 
@@ -79,7 +82,7 @@ export default function Ask() {
                     <div key={user._id}>
                         <img className="proUser-image" src={user.image} alt={user.name.firstname} />
                         <h2>{user.name.firstname} {user.name.lastname}</h2>
-                        <button className="btn" onClick={handleClicked} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} om hjælp</button>
+                        <button className="btn" onClick={handleClicked} data-userId={user._id} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} om hjælp</button>
                         {
                             user.skills.map((skill, index) => (
                                 <p key={index}>
@@ -95,12 +98,19 @@ export default function Ask() {
                         <section className="popup_container">
                             <button className="close" onClick={() => setOpenAskForm({
                                 open: false,
-                                profesional: ""
+                                profesional: "",
+                                pro_id: ""
                             })}>X</button>
                             <fieldset>
                                 <h2>Ask a professional</h2>
                                 <p>Spørg {openAskForm.profesional} for hjælp</p>
-                                <input type="hidden" name="to" value={proUsers?._id} />
+                                {actionData && (
+                                    actionData?.error && (<p>{actionData?.error}</p>),
+                                    actionData?.message && (<p>{actionData?.message}</p>)
+                                )}
+                                <input type="hidden" name="to" value={openAskForm.pro_id} />
+                                <label htmlFor="title">Title</label>
+                                <input className="input-fields" id="title" name="title" type="text" placeholder="Title" />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
                                 <button className="btn" name="_action" value="ask" type="submit">Ask</button>
@@ -114,7 +124,32 @@ export default function Ask() {
 }
 
 export const action = async ({ request }) => {
+    const user = await authenticator.isAuthenticated(request);
     const body = await request.formData();
+    const { title, to, question } = Object.fromEntries(body);
 
-    return new Response("ok");
+    if(!user){
+        return new Response("Unauthorized", {
+            status: 401
+        });
+    }
+
+    const newQuestion = await mongoose.model("Question").create({
+        title: title,
+        to: to,
+        user: user._id,
+        body: question
+    });
+
+    if(!newQuestion){
+        return {
+            error: "Your question could not be sent",
+            status: 400
+        };
+    }else{
+        return {
+            message: "Din meddelse er blevet sendt til " + to + ". Han vil svare dig så hurtigt som muligt.",
+            status: 200
+        };
+    }
 }
