@@ -19,8 +19,11 @@ export const meta = [
 
 export default function Ask() {
     const fetcher = useFetcher();
-    const [openAskForm, setOpenAskForm] = useState(false);
-    const [askButtonClicked, setAskButtonClicked] = useState(false);
+    const [openAskForm, setOpenAskForm] = useState({
+        open: false,
+        profesional: ""
+    });
+
     const { proUsers, user } = useLoaderData();
     const [proUser, setProUser] = useState(proUsers);
     const [open, setOpen] = useOutletContext();
@@ -28,7 +31,10 @@ export default function Ask() {
 
     useEffect(() => {
         if(user && location.pathname === "/ask" && sessionStorage.getItem('askButtonClicked') === 'true'){
-            setOpenAskForm(true);
+            setOpenAskForm({
+                open: true,
+                profesional: ""
+            });
             sessionStorage.removeItem('askButtonClicked');
         }
     }, [user, location]);
@@ -44,7 +50,11 @@ export default function Ask() {
             );
             sessionStorage.setItem('askButtonClicked', 'true');
         }else{
-            setOpenAskForm(!openAskForm);
+            setOpenAskForm({
+                open: !openAskForm.open,
+                profesional: e.target.getAttribute("data-user")
+            
+            });
         }
 
     }
@@ -69,7 +79,7 @@ export default function Ask() {
                     <div key={user._id}>
                         <img className="proUser-image" src={user.image} alt={user.name.firstname} />
                         <h2>{user.name.firstname} {user.name.lastname}</h2>
-                        <button className="btn" onClick={handleClicked}>Ask {user.name.firstname} for help</button>
+                        <button className="btn" onClick={handleClicked} data-user={user.name.firstname + " " + user.name.lastname}>Ask {user.name.firstname} for help</button>
                         {
                             user.skills.map((skill, index) => (
                                 <p key={index}>
@@ -80,12 +90,16 @@ export default function Ask() {
                     </div>
                 
                 ))}
-                {(openAskForm) && (
+                {(openAskForm.open) && (
                     <Form className="popup" method="post" action="/ask">
                         <section className="popup_container">
-                            <button className="close" onClick={() => setOpenAskForm(false)}>X</button>
+                            <button className="close" onClick={() => setOpenAskForm({
+                                open: false,
+                                profesional: ""
+                            })}>X</button>
                             <fieldset>
                                 <h2>Ask a professional</h2>
+                                <p>You´re about to ask {openAskForm.profesional} for help</p>
                                 <input type="hidden" name="to" value={proUsers?._id} />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
