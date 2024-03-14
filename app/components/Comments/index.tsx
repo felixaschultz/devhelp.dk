@@ -41,7 +41,16 @@ export default function Comments({ post, user }) {
                                 <div key={index} className="comment">
                                     <p>{comment.body}</p>
                                     <section className="comment-reply">
-                                        <p className="user"><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
+                                        <p className="user">
+                                            <img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}
+                                            <span className="dateTime">{Intl.DateTimeFormat("da-DK", {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "2-digit",
+                                                hour: "2-digit",
+                                                minute: "2-digit"
+                                            }).format(new Date(comment.date))}</span>
+                                        </p>
                                         { user && (
                                             <button className="reply_btn" onClick={ () => {
                                                 setReply(!newReply),
@@ -75,7 +84,16 @@ export default function Comments({ post, user }) {
                                             }).map((reply, index) => (
                                                 <div key={index} className="comment reply">
                                                     <p>{reply.body}</p>
-                                                    <p className="user"><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
+                                                    <p className="user">
+                                                        <img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}
+                                                        <span className="dateTime">{Intl.DateTimeFormat("da-DK", {
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "2-digit",
+                                                            hour: "2-digit",
+                                                            minute: "2-digit"
+                                                        }).format(new Date(reply.date))}</span>
+                                                    </p>
                                                 </div>
                                             ))}
                                         </div>
