@@ -23,10 +23,14 @@ export const loader = async ({ request, params }) => {
 
     return { user, userData, userPosts, likedPosts };
 }
-export const meta = [
-    { title: "Me | Devhelp.dk" },
-    { name: "description", content: "This is the me page" },
-];
+export const meta = ({data}) => {
+
+    return [
+        {
+            title: data.userData.name.firstname + " " + data.userData.name.lastname + " | Devhelp.dk",
+        }
+    ]
+};
 
 export default function Me() {
     const { user, userData, userPosts, likedPosts } = useLoaderData();
