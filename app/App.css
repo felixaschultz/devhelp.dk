@@ -17,6 +17,7 @@ fieldset{
 
 fieldset:disabled{
     background-color: #f4f4f4;
+    opacity: 0.5;
 }
 
 body{
