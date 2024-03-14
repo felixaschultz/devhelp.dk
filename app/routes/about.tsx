@@ -6,8 +6,8 @@ export const meta = [
 export default function About() {
   return (
     <div className="content">
-      <h1>About</h1>
-      <p>This is a remix app</p>
+      <h1>Om Devhelp.dk</h1>
+      <p></p>
     </div>
   );
 }
