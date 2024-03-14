@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 export default function Comments({ post, user }) {
     const fetcher = useFetcher();
     const [newReply, setReply] = useState(false);
-    const [activeReply, setActiveReply] = useState(null);
+    const [activeReply, setActiveReply] = useState({
+        _id: null,
+        user: null
+    });
     
     useEffect(() => {
         const textarea = document.querySelectorAll('.textarea');
@@ -54,28 +57,14 @@ export default function Comments({ post, user }) {
                                         { user && (
                                             <button className="reply_btn" onClick={ () => {
                                                 setReply(!newReply),
-                                                setActiveReply(comment?._id)
+                                                setActiveReply({
+                                                    _id: comment._id,
+                                                    user: comment.user.name.firstname
+                                                })
                                             }}>Reply</button>
                                         )}
                                     </section>
                                 </div>
-                                {
-                                    user && newReply && activeReply === comment?._id && (
-                                        <fetcher.Form method="post">
-                                            <fieldset className="replyComment" disabled={!user}>
-                                                <div>
-                                                    <label htmlFor="reply">Reply</label>
-                                                    <textarea className="input-fields textarea comment" id="reply" name="body" placeholder="Write your reply" />
-                                                    <input type="hidden" name="user" value={user?._id} />
-                                                    <input type="hidden" name="commentId" value={comment?._id} />
-                                                </div>
-                                                <section className="flex">
-                                                    <button name="_action" value="reply" className="post-btn" type="submit">Reply</button>
-                                                </section>
-                                            </fieldset>
-                                        </fetcher.Form>
-                                    )
-                                }
                                 {
                                     (comment.reply.length > 0) && (
                                         <div className="replies">
@@ -97,6 +86,23 @@ export default function Comments({ post, user }) {
                                                 </div>
                                             ))}
                                         </div>
+                                    )
+                                }
+                                {
+                                    user && newReply && activeReply?._id === comment?._id && (
+                                        <fetcher.Form method="post">
+                                            <fieldset className="replyComment" disabled={!user}>
+                                                <div>
+                                                    <label htmlFor="reply">Reply</label>
+                                                    <textarea className="input-fields textarea comment" id="reply" name="body" placeholder={"Write your reply to " + activeReply.user} />
+                                                    <input type="hidden" name="user" value={user?._id} />
+                                                    <input type="hidden" name="commentId" value={comment?._id} />
+                                                </div>
+                                                <section className="flex">
+                                                    <button name="_action" value="reply" className="post-btn" type="submit">Reply</button>
+                                                </section>
+                                            </fieldset>
+                                        </fetcher.Form>
                                     )
                                 }
                             </div>

@@ -11,17 +11,17 @@
     background-color: rgb(155, 121, 44);
     border: none;
     color: rgb(229, 229, 229);
-    padding: 15px 32px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 12px;
     margin: 0px 6px;
     cursor: pointer;
     border-radius: 5px;
     width: max-content;
     text-transform: uppercase;
-    flex: 0 0 100%;
+    margin-left: auto;
 }
 
 .delete-btn{
