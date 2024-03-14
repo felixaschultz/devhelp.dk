@@ -67,7 +67,7 @@ export default function Index() {
         <section className="blog-grid">
               {(questions) ? questions.map((question) => (
                 <Link style={{textDecoration: "none", height:"max-content"}} to={`/question/${question._id}`} key={question._id}>
-                  <h2>{question.title}</h2>
+                  <PostCard post={question} />
                 </Link>
               )).slice(0, 9) : (
                 <p>No questions found</p>
