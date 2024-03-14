@@ -39,7 +39,7 @@ export default function Comments({ post, user }) {
                 </fieldset>
             </fetcher.Form>
             <div className="comments">
-                <h2>Comments ({post?.comments?.length})</h2>
+                <h2>Comments ({(post?.comments?.length > 0) ? post?.comments?.length : "0"})</h2>
                     {post?.comments?.length === 0 ? <p>No comments yet</p> : post?.comments?.filter((comment) => {
                         return comment.body !== undefined;
                     })?.map((comment, index) => (
