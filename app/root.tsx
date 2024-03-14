@@ -120,7 +120,7 @@ export default function App() {
                                   )
                               }
                               <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
-                              <p>Glemt adgangskode? <button type="button" onClick={() => setOpen({
+                              <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
                                   open: true,
                                   type: "reset"
                               })}>Sæt det tilbage</button></p>
