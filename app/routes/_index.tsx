@@ -34,13 +34,19 @@ export default function Index() {
         <h2>Recent Blog Posts</h2>
         <p>Read the latest blog posts</p>
         <section className="blog-grid">
-          {(blogPosts) ? blogPosts.sort((a, b) => b.likes.length - a.likes.length).sort((a,b) => b.comments.length - a.comments.length).map((post) => (
+          {(blogPosts) ? blogPosts
+            .map(post => ({
+              ...post,
+              popularityScore: post.likes.length + post.comments.length + post.comments.filter(comment => comment.reply).length
+            }))
+            .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date))
+            .map((post) => (
               <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
-                  <PostCard post={post} />
+                <PostCard post={post} />
               </Link>
-          )) : (
+            )) : (
               <p>No blog posts found</p>
-          )}
+            )}
         </section>
       </section>
     </>
