@@ -23,6 +23,18 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Digital platform for requesting help | Devhelp by Intastellar Solutiuons, International" },
     { name: "description", content: "Welcome to Remix!" },
+    {
+      name: "og:title",
+      content: "Digital platform for requesting help | Devhelp by Intastellar Solutiuons, International"
+    },
+    {
+        name: "og:description",
+        content: ""
+    },
+    {
+        name: "og:image",
+        content: ""
+    }
   ];
 };
 

@@ -41,6 +41,18 @@ export const meta = ({data}) => {
         {
             title: data.post.title + " | Blog Devhelp.dk",
             description: data.post.body
+        },
+        {
+            name: "og:title",
+            content: data.post.title + " | Blog Devhelp.dk"
+        },
+        {
+            name: "og:description",
+            content: data.post.body
+        },
+        {
+            name: "og:image",
+            content: data.post.image
         }
     ]
 };
