@@ -6,7 +6,6 @@ import Logo from "../../assets/devhelp-logo.svg";
 export default function Header({setOpen, open, user}) {
     return (
         <>
-        <p className="underconstruction">This site is still underconstruction</p>
         <header className="header">
             <section className="header_container">
                 <Link to="/" className="header_logo">
