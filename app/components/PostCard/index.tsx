@@ -11,7 +11,10 @@ export default function PostCard({post, user}) {
             <p>{post.body}</p>
             {
                 (post.user == user?._id) ? (
-                    <Link style={{color: "red", padding: "15px"}} to={`/blog/edit/${post?._id}`}>Edit</Link>
+                    <>
+                        <p>Views: {post?.views}</p>
+                        <Link style={{color: "red", padding: "15px"}} to={`/blog/edit/${post?._id}`}>Edit</Link>
+                    </>
                 ) : null
             }
         </div>
