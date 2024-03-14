@@ -23,9 +23,9 @@ function Banner({user}) {
                             }}>Start i dag</button>
                         </div>
                     ): null}
-                    <Form method="post">
-                        <input type="text" placeholder="Søg for hjælp" />
-                        <button type="submit">Søg</button>
+                    <Form action="/search" method="GET">
+                        <input className="input-fields" type="text" name="q" placeholder="Søg for hjælp" />
+                        <button className="btn" type="submit">Søg</button>
                     </Form>
                 </div>
                 <div>
