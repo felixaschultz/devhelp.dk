@@ -1,6 +1,6 @@
 import { Form, useOutletContext } from "@remix-run/react";
 import "./Style.css"
-import Logo from "../../assets/devhelp-logo-noTagLine.svg";
+import Logo from "../../assets/devhelp-logo.svg";
 import BannerBG from "../../assets/bg.png";
 
 function Banner({user}) {
