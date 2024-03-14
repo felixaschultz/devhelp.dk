@@ -1,13 +1,60 @@
-export const loader({request, params}) => {
-    const search = request.url.split("?q=")[1];
-    return {search};
+import {useLoaderData} from "@remix-run/react";
+import mongoose from "mongoose";
+
+export const loader = async ({request, params}) => {
+    const q = request.url.split("?q=")[1];
+    const items = [];
+    const search = await mongoose.model("BlogPost").find(
+        {
+            $or: [
+                {title: new RegExp(q, "i")},
+                {body: new RegExp(q, "i")},
+                {tags: new RegExp(q, "i")}
+            ]
+        }
+    );
+
+    const questions = await mongoose.model("Question").find({
+        question: new RegExp(q, "i")
+    });
+
+    questions.forEach(item => {
+        items.push({
+            title: item.question,
+            description: item.question,
+            url: `/questions/${item._id}`,
+            type: "question"
+        });
+    });
+
+    search.forEach(item => {
+        items.push({
+            title: item.title,
+            description: item.description,
+            url: `/blog/${item._id}`,
+            type: "blog"
+        });
+    });
+
+    return {q, items};
 }
 
 export default function Search(){
-    const {search} = useLoaderData();
+    const {q, items} = useLoaderData();
     return (
         <div className="content">
-            <h1>Search results for {search}</h1>
+            <h1>Search results for {q}</h1>
+            {items.length === 0 && <p>No results found</p>}
+            <ul>
+                {items.map(item => (
+                    <li key={item.url}>
+                        <a href={item.url}>
+                            <h2>{item.title}</h2>
+                            <p>{item.description}</p>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
-};
+}
