@@ -5,6 +5,10 @@
     font-weight: bold;
     color: #e4e4e4;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
 }
 
 .header_logo{
