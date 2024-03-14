@@ -113,6 +113,8 @@ export default function Ask() {
                                 <input className="input-fields" id="title" name="title" type="text" placeholder="Title" />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
+                                <label htmlFor="public">Public?</label>
+                                <input type="checkbox" id="public" name="shouldBePublic" />
                                 <button className="btn" name="_action" value="ask" type="submit">Ask</button>
                             </fieldset>
                         </section>
@@ -126,7 +128,7 @@ export default function Ask() {
 export const action = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
     const body = await request.formData();
-    const { title, to, question } = Object.fromEntries(body);
+    const { title, to, question, shouldBePublic } = Object.fromEntries(body);
 
     if(!user){
         return new Response("Unauthorized", {
@@ -137,6 +139,7 @@ export const action = async ({ request }) => {
     const newQuestion = await mongoose.model("Question").create({
         title: title,
         to: to,
+        public: shouldBePublic === "on" ? true : false,
         user: user._id,
         body: question
     });
@@ -148,7 +151,7 @@ export const action = async ({ request }) => {
         };
     }else{
         return {
-            message: "Din meddelse er blevet sendt til " + to + ". Han vil svare dig så hurtigt som muligt.",
+            message: "Din meddelse er blevet sendt.",
             status: 200
         };
     }

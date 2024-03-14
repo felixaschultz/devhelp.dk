@@ -12,7 +12,11 @@ export const loader = async ({ request }) => {
     published: true
   });
 
-  return { user, blogPosts};
+  const questions = await mongoose.model("Question").find({
+    public: true
+  });
+
+  return { user, blogPosts, questions};
 };
 
 export const meta: MetaFunction = () => {
@@ -23,7 +27,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { user, blogPosts } = useLoaderData();
+  const { user, blogPosts, questions } = useLoaderData();
 
   return (
     <>
@@ -49,7 +53,13 @@ export default function Index() {
         <h2>Seneste Spørgsmål</h2>
         <p>Se de seneste spørgsmål stillet af vores brugere.</p>
         <section className="blog-grid">
-          
+              {(questions) ? questions.map((question) => (
+                <Link style={{textDecoration: "none"}} to={`/question/${question._id}`} key={question._id}>
+                  <h2>{question.title}</h2>
+                </Link>
+              )).slice(0, 9) : (
+                <p>No questions found</p>
+              )}
         </section>
       </section>
     </>
