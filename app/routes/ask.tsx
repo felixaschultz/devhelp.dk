@@ -1,5 +1,6 @@
 import { Form, useFetcher, useLoaderData } from "@remix-run/react";
 import mongoose from "mongoose";
+import "../ProUser.css";
 
 export const loader = async ({ params }) => {
     const proUsers = await mongoose.model("User").find({role: "pro"});
@@ -22,7 +23,7 @@ export default function Ask() {
             <h1>Ask a professional</h1>
             {proUsers.map(user => (
                 <div key={user._id}>
-                    <img src={user.image} alt={user.name.firstname} />
+                    <img className="proUser-image" src={user.image} alt={user.name.firstname} />
                     <h2>{user.name.firstname} {user.name.lastname}</h2>
                     {
                         user.skills.map((skill, index) => (
