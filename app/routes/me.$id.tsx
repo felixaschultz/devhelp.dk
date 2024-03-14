@@ -193,7 +193,8 @@ export const action = async ({ request }) => {
             return await mongoose.model("User").findByIdAndUpdate(userId, {
                 $push: {
                     skills: skill
-                }
+                },
+                role: "pro"
             })
 
         });
