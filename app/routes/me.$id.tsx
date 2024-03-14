@@ -134,24 +134,30 @@ export default function Me() {
                             <fetcher.Form method="post">
                                 <div>
                                     <input className="input-fields" type="text" name="skills" id="skills" placeholder="Skills" />
+                                    <input className="input-fields" type="text" name="expiernce" id="expiernce" placeholder="Experience" />
                                     <button onClick={(e) => {
                                         e.preventDefault();
-                                        setNewSkills([...newSkills, document.getElementById("skills").value]);
+                                        const skillObj = {
+                                            name: document.getElementById("skills").value,
+                                            level: document.getElementById("expiernce").value
+                                        };
+                                        setNewSkills([...newSkills, skillObj ]);
                                         document.getElementById("skills").value = "";
+                                        document.getElementById("expiernce").value = "";
                                     }}>Add</button>
                                     {
-                                        newSkills.map((skill, index) => (
-                                            <p key={index}>{skill} <button onClick={(e) => {
+                                        newSkills.length > 0 && newSkills.map((skill, index) => (
+                                            <p key={index}>{skill.name} - {skill.level} <button onClick={(e) => {
                                                 e.preventDefault();
                                                 setNewSkills(newSkills.filter((_, i) => i !== index));
 
                                             }}>Remove</button></p>
                                         ))
                                     }
-                                    <input type="hidden" name="skills" value={newSkills} />
+                                    <input type="hidden" name="skills" value={JSON.stringify(newSkills)} />
                                 </div>
                                 <section className="flex">
-                                    <button type="submit">Submit</button>
+                                    <button name="_action" value="add-skills" type="submit">Save</button>
                                     <button onClick={() => {
                                         setOpenRequest(false);
                                     }}>Cancel</button>
@@ -172,6 +178,23 @@ export const action = async ({ request }) => {
 
     const formData = await request.formData();
     const image = formData.get("image");
+    const _action = formData.get("_action");
+
+    if(_action === "add-skills"){
+        const skills = formData.get("skills");
+        console.log(skills);
+        return json({ skills });
+        /* const userId = new mongoose.Types.ObjectId(user?._id);
+        const updatedUser = await mongoose.model("User").findByIdAndUpdate(userId, {
+            $push: {
+                skills: {
+                    name: skills.name,
+                    level: skills.level,
+                }
+            }
+        });
+        return json(updatedUser); */
+    }
 
     if(image) {
         const newImage = await uploadImage(image);
