@@ -55,7 +55,9 @@ export default function Me() {
                     (user?._id === userData?._id) && (
                         <div className="menu">
                             <Link to={`/blog/write`}>Write a new Blog post</Link>
+                            {userData?.role === "pro" && (
                             <Link to={`questions`}>Questions to me</Link>
+                            )}
                         </div>
                     )
                 }
