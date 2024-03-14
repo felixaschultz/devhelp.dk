@@ -29,9 +29,11 @@ export default function Comments({ post, user }) {
                         <textarea className="input-fields textarea comment" id="comment" name="body" placeholder="Write your comment" />
                         <input type="hidden" name="user" value={user?._id} />
                     </div>
-                    <section className="flex">
-                        <button name="_action" value="comment" className="post-btn" type="submit">Comment</button>
-                    </section>
+                    { user ? <>
+                        <section className="flex">
+                            <button name="_action" value="comment" className="post-btn" type="submit">Comment</button>
+                        </section>
+                    </> : <p>You need to be logged in to comment</p>}
                 </fieldset>
             </fetcher.Form>
             <div className="comments">
