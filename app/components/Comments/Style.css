@@ -56,6 +56,9 @@
     height: auto;
     resize: none;
     border: none;
+    background-color: #6c6c6c;
+    color: #fff;
+    border-radius: 5px;
 }
 
 .comment > p:first-child{
