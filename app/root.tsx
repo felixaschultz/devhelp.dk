@@ -27,6 +27,28 @@ import { getSession, commitSession } from "./services/session.server";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  {
+    rel: 'apple-touch-icon',
+    sizes: '180x180',
+    href: 'https://www.intastellarsolutions.com/assets/icons/fav/apple-icon-180x180.png',
+  },
+  {
+    rel: 'icon',
+    size: '57x57',
+    href: 'https://www.intastellarsolutions.com/assets/icons/fav/apple-icon-57x57.png'
+  },
+  {
+    rel: 'icon',
+    type: 'image/png',
+    sizes: '32x32',
+    href: 'https://www.intastellarsolutions.com/assets/icons/fav/favicon-32x32.png',
+  },
+  {
+    rel: 'icon',
+    type: 'image/png',
+    sizes: '16x16',
+    href: 'https://www.intastellarsolutions.com/assets/icons/fav/favicon-16x16.png',
+  }
 ];
 
 export const loader = async ({ request }) => {

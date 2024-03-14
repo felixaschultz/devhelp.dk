@@ -19,7 +19,6 @@ export default function Header({setOpen, open, user}) {
                         })
                     }}>Menu</button>
                     <section className="flex nav" style={(open.open && open.type === "menu") ? {display: "block"} : {}} >
-                        <Link className="navitem" to="/">Home</Link>
                         <Link className="navitem" to="/ask">Ask a Professional</Link>
                         <Link className="navitem" to="/blog">Blog</Link>
                         <Link className="navitem" to="/about">About</Link>
