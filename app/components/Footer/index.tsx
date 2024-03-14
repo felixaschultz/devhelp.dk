@@ -9,6 +9,7 @@ export default function Footer() {
             <a href="https://www.intastellarsolutions.com/about/legal/privacy" rel="noopener" target="_blank">Privacy Policy</a>
             <Link to="/terms-of-service">Terms of Service</Link>
             <Link to="/imprint">Imprint</Link>
+            <a href="https://github.com/felixaschultz/devhelp.dk/issues/new" rel="noopener" target="_blank">Feedback</a>
         </section>
         <p className="copy">&copy; { new Date().getFullYear() } Intastellar Solutions, International. All rights reserved.</p>
     </footer>
