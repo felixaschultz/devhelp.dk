@@ -1,6 +1,6 @@
-import { useLoaderData, useFetcher, useOutletContext } from "@remix-run/react";
+import { useLoaderData, useFetcher, useOutletContext, Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import mongoose, { set } from "mongoose";
+import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import Comments from "~/components/Comments";
 import "../Blog.css";
@@ -53,16 +53,16 @@ export default function BlogEntry() {
             }
              <div className="content">
                 <h1>{post.title}</h1>
-                <p>By {post.user.name.firstname} {post.user.name.lastname}</p>
+                <Link className="created_by" to={"/me/" + post.user._id}>By {post.user.name.firstname} {post.user.name.lastname}</Link>
                 {
                     post.likes && (
                         <div className="likes">
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
-                                        user ? <button className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {post.likes.length}</button> : null
+                                        <button disabled={!user} className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {post.likes.length}</button>
                                     ) : (
-                                        user ? <button className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {post.likes.length}</button> : null
+                                        <button disabled={!user} className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {post.likes.length}</button>
                                     )
                                 }
                             </fetcher.Form>

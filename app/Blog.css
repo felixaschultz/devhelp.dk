@@ -48,6 +48,11 @@
     margin-right: 10px;
 }
 
+.created_by{
+    text-decoration: underline;
+    color: rgb(192, 159, 83);
+}
+
 /* .like::before{
     content: url('/assets/like.png');
 }

@@ -1,7 +1,7 @@
 import { authenticator } from "~/services/auth.server";
 import { useLoaderData, Link, useFetcher } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import mongoose, { set } from "mongoose";
+import mongoose from "mongoose";
 import "../UserProfile.css";
 import PostCard from "~/components/PostCard";
 import { useEffect, useState } from "react";
@@ -36,7 +36,6 @@ export default function Me() {
     useEffect(() => {
         if(userData.image){
             setOpenImage(false);
-            user.image = userData.image;
         }
     }, [userData.image]);
 
@@ -61,7 +60,7 @@ export default function Me() {
                 }
             </section>
             <section>
-                <h2>Your top 3 popular blog posts</h2>
+                <h2>{userData.name.firstname}´s top 3 popular blog posts</h2>
                 <section className="blog-grid --popular">
                     {userPosts.map(post => ({
                     ...post,
@@ -76,7 +75,7 @@ export default function Me() {
                 </section>
                 <h2>All Blog posts</h2>
                 <section className="blog-grid">
-                    {userPosts.map((post) => (
+                    {userPosts?.map((post) => (
                         <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
                             <PostCard post={post} user={user} />
                         </Link>

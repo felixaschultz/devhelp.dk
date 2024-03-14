@@ -60,9 +60,9 @@ export default function Comments({ post, user }) {
                                             <fetcher.Form method="post">
                                                 {
                                                     comment?.likes?.includes(user?._id) ? (
-                                                        user ? <button className="like dislike" name="_action" value="unlike-comment"><img src={likeFillOut} className="likeIcon" alt="" /> {comment?.likes?.length}</button> : null
+                                                        <button disabled={!user} className="like dislike" name="_action" value="unlike-comment"><img src={likeFillOut} className="likeIcon" alt="" /> {comment?.likes?.length}</button>
                                                     ) : (
-                                                        user ? <button className="like" name="_action" value="like-comment"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button> : null
+                                                        <button disabled={!user} className="like" name="_action" value="like-comment"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button>
                                                     )
                                                 }
                                                 <input type="hidden" name="commentId" value={comment._id} />
@@ -99,9 +99,9 @@ export default function Comments({ post, user }) {
                                                         <fetcher.Form method="post">
                                                             {
                                                                 reply?.likes?.includes(user?._id) ? (
-                                                                    user ? <button className="like dislike" name="_action" value="unlike-reply"><img src={likeFillOut} className="likeIcon" alt="" /> {reply?.likes?.length}</button> : null
+                                                                    <button disabled={!user} className="like dislike" name="_action" value="unlike-reply"><img src={likeFillOut} className="likeIcon" alt="" /> {reply?.likes?.length}</button>
                                                                 ) : (
-                                                                    user ? <button className="like" name="_action" value="like-reply"><img src={like} className="likeIcon" alt="" /> {reply?.likes?.length}</button> : null
+                                                                    <button disabled={!user} className="like" name="_action" value="like-reply"><img src={like} className="likeIcon" alt="" /> {reply?.likes?.length}</button>
                                                                 )
                                                             }
                                                             <input type="hidden" name="commentId" value={comment._id} />
