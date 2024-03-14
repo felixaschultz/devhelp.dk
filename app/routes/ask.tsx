@@ -63,7 +63,7 @@ export default function Ask() {
         <>
             <div className="content">
                 <h1>Ask a professional</h1>
-                <p>Here are the professionals that you can ask for help.</p>
+                <p>Spørg en af vores specialister indenfor deres område i kodning.</p>
                 <section className="filter">
                     <input className="input-fields" placeholder="Search after a specific user or skill" type="search" onChange={(e) => {
                         setProUser(proUsers.filter(
@@ -79,11 +79,11 @@ export default function Ask() {
                     <div key={user._id}>
                         <img className="proUser-image" src={user.image} alt={user.name.firstname} />
                         <h2>{user.name.firstname} {user.name.lastname}</h2>
-                        <button className="btn" onClick={handleClicked} data-user={user.name.firstname + " " + user.name.lastname}>Ask {user.name.firstname} for help</button>
+                        <button className="btn" onClick={handleClicked} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} for hjælp</button>
                         {
                             user.skills.map((skill, index) => (
                                 <p key={index}>
-                                    {skill.name} - {skill.level}
+                                    {skill.name} - {skill.level} år
                                 </p>
                             ))
                         }
@@ -99,7 +99,7 @@ export default function Ask() {
                             })}>X</button>
                             <fieldset>
                                 <h2>Ask a professional</h2>
-                                <p>You´re about to ask {openAskForm.profesional} for help</p>
+                                <p>Spørg {openAskForm.profesional} for hjælp</p>
                                 <input type="hidden" name="to" value={proUsers?._id} />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
