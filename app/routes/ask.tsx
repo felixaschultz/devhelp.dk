@@ -1,8 +1,9 @@
-import { Form, useActionData, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
+import { Form, redirect, useActionData, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { authenticator } from "~/services/auth.server";
 import mongoose, { set } from "mongoose";
 import "../ProUser.css";
+import { Resend } from 'resend';
 
 export const loader = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
@@ -94,7 +95,7 @@ export default function Ask() {
                 
                 ))}
                 {(openAskForm.open) && (
-                    <Form className="popup" method="post" action="/ask">
+                    <Form className="popup" method="post">
                         <section className="popup_container">
                             <button className="close" onClick={() => setOpenAskForm({
                                 open: false,
@@ -129,7 +130,7 @@ export const action = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
     const body = await request.formData();
     const { title, to, question, shouldBePublic } = Object.fromEntries(body);
-
+    const resend = new Resend(process.env.RESENDGRID_API_KEY);
     if(!user){
         return new Response("Unauthorized", {
             status: 401
@@ -150,9 +151,31 @@ export const action = async ({ request }) => {
             status: 400
         };
     }else{
-        return {
-            message: "Din meddelse er blevet sendt.",
-            status: 200
-        };
+        const proUser = await mongoose.model("User").findById(to);
+        const { data, error } = await resend.emails.send({
+            from: 'Support Devhelp.dk <onboarding@resend.dev>',
+            to: proUser.email,
+            subject: 'You have a new question from a user | Devhelp.dk',
+            html: `
+                <h1>You have a new question from a user</h1>
+                <p>${user.name.firstname} ${user.name.lastname} has asked you a question</p>
+                <p>Title: ${title}</p>
+                <p>Question: ${question}</p>
+                <p>Public: ${shouldBePublic === "on" ? "Yes" : "No"}</p>
+                <a href="http://localhost:60565/question/${newQuestion._id}">See it</a>
+            `,
+        });
+
+        if (error) {
+            return {
+                error,
+                status: 400
+            };
+        }else{
+            return {
+                message: "Your question has been sent",
+                status: 200
+            };
+        }
     }
 }
