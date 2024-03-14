@@ -59,14 +59,14 @@ export const action = async ({ request }) => {
     const formData = await request.formData();
     const post = Object.fromEntries(formData);
 
-    const image = data.image;
+    const image = post.image;
     let newImage = null;
     if (image && image._name) {
         newImage = await uploadImage(image);
         if(!image){
             return new Response(null, {
                 status: 400,
-                text: "Image is required",
+                textStatus: "Image is required",
             });
         }
     }

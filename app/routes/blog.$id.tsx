@@ -94,8 +94,6 @@ export const action = async ({ request, params }) => {
             }
         )
     }
-    
-    console.log(_action);
 
     if(_action === "like") {
         return  await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
