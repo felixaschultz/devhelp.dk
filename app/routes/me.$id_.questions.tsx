@@ -31,6 +31,7 @@ export default function QuestionsToMe(){
             <ul>
                 {questionForMe.map(question => (
                     <li key={question._id}>
+                        {question.public ? "Public" : "Private"}
                         <h2>{question.title}</h2>
                         <p>{question.body}</p>
                         <Link to={`/question/${question._id}`}>Read more</Link>
