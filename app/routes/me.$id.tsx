@@ -190,13 +190,16 @@ export const action = async ({ request }) => {
         const userId = new mongoose.Types.ObjectId(user?._id);
 
         const updatedUser = JSON.parse(skills).map(async(skill) => {
-            return await mongoose.model("User").findByIdAndUpdate(userId, {
-                $push: {
-                    skills: skill
-                },
-                role: "pro"
-            })
-
+            if(skill.level++ > 5) {
+                return await mongoose.model("User").findByIdAndUpdate(userId, {
+                    $push: {
+                        skills: skill
+                    },
+                    role: "pro"
+                })
+            } else {
+                return new Error("You need to have at least 4 skills with a level of 5 or higher to become a pro user");
+            }
         });
         return json(updatedUser);
     }
