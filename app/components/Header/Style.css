@@ -109,7 +109,19 @@
 @media screen and (max-width: 768px){
     .openMenu{
         display: block;
+        text-indent: -9999px;
+        margin-right: 0;
     }
+
+    .openMenu::after{
+        content: '\2630';
+        display: block;
+        text-indent: 0;
+        height: max-content;
+        margin-top: -20px;
+        font-size: 30px;
+    }
+
     .header_container{
         flex-direction: column;
     }
@@ -125,7 +137,7 @@
         width: 100%;
         background-color: #292929;
         padding: 20px;
-        top: 160px;
+        top: 133px;
     }
 
     .nav .navitem{
