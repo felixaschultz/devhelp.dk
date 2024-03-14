@@ -79,7 +79,7 @@ export default function Ask() {
                     <div key={user._id}>
                         <img className="proUser-image" src={user.image} alt={user.name.firstname} />
                         <h2>{user.name.firstname} {user.name.lastname}</h2>
-                        <button className="btn" onClick={handleClicked} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} for hjælp</button>
+                        <button className="btn" onClick={handleClicked} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} om hjælp</button>
                         {
                             user.skills.map((skill, index) => (
                                 <p key={index}>
