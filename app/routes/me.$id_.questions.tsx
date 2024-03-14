@@ -12,6 +12,13 @@ export const loader = async ({request}) => {
     return {user, questionForMe};
 };
 
+export const meta = [
+    {
+        title: "Questions to me | Devhelp.dk",
+        description: "Questions to me"
+    }
+];
+
 export default function QuestionsToMe(){
     const {user, questionForMe} = useLoaderData();
     return (
