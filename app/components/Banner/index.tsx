@@ -1,6 +1,7 @@
 import { Form, useOutletContext } from "@remix-run/react";
 import "./Style.css"
 import Logo from "../../assets/devhelp-logo-noTagLine.svg";
+import BannerBG from "../../assets/bg.png";
 
 function Banner({user}) {
     const [open, setOpen] = useOutletContext();
@@ -31,7 +32,7 @@ function Banner({user}) {
                     </section>
                 </div>
                 <div>
-                    <img src="https://via.placeholder.com/1000x550" alt="placeholder" />
+                    <img src={BannerBG} className="hero-img" alt="placeholder" />
                 </div>
             </section>
         </article>
