@@ -20,7 +20,9 @@ export default function Comments({ post, user }) {
             </fetcher.Form>
             <div className="comments">
                 <h2>Comments</h2>
-                    {post?.comments?.length === 0 ? <p>No comments yet</p> : post?.comments?.map((comment, index) => (
+                    {post?.comments?.length === 0 ? <p>No comments yet</p> : post?.comments?.filter((comment) => {
+                        return comment.body !== undefined;
+                    })?.map((comment, index) => (
                         <>
                             <div className="comment-group">
                                 <div key={index} className="comment">
@@ -50,7 +52,9 @@ export default function Comments({ post, user }) {
                                 {
                                     (comment.reply.length > 0) && (
                                         <div className="replies">
-                                            {comment.reply.map((reply, index) => (
+                                            {comment.reply?.filter((comment) => {
+                                                return comment.body != undefined;
+                                            }).map((reply, index) => (
                                                 <div key={index} className="comment reply">
                                                     <p>{reply.body}</p>
                                                     <p className="user"><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
