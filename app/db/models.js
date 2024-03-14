@@ -147,6 +147,7 @@ const questionSchema = new Schema({
     },
     public: {
         type: Boolean,
+        default: false
     },
     comments: [
         {
