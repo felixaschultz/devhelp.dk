@@ -7,7 +7,7 @@ export default function Footer() {
         <p className="footerText">Developed by Intastellar Solutions, International</p>
         <section className="legal">
             <a href="https://www.intastellarsolutions.com/about/legal/privacy" rel="noopener" target="_blank">Privacy Policy</a>
-            <Link to="/terms">Terms of Service</Link>
+            <Link to="/terms-of-service">Terms of Service</Link>
             <Link to="/imprint">Imprint</Link>
         </section>
         <p className="copy">&copy; { new Date().getFullYear() } Intastellar Solutions, International. All rights reserved.</p>
