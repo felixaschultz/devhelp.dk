@@ -55,7 +55,7 @@ export default function Index() {
             }))
             .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date))
             .map((post) => (
-              <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+              <Link style={{textDecoration: "none", height:"max-content"}} to={`/blog/${post._id}`} key={post._id}>
                 <PostCard post={post} />
               </Link>
             )).slice(0, 9) : (
@@ -66,7 +66,7 @@ export default function Index() {
         <p>Se de seneste spørgsmål stillet af vores brugere.</p>
         <section className="blog-grid">
               {(questions) ? questions.map((question) => (
-                <Link style={{textDecoration: "none"}} to={`/question/${question._id}`} key={question._id}>
+                <Link style={{textDecoration: "none", height:"max-content"}} to={`/question/${question._id}`} key={question._id}>
                   <h2>{question.title}</h2>
                 </Link>
               )).slice(0, 9) : (
