@@ -1,10 +1,12 @@
-import { Form, useFetcher, useLoaderData } from "@remix-run/react";
+import { Form, useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
+import { authenticator } from "~/services/auth.server";
 import mongoose from "mongoose";
 import "../ProUser.css";
 
-export const loader = async ({ params }) => {
+export const loader = async ({ request }) => {
+    const user = await authenticator.isAuthenticated(request);
     const proUsers = await mongoose.model("User").find({role: "pro"});
-    return { proUsers };
+    return { proUsers, user };
 }
 
 export const meta = [
@@ -16,7 +18,21 @@ export const meta = [
 
 export default function Ask() {
     const fetcher = useFetcher();
-    const { proUsers } = useLoaderData();
+    const { proUsers, user } = useLoaderData();
+
+    const [open, setOpen] = useOutletContext();
+
+    function handleClicked() {
+        if(!user){
+            setOpen(
+                {
+                    open: true,
+                    type: "login"
+                }
+            );
+        }
+
+    }
 
     return (
         <div className="content">
@@ -32,6 +48,7 @@ export default function Ask() {
                             </p>
                         ))
                     }
+                    <button className="btn" onClick={handleClicked}>Ask</button>
                 </div>
             
             ))}

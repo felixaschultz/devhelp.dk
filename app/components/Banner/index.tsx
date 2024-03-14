@@ -3,7 +3,7 @@ import "./Style.css"
 import Logo from "../../assets/devhelp-logo-noTagLine.svg";
 
 function Banner({user}) {
-    const setOpen = useOutletContext();
+    const [open, setOpen] = useOutletContext();
 
     return (
         <article className="banner">
