@@ -1,4 +1,4 @@
-import { useOutletContext } from "@remix-run/react";
+import { Form, useOutletContext } from "@remix-run/react";
 import "./Style.css"
 import Logo from "../../assets/devhelp-logo-noTagLine.svg";
 
@@ -23,6 +23,10 @@ function Banner({user}) {
                             }}>Start i dag</button>
                         </div>
                     ): null}
+                    <Form method="post">
+                        <input type="text" placeholder="Søg for hjælp" />
+                        <button type="submit">Søg</button>
+                    </Form>
                 </div>
                 <div>
                     <img src="https://via.placeholder.com/1000x550" alt="placeholder" />
