@@ -51,6 +51,7 @@ export default function Me() {
                     )}    
                 </div>
                 <h1>{userData?.name.firstname} {userData?.name.lastname}</h1>
+                {userData?.role === "pro" && <Link to={`/me/${user?._id}/questions/ask`}>Ask a question</Link>}
                 {
                     (user?._id === userData?._id) && (
                         <div className="menu">
