@@ -153,7 +153,7 @@ export const action = async ({ request }) => {
     }else{
         const proUser = await mongoose.model("User").findById(to);
         const { data, error } = await resend.emails.send({
-            from: 'Support Devhelp.dk <no-reply@devhelp.dk>',
+            from: 'Support Devhelp.dk <info.no_reply@devhelp.dk>',
             to: proUser.email,
             subject: 'You have a new question from a user | Devhelp.dk',
             html: `
