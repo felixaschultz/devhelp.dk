@@ -81,12 +81,17 @@ export default function Ask() {
                 
                 ))}
                 {(openAskForm) && (
-                    <Form method="post" action="/ask">
-                        <h2>Ask a professional</h2>
-                        <input type="hidden" name="to" value={proUsers?._id} />
-                        <label htmlFor="question">Question</label>
-                        <textarea id="question" name="question" placeholder={`Write your Question here...`} />
-                        <button className="btn" name="_action" value="" type="submit">Ask</button>
+                    <Form className="popup" method="post" action="/ask">
+                        <section className="popup_container">
+                            <button className="close" onClick={() => setOpenAskForm(false)}>X</button>
+                            <fieldset>
+                                <h2>Ask a professional</h2>
+                                <input type="hidden" name="to" value={proUsers?._id} />
+                                <label htmlFor="question">Question</label>
+                                <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
+                                <button className="btn" name="_action" value="ask" type="submit">Ask</button>
+                            </fieldset>
+                        </section>
                     </Form>
                 )}
             </div>
@@ -97,6 +102,5 @@ export default function Ask() {
 export const action = async ({ request }) => {
     const body = await request.formData();
 
-    console.log(body);
     return new Response("ok");
 }
