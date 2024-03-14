@@ -33,7 +33,7 @@ export default function QuestionsToMe(){
                     <li key={question._id}>
                         <h2>{question.title}</h2>
                         <p>{question.body}</p>
-                        <Link to={`/questions/${question._id}`}>Read more</Link>
+                        <Link to={`/question/${question._id}`}>Read more</Link>
                     </li>
                 ))}
             </ul>
