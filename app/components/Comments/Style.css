@@ -1,3 +1,8 @@
+.comment-reply{
+    display: flex;
+    justify-content: space-between;
+}
+
 .commentSection{
     border-top: 1px solid #ccc;
     padding-top: 20px;
@@ -10,7 +15,7 @@
     border: none;
 }
 
-.comment p:first-child{
+.comment > p:first-child{
     display: flex;
     flex-direction: column;
     margin: 10px 0;
@@ -23,5 +28,5 @@
 
 .reply{
     padding-left: 20px;
-    
+
 }

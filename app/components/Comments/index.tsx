@@ -24,10 +24,12 @@ export default function Comments({ post, user }) {
                     <>
                         <div key={index} className="comment">
                             <p>{comment.body}</p>
-                            <p>{comment.user}</p>
-                            <button onClick={ () => {
-                                setReply(!newReply)
-                            }}>Reply</button>
+                            <section className="comment-reply">
+                                <p>{comment.user}</p>
+                                <button className="reply_btn" onClick={ () => {
+                                    setReply(!newReply)
+                                }}>Reply</button>
+                            </section>
                         </div>
                         {
                             newReply && (
@@ -57,7 +59,9 @@ export default function Comments({ post, user }) {
                             )
                         }
                     </>
-                ))}
+                )).sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                })}
             </div>
         </div>
     );

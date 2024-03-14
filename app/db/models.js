@@ -60,6 +60,10 @@ const blogPostSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: "User"
             },
+            date: {
+                type: Date,
+                default: Date.now
+            },
             reply: [
                 {
                     body: {
@@ -69,6 +73,10 @@ const blogPostSchema = new Schema({
                     user: {
                         type: Schema.Types.ObjectId,
                         ref: "User"
+                    },
+                    date: {
+                        type: Date,
+                        default: Date.now
                     }
                 }
             ]
