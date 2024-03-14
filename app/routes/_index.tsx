@@ -30,8 +30,7 @@ export default function Index() {
       <Banner user={user} />
       <section className="content">
         <p>Welcome to Devhelp by Intastellar Solutiuons, International</p>
-        <h2>Recent Questions</h2>
-        <h2>Recent Blog Posts</h2>
+        <h2>Popular Blog Posts</h2>
         <p>Read the latest blog posts</p>
         <section className="blog-grid">
           {(blogPosts) ? blogPosts
