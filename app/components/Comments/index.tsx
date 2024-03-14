@@ -1,6 +1,8 @@
 import { Form, useFetcher } from "@remix-run/react";
 import "./Style.css";
 import { useEffect, useState } from "react";
+import like from "../../assets/like-icon.svg";
+import likeFillOut from "../../assets/like-icon-fillout.svg";
 
 export default function Comments({ post, user }) {
     const fetcher = useFetcher();
@@ -55,6 +57,15 @@ export default function Comments({ post, user }) {
                                                 hour: "2-digit",
                                                 minute: "2-digit"
                                             }).format(new Date(comment.date))}</span>
+                                            <fetcher.Form method="post">
+                                                {
+                                                    comment?.likes?.includes(user?._id) ? (
+                                                        user ? <button className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {comment?.likes?.length}</button> : null
+                                                    ) : (
+                                                        user ? <button className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button> : null
+                                                    )
+                                                }
+                                            </fetcher.Form>
                                         </p>
                                         { user && (
                                             <button className="reply_btn" onClick={ () => {
@@ -84,6 +95,15 @@ export default function Comments({ post, user }) {
                                                             hour: "2-digit",
                                                             minute: "2-digit"
                                                         }).format(new Date(reply.date))}</span>
+                                                        <fetcher.Form method="post">
+                                                            {
+                                                                reply?.likes?.includes(user?._id) ? (
+                                                                    user ? <button className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {reply?.likes?.length}</button> : null
+                                                                ) : (
+                                                                    user ? <button className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {reply?.likes?.length}</button> : null
+                                                                )
+                                                            }
+                                                        </fetcher.Form>
                                                     </p>
                                                 </div>
                                             ))}
