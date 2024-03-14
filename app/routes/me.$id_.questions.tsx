@@ -4,7 +4,7 @@ import { useLoaderData, Link } from "@remix-run/react";
 
 export const loader = async ({request}) => {
     const user = await authenticator.isAuthenticated(request, {
-        redirectTo: "/login"
+        failureRedirect: "/"
     });
 
     const questionForMe = await mongoose.model("Question").find({to: user?._id});
