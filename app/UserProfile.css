@@ -58,3 +58,27 @@
     display: block;
     padding: 15px 0;
 }
+
+/*  */
+.userInfos{
+    position: fixed;
+}
+.userContent{
+    margin-left: 350px;
+}
+
+@media screen and (max-width: 768px){
+    .profile-grid{
+        grid-template-columns: 1fr;
+    }
+    .userContent{
+        margin-left: 0;
+    }
+    .userInfos{
+        position: relative;
+    }
+    
+    .blog-grid{
+        grid-template-columns: 1fr;
+    }
+}
