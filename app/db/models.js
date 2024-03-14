@@ -125,6 +125,10 @@ const questionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
+    to: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     comments: [
         {
             body: {
