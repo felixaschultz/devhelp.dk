@@ -20,13 +20,18 @@ export const loader = async ({ request, params }) => {
         });
     }
 
+
+
     if(!post) {
         throw new Response(null, {
             status: 404,
             statusText: "Post not found"
         });
     }
-
+    // Update the views
+    post.views += 1;
+    await post.save();
+    
     return { post, user };
 };
 

@@ -66,6 +66,10 @@ const blogPostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
+    views: {
+        type: Number,
+        default: 0
+    },
     comments: [
         {
             body: {

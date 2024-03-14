@@ -39,7 +39,7 @@ export default function Index() {
           {(blogPosts) ? blogPosts
             .map(post => ({
               ...post,
-              popularityScore: post.likes.length + post.comments.length + post.comments.filter(comment => comment.reply).length
+              popularityScore: post.likes.length + post.comments.length + post.comments.filter(comment => comment.reply).length + post.views
             }))
             .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date))
             .map((post) => (
