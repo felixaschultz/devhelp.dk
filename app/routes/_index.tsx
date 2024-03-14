@@ -34,12 +34,12 @@ export default function Index() {
         <h2>Recent Blog Posts</h2>
         <p>Read the latest blog posts</p>
         <section className="blog-grid">
-          {(blogPosts) ? blogPosts.map((post) => (
-            <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
-              <PostCard post={post} />
-            </Link>
+          {(blogPosts) ? blogPosts.sort((a, b) => b.likes.length - a.likes.length).sort((a,b) => b.comments.length - a.comments.length).map((post) => (
+              <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+                  <PostCard post={post} />
+              </Link>
           )) : (
-            <p>No blog posts found</p>
+              <p>No blog posts found</p>
           )}
         </section>
       </section>
