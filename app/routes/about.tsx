@@ -1,6 +1,18 @@
 export const meta = [
     { title: "About | Devhelp.dk" },
     { name: "description", content: "This is the about page" },
+    {
+      name: "og:title",
+      content: "About | Devhelp.dk"
+    },
+    {
+        name: "og:description",
+        content: "This is the about page"
+    },
+    {
+        name: "og:image",
+        content: ""
+    }
 ];
 
 export default function About() {
