@@ -164,5 +164,35 @@ export const action = async ({ request, params }) => {
                 }
             ]
         });
+    }else if(_action === "unlike-reply"){
+        const commentId = formData.get("commentId");
+        const replyId = formData.get("replyId");
+        return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
+            $pull: {
+                "comments.$[comment].reply.$[reply].likes": user?._id
+            }
+        }, {
+            arrayFilters: [
+                {
+                    "comment._id": new mongoose.Types.ObjectId(commentId)
+                },
+                {
+                    "reply._id": new mongoose.Types.ObjectId(replyId)
+                }
+            ]
+        });
+    }else if(_action === "unlike-comment"){
+        const commentId = formData.get("commentId");
+        return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
+            $pull: {
+                "comments.$[comment].likes": user?._id
+            }
+        }, {
+            arrayFilters: [
+                {
+                    "comment._id": new mongoose.Types.ObjectId(commentId)
+                }
+            ]
+        });
     }
 };

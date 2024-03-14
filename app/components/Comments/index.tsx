@@ -65,6 +65,7 @@ export default function Comments({ post, user }) {
                                                         user ? <button className="like" name="_action" value="like-comment"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button> : null
                                                     )
                                                 }
+                                                <input type="hidden" name="commentId" value={comment._id} />
                                             </fetcher.Form>
                                         </p>
                                         { user && (
@@ -103,6 +104,8 @@ export default function Comments({ post, user }) {
                                                                     user ? <button className="like" name="_action" value="like-reply"><img src={like} className="likeIcon" alt="" /> {reply?.likes?.length}</button> : null
                                                                 )
                                                             }
+                                                            <input type="hidden" name="commentId" value={comment._id} />
+                                                            <input type="hidden" name="replyId" value={reply._id} />
                                                         </fetcher.Form>
                                                     </p>
                                                 </div>
