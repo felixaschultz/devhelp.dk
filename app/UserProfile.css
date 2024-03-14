@@ -53,3 +53,8 @@
     background-color: #e4e4e4;
     border-radius: 5px;
 }
+
+.menu a{
+    display: block;
+    padding: 15px 0;
+}

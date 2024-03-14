@@ -53,9 +53,10 @@ export default function Me() {
                 <h1>{userData?.name.firstname} {userData?.name.lastname}</h1>
                 {
                     (user?._id === userData?._id) && (
-                        <>
+                        <div className="menu">
                             <Link to={`/blog/write`}>Write a new Blog post</Link>
-                        </>
+                            <Link to={`questions`}>Questions to me</Link>
+                        </div>
                     )
                 }
             </section>
