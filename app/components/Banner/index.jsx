@@ -23,7 +23,7 @@ function Banner({user}) {
                             }}>Start i dag</button>
                         </div>
                     ): null}
-                    <Form action="/search" method="GET">
+                    <Form className="flex" action="/search" method="GET">
                         <input className="input-fields" type="text" name="q" placeholder="Søg for hjælp" />
                         <button className="btn" type="submit">Søg</button>
                     </Form>

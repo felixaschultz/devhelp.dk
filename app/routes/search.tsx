@@ -1,4 +1,4 @@
-import {useLoaderData} from "@remix-run/react";
+import {useLoaderData, Link} from "@remix-run/react";
 import mongoose from "mongoose";
 
 export const loader = async ({request, params}) => {
@@ -44,14 +44,14 @@ export default function Search(){
     return (
         <div className="content">
             <h1>Search results for {q}</h1>
+            <p>Found {items.length} results</p>
             {items.length === 0 && <p>No results found</p>}
             <ul>
                 {items.map(item => (
                     <li key={item.url}>
-                        <a href={item.url}>
-                            <h2>{item.title}</h2>
-                            <p>{item.description}</p>
-                        </a>
+                        <Link to={item.url}>
+                            <p>{item.title}</p>
+                        </Link>
                     </li>
                 ))}
             </ul>
