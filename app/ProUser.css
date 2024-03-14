@@ -13,3 +13,11 @@
     background-color: #333333;
     border-color: #5d5d5d;
 }
+
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    gap: 20px;
+    padding: 20px;
+}

@@ -114,9 +114,13 @@ export default function Ask() {
                                 <input className="input-fields" id="title" name="title" type="text" placeholder="Title" />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
-                                <label htmlFor="public">Public?</label>
-                                <input type="checkbox" id="public" name="shouldBePublic" />
-                                <button className="btn" name="_action" value="ask" type="submit">Ask</button>
+                                <section className="grid">
+                                    <section>
+                                        <label htmlFor="public">Vil du offentliggør dit spørgsmål?</label>
+                                        <input type="checkbox" id="public" name="shouldBePublic" />
+                                    </section>
+                                    <button className="btn" name="_action" value="ask" type="submit">Ask</button>
+                                </section>
                             </fieldset>
                         </section>
                     </Form>
