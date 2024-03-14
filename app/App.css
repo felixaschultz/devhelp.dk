@@ -57,6 +57,19 @@ body{
     width: 100%;
 }
 
+.search .input-fields{
+    color: #e4e4e4;
+    background-color: #212121;
+    border: 1px solid #5d5d5d;
+}
+
+.hero-tagline .search .input-fields{
+    width: 100%;
+    border: 1px solid #cacaca;
+    background-color: #e4e4e4;
+    color: #373737;
+}
+
 /* Error */
 .error{
     color: #ff0033;
