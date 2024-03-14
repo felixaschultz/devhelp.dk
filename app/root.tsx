@@ -24,6 +24,7 @@ import Button from "./components/Button";
 import { authenticator } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
+import { Resend } from 'resend';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -75,6 +76,9 @@ export default function App() {
   });
   const fetcher = useFetcher();
   const { user, error } = useLoaderData();
+  const actionData = useActionData();
+
+  console.log(actionData);
 
   useEffect(() => {
     if(!error){
@@ -118,12 +122,42 @@ export default function App() {
                                   )
                               }
                               <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                              <p>Glemt adgangskode? <button type="button" onClick={() => setOpen({
+                                  open: true,
+                                  type: "reset"
+                              })}>Sæt det tilbage</button></p>
                               <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
                                   open: true,
                                   type: "signup"
                               })}>Registrer dig i dag</button></p>
                             </section>
                         </Form>
+                    </div>
+                </div>
+            )
+        }
+        {
+            (open.open && open.type == "reset") && (
+                <div className="popup">
+                    <div className="popup_container">
+                        <Button className="close" onClick={() => setOpen(false)}>X</Button>
+                        <fetcher.Form method="post">
+                            <h2>Reset Password</h2>
+                            <label htmlFor="email">Email</label>
+                            <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
+                            <section>
+                              {
+                                  actionData?.message && (
+                                      <p>{actionData?.message}</p>
+                                  )
+                              }
+                              <Button name="_action" value="reset" className="btn signin no-margin">Reset</Button>
+                              <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                  open: true,
+                                  type: "login"
+                              })}>Login</button></p>
+                            </section>
+                        </fetcher.Form>
                     </div>
                 </div>
             )
@@ -222,6 +256,36 @@ async function Authenticate(request) {
       redirectTo: referrer,
     });
   }
+  if (_action === "reset") {
+    const message = await handleResetPassword(data);
+    return json({ message });
+  }
+}
+
+async function handleResetPassword(infos) {
+    const {email} = Object.fromEntries(infos);
+    const resend = new Resend(process.env.RESENDGRID_API_KEY);
+    const { data, error } = await resend.emails.send({
+      from: 'Support Devhelp.dk <account.no_reply@devhelp.dk>',
+      to: email,
+      subject: 'You´ve requested an Password Reset | Devhelp.dk',
+      html: `
+          <h1>You´ve requested a passowrd Reset</h1>
+          <p>We have detected that you´ve asked for a password reset.</p>
+          <p>If it wasn´t you you can forget this email.</p>
+          <p>Click the link below to reset your password</p>
+          <a href="http://localhost:60565/reset/${email}">Reset</a>
+      `,
+    });
+
+    if (error) {
+      return {
+          error,
+          status: 400
+      };
+    }else{
+        return json({ message: "We´ve send you an email with an link to reset your Password." }, { status: 200 });
+    }
 }
 
 async function handleSignup(data) {
