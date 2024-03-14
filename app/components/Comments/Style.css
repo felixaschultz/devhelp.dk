@@ -96,7 +96,7 @@
     width: 1px;
     left: 10px;
     background-color: #fff;
-    height: calc(100% - 32px);
+    height: calc(100% - 43px);
 }
 
 .reply .user::before{

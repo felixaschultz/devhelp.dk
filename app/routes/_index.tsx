@@ -43,7 +43,7 @@ export default function Index() {
               <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
                 <PostCard post={post} />
               </Link>
-            )) : (
+            )).slice(0, 9) : (
               <p>No blog posts found</p>
             )}
         </section>

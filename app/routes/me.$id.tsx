@@ -61,7 +61,20 @@ export default function Me() {
                 }
             </section>
             <section>
-                <h2>Blog posts</h2>
+                <h2>Your top 3 popular blog posts</h2>
+                <section className="blog-grid">
+                    {userPosts.map(post => ({
+                    ...post,
+                    popularityScore: post.likes.length + post.comments.length + post.comments.filter(comment => comment.reply).length
+                    }))
+                    .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date))
+                    .map((post) => (
+                        <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
+                            <PostCard post={post} user={user} />
+                        </Link>
+                    )).slice(0, 3)}
+                </section>
+                <h2>All Blog posts</h2>
                 <section className="blog-grid">
                     {userPosts.map((post) => (
                         <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>

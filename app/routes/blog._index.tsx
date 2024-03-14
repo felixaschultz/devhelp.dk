@@ -29,7 +29,7 @@ export default function Blog() {
                     <Link style={{textDecoration: "none"}} to={`/blog/${post._id}`} key={post._id}>
                         <PostCard post={post} />
                     </Link>
-                ))}
+                )).sort((a, b) => new Date(b.date) - new Date(a.date))}
             </section>
         </div>
     );
