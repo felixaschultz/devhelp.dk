@@ -26,9 +26,9 @@ export default function Header({setOpen, open, user}) {
                     <section className="btn_container">
                         {user ? (
                             <>
-                                <Link className="navitem" to={`/me/${user?._id}/questions`} >
+                                {(user?.role === "pro") ? <Link className="navitem" to={`/me/${user?._id}/questions`} >
                                     Forspørgsler
-                                </Link>
+                                </Link> : null}
                                 <Link className="navitem" to="/blog/write" >
                                    Ny blogindlæg
                                 </Link>
