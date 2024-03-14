@@ -20,33 +20,36 @@ export const loader = async ({ request }) => {
 
 export default function BlogWrite() {
     const [image, setImage] = useState(null);
+    const fetcher = useFetcher();
     return (
         <div className="content">
             <h1>Write a blog post</h1>
-            <Form method="post" encType="multipart/form-data">
-                {
-                    image && (
-                        <img src={image} alt="Preview" />
-                    )
-                }
-                <div>
-                    <label htmlFor="image">Image</label>
-                    <input className="input-fields" type="file" id="image" name="image" onChange={(e) => {
-                        setImage(URL.createObjectURL(e.target.files[0]));
-                    }} />
-                </div>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input className="input-fields" type="text" id="title" name="title" />
-                </div>
-                <div>
-                    <label htmlFor="content">Content</label>
-                    <textarea className="input-fields textarea" id="content" name="body" />
-                </div>
-                <section className="flex">
-                    <button className="post-btn" type="submit">Submit</button>
-                </section>
-            </Form>
+            <fetcher.Form method="post" encType="multipart/form-data">
+                <fieldset disabled={fetcher.state === "submitting"}>
+                    {
+                        image && (
+                            <img src={image} alt="Preview" />
+                        )
+                    }
+                    <div>
+                        <label htmlFor="image">Image</label>
+                        <input className="input-fields" type="file" id="image" name="image" onChange={(e) => {
+                            setImage(URL.createObjectURL(e.target.files[0]));
+                        }} />
+                    </div>
+                    <div>
+                        <label htmlFor="title">Title</label>
+                        <input className="input-fields" type="text" id="title" name="title" />
+                    </div>
+                    <div>
+                        <label htmlFor="content">Content</label>
+                        <textarea className="input-fields textarea" id="content" name="body" />
+                    </div>
+                    <section className="flex">
+                        <button className="post-btn" type="submit">Submit</button>
+                    </section>
+                </fieldset>
+            </fetcher.Form>
         </div>
     );
 }
