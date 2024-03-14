@@ -31,6 +31,8 @@ export const meta = [
 export default function Me() {
     const { user, userData, userPosts, likedPosts } = useLoaderData();
     const [openImage, setOpenImage] = useState(false);
+    const [openRequest, setOpenRequest] = useState(false);
+    const [newSkills, setNewSkills] = useState([]);
     const fetcher = useFetcher();
 
     useEffect(() => {
@@ -56,6 +58,13 @@ export default function Me() {
                     (user?._id === userData?._id) && (
                         <div className="menu">
                             <Link to={`/blog/write`}>Write a new Blog post</Link>
+                            {
+                                userData?.role !== "pro" && (
+                                    <button onClick={() => {
+                                        setOpenRequest(true);
+                                    }}>Request Pro Status</button>
+                                )
+                            }
                             {userData?.role === "pro" && (
                             <Link to={`questions`}>Questions to me</Link>
                             )}
@@ -116,6 +125,42 @@ export default function Me() {
                     </div>
                 </div>
             )}
+            {
+                openRequest && (
+                    <div className="popup">
+                        <div className="popup_container">
+                            <button className="close" onClick={() => setOpenRequest(false)}>X</button>
+                            <h1>Add skills</h1>
+                            <fetcher.Form method="post">
+                                <div>
+                                    <input className="input-fields" type="text" name="skills" id="skills" placeholder="Skills" />
+                                    <button onClick={(e) => {
+                                        e.preventDefault();
+                                        setNewSkills([...newSkills, document.getElementById("skills").value]);
+                                        document.getElementById("skills").value = "";
+                                    }}>Add</button>
+                                    {
+                                        newSkills.map((skill, index) => (
+                                            <p key={index}>{skill} <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setNewSkills(newSkills.filter((_, i) => i !== index));
+
+                                            }}>Remove</button></p>
+                                        ))
+                                    }
+                                    <input type="hidden" name="skills" value={newSkills} />
+                                </div>
+                                <section className="flex">
+                                    <button type="submit">Submit</button>
+                                    <button onClick={() => {
+                                        setOpenRequest(false);
+                                    }}>Cancel</button>
+                                </section>
+                            </fetcher.Form>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 }
