@@ -145,6 +145,9 @@ const questionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
+    public: {
+        type: Boolean,
+    },
     comments: [
         {
             body: {
