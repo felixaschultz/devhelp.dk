@@ -31,7 +31,23 @@ const userSchema = new Schema({
     role: {
         type: String,
         default: "user"
-    }
+    },
+    skills: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            level: {
+                type: String,
+                required: true
+            },
+            experience: {
+                type: String,
+                required: true
+            }
+        }
+    ]
 });
 
 const blogPostSchema = new Schema({
