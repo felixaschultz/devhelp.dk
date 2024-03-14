@@ -28,7 +28,7 @@ export default function Header({setOpen, open, user}) {
                         {user ? (
                             <>
                                 <Link className="navitem" to="/blog/write" >
-                                    Write a blog
+                                   Skriv et blogindlæg
                                 </Link>
                                 <Link to={"/me/" + user?._id} className="user">
                                     <img onError={(e) => {

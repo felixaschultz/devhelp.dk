@@ -46,6 +46,11 @@ export default function Index() {
               <p>No blog posts found</p>
             )}
         </section>
+        <h2>Seneste Spørgsmål</h2>
+        <p>Se de seneste spørgsmål stillet af vores brugere.</p>
+        <section className="blog-grid">
+          
+        </section>
       </section>
     </>
   );
