@@ -42,14 +42,16 @@ export default function Comments({ post, user }) {
                                     <p>{comment.body}</p>
                                     <section className="comment-reply">
                                         <p className="user"><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
-                                        <button className="reply_btn" onClick={ () => {
-                                            setReply(!newReply),
-                                            setActiveReply(comment?._id)
-                                        }}>Reply</button>
+                                        { user && (
+                                            <button className="reply_btn" onClick={ () => {
+                                                setReply(!newReply),
+                                                setActiveReply(comment?._id)
+                                            }}>Reply</button>
+                                        )}
                                     </section>
                                 </div>
                                 {
-                                    newReply && activeReply === comment?._id && (
+                                    user && newReply && activeReply === comment?._id && (
                                         <fetcher.Form method="post">
                                             <fieldset className="replyComment" disabled={!user}>
                                                 <div>
