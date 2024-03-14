@@ -5,6 +5,8 @@ import { authenticator } from "~/services/auth.server";
 import Comments from "~/components/Comments";
 import "../Blog.css";
 import { useEffect } from "react";
+import like from "../assets/like-icon.svg";
+import likeFillOut from "../assets/like-icon-fillout.svg";
 
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
@@ -55,13 +57,12 @@ export default function BlogEntry() {
                 {
                     post.likes && (
                         <div className="likes">
-                            <p className="like-counts">{post.likes.length} like{post.likes.length > 1 || post.likes.length === 0 ? "s" : null}</p>
                             <fetcher.Form method="post">
                                 {
                                     post.likes.includes(user?._id) ? (
-                                        user ? <button className="like dislike" name="_action" value="unlike">Unlike</button> : null
+                                        user ? <button className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {post.likes.length}</button> : null
                                     ) : (
-                                        user ? <button className="like" name="_action" value="like">Like</button> : null
+                                        user ? <button className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {post.likes.length}</button> : null
                                     )
                                 }
                             </fetcher.Form>

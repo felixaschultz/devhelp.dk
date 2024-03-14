@@ -40,6 +40,14 @@
     /* text-indent: -9999px; */
 }
 
+.likeIcon{
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+    filter: invert(1);
+    margin-right: 10px;
+}
+
 /* .like::before{
     content: url('/assets/like.png');
 }
