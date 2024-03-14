@@ -109,8 +109,13 @@
 }
 
 .comment-group{
-    margin-top: 30px;
-    padding-top: 20px;
+    margin: 30px 0;
+    padding: 20px 0;
+}
+
+.comment-group:first-of-type{
+    margin: 0;
+    padding: 0;
 }
 
 .comment .user, .reply .user{
