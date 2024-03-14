@@ -20,14 +20,16 @@ export default function Comments({ post, user }) {
     return (
         <div className="commentSection">
             <fetcher.Form method="post">
-                <div>
-                    <label htmlFor="comment">Comment</label>
-                    <textarea className="input-fields textarea comment" id="comment" name="body" placeholder="Write your comment" />
-                    <input type="hidden" name="user" value={user._id} />
-                </div>
-                <section className="flex">
-                    <button name="_action" value="comment" className="post-btn" type="submit">Comment</button>
-                </section>
+                <fieldset disabled={!user}>
+                    <div>
+                        <label htmlFor="comment">Comment</label>
+                        <textarea className="input-fields textarea comment" id="comment" name="body" placeholder="Write your comment" />
+                        <input type="hidden" name="user" value={user?._id} />
+                    </div>
+                    <section className="flex">
+                        <button name="_action" value="comment" className="post-btn" type="submit">Comment</button>
+                    </section>
+                </fieldset>
             </fetcher.Form>
             <div className="comments">
                 <h2>Comments ({post?.comments?.length})</h2>
@@ -42,22 +44,24 @@ export default function Comments({ post, user }) {
                                         <p className="user"><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
                                         <button className="reply_btn" onClick={ () => {
                                             setReply(!newReply),
-                                            setActiveReply(comment._id)
+                                            setActiveReply(comment?._id)
                                         }}>Reply</button>
                                     </section>
                                 </div>
                                 {
-                                    newReply && activeReply === comment._id && (
+                                    newReply && activeReply === comment?._id && (
                                         <fetcher.Form method="post">
-                                            <div>
-                                                <label htmlFor="reply">Reply</label>
-                                                <textarea className="input-fields textarea comment" id="reply" name="body" placeholder="Write your reply" />
-                                                <input type="hidden" name="user" value={user._id} />
-                                                <input type="hidden" name="commentId" value={comment._id} />
-                                            </div>
-                                            <section className="flex">
-                                                <button name="_action" value="reply" className="post-btn" type="submit">Reply</button>
-                                            </section>
+                                            <fieldset className="replyComment" disabled={!user}>
+                                                <div>
+                                                    <label htmlFor="reply">Reply</label>
+                                                    <textarea className="input-fields textarea comment" id="reply" name="body" placeholder="Write your reply" />
+                                                    <input type="hidden" name="user" value={user?._id} />
+                                                    <input type="hidden" name="commentId" value={comment?._id} />
+                                                </div>
+                                                <section className="flex">
+                                                    <button name="_action" value="reply" className="post-btn" type="submit">Reply</button>
+                                                </section>
+                                            </fieldset>
                                         </fetcher.Form>
                                     )
                                 }

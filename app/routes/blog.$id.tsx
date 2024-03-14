@@ -97,19 +97,19 @@ export const action = async ({ request, params }) => {
     if(_action === "like") {
         return  await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
-                likes: user._id
+                likes: user?._id
             }
         });
     }else if(_action === "unlike") {
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $pull: {
-                likes: user._id
+                likes: user?._id
             }
         });
 
     }else if(_action === "comment") {
         const comment = Object.fromEntries(formData);
-        comment.user = user._id;
+        comment.user = user?._id;
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
                 comments: comment
@@ -119,7 +119,7 @@ export const action = async ({ request, params }) => {
     } else if(_action === "reply") {
         const reply = Object.fromEntries(formData);
         const commentId = formData.get("commentId");
-        reply.user = user._id;
+        reply.user = user?._id;
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
                 "comments.$[comment].reply": reply
