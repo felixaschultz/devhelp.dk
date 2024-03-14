@@ -3,17 +3,32 @@
     justify-content: space-between;
 }
 
+.comment-reply > p{
+    margin: 0;
+}
+
+.reply_btn{
+    border: none;
+    height: max-content;
+    padding: 10px;
+    background-color: #fff;
+    font-size: 12px;
+}
+
 .comment-profileImage{
     width: 25px;
     height: 25px;
     border-radius: 50%;
     object-fit: cover;
+    margin-right: 10px;
 }
 
 .commentSection{
     border-top: 1px solid #ccc;
     padding-top: 20px;
     margin-top: 50px;
+    width: 650px;
+    margin-right: auto;
 }
 
 .textarea.comment{
@@ -34,6 +49,21 @@
 }
 
 .reply{
-    padding-left: 20px;
+    padding-left: 60px;
 
+}
+
+.replies{
+    margin-top: 20px;
+}
+
+.comment-group{
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.comment .user, .reply .user{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
