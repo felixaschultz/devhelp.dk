@@ -8,3 +8,8 @@
 .filter{
     margin-bottom: 35px;
 }
+
+.filter .input-fields{
+    background-color: #333333;
+    border-color: #5d5d5d;
+}
