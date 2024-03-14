@@ -5,13 +5,14 @@ import { useState } from "react";
 export default function Comments({ post, user }) {
     const fetcher = useFetcher();
     const [newReply, setReply] = useState(false);
+    const [activeReply, setActiveReply] = useState(null);
     
     return (
         <div className="commentSection">
             <fetcher.Form method="post">
                 <div>
                     <label htmlFor="comment">Comment</label>
-                    <textarea className="input-fields textarea comment" id="comment" name="body" />
+                    <textarea className="input-fields textarea comment" id="comment" name="body" placeholder="Write your comment" />
                     <input type="hidden" name="user" value={user._id} />
                 </div>
                 <section className="flex">
@@ -30,16 +31,17 @@ export default function Comments({ post, user }) {
                                     <section className="comment-reply">
                                         <p className="user"><img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}</p>
                                         <button className="reply_btn" onClick={ () => {
-                                            setReply(!newReply)
+                                            setReply(!newReply),
+                                            setActiveReply(comment._id)
                                         }}>Reply</button>
                                     </section>
                                 </div>
                                 {
-                                    newReply && (
+                                    newReply && activeReply === comment._id && (
                                         <fetcher.Form method="post">
                                             <div>
                                                 <label htmlFor="reply">Reply</label>
-                                                <textarea className="input-fields textarea comment" id="reply" name="body" />
+                                                <textarea className="input-fields textarea comment" id="reply" name="body" placeholder="Write your reply" />
                                                 <input type="hidden" name="user" value={user._id} />
                                                 <input type="hidden" name="commentId" value={comment._id} />
                                             </div>
