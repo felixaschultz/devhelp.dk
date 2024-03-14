@@ -2,6 +2,7 @@ import { Form, useOutletContext } from "@remix-run/react";
 import "./Style.css"
 import Logo from "../../assets/devhelp-logo.svg";
 import BannerBG from "../../assets/bg.png";
+import MobileBanner from "../../assets/bg-mobile.png";
 
 function Banner({user}) {
     const [open, setOpen] = useOutletContext();
@@ -32,7 +33,13 @@ function Banner({user}) {
                     </section>
                 </div>
                 <div>
-                    <img src={BannerBG} className="hero-img" alt="placeholder" />
+                    <img src={BannerBG} srcSet={
+                        `${MobileBanner} 300w,
+                        ${MobileBanner} 768w,
+                        ${BannerBG} 1280w,
+                        ${BannerBG} 1920w`
+                    } sizes="(max-width: 768px) 100vw, 50vw"
+                    className="hero-img" alt="placeholder" />
                 </div>
             </section>
         </article>

@@ -41,6 +41,8 @@
 
     .hero-tagline{
         order: 2;
+        margin-top: -69px;
+        padding-bottom: 69px;
     }
     
 }
