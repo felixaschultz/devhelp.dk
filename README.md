@@ -2,6 +2,7 @@
 ![devhelp.dk](/app/assets/landingPage-loggedout.png)
 ## Development
 
+Before you start, make sure you have defined in your .env file MONGODB_URL with a link to your MongoDB.
 From your terminal:
 
 ```sh
