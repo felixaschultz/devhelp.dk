@@ -38,9 +38,9 @@ export default function Group() {
         <div className="content">
             <header className="group-info">
                 <section>
-                    <p>Gruppe</p>
-                    <h1>{groups.group_name}</h1>
-                    <p>Gruppen har {groups.members.length + 1} medlemmer</p>
+                    <p className="group-type">Gruppe</p>
+                    <h1 className="group-name">{groups.group_name}</h1>
+                    <p className="group-member-info">Gruppen har {groups.members.length + 1} medlemmer</p>
                 </section>
                 <section>
                     {
