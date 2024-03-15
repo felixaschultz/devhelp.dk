@@ -31,7 +31,9 @@ export const meta = ({data}) => {
 export default function GroupAbout() {
     const { user, groups } = useLoaderData();
     const memberStatus = groups.members.find(member => member.user == user?._id)?.status;
-    groups.members.push({ user: groups.creator, status: "creator"});
+    if(groups.members.find(member => member.user._id == groups.creator._id) === undefined){
+        groups.members.push({ user: groups.creator, status: "creator"});
+    }
     return (
         <div className="content">
             <header className="group-info">
