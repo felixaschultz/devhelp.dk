@@ -21,3 +21,21 @@
     gap: 20px;
     padding: 20px;
 }
+
+.highlight{
+    background-color: #e4e4e4;
+    border-radius: 5px;
+    width: auto;
+    padding: 10px 20px;
+    color: #333333;
+}
+
+.highlight.successMessage{
+    background-color: #009c00;
+    color: #ffffff;
+}
+
+.highlight.errorMessage{
+    background-color: #9c0000;
+    color: #ffffff;
+}

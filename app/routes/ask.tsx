@@ -107,8 +107,8 @@ export default function Ask() {
                                 <h2>Ask a professional</h2>
                                 <p>Spørg {openAskForm.profesional} for hjælp</p>
                                 {actionData && (
-                                    actionData?.error && (<p>{actionData?.error}</p>),
-                                    actionData?.message && (<p>{actionData?.message}</p>)
+                                    actionData?.error && (<p className="highlight errorMessage">{actionData?.error}</p>),
+                                    actionData?.message && (<p className="highlight successMessage">{actionData?.message}</p>)
                                 )}
                                 <input type="hidden" name="to" value={openAskForm.pro_id} />
                                 <label htmlFor="title">Title</label>
@@ -193,7 +193,7 @@ export const action = async ({ request }) => {
         };
     }else{
         const proUser = await mongoose.model("User").findById(to);
-        const { data, error } = await resend.emails.send({
+        /* const { data, error } = await resend.emails.send({
             from: 'Support Devhelp.dk <info.no_reply@devhelp.dk>',
             to: proUser.email,
             subject: 'You have a new question from a user | Devhelp.dk',
@@ -212,12 +212,12 @@ export const action = async ({ request }) => {
                 error,
                 status: 400
             };
-        }else{
+        }else{ */
             return {
-                message: "Your question has been sent",
+                message: "Yeah, du har nu bedt " + proUser.name.firstname + ", han glæder sig til at svare dig.",
                 status: 200
             };
-        }
+        /* } */
     }
 }
 
