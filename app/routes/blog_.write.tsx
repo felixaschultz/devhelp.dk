@@ -2,7 +2,7 @@ import mongoose, { set } from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import { Form, redirect, useFetcher } from "@remix-run/react";
 import { useState } from "react";
-import "../BlogWrite.css";
+import "../styles/BlogWrite.css";
 import { uploadImage } from "~/services/uploadImage";
 
 export const meta = [

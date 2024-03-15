@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import Comments from "~/components/Comments";
-import "../Blog.css";
+import "../styles/Blog.css";
 import { useEffect } from "react";
 import like from "../assets/like-icon.svg";
 import likeFillOut from "../assets/like-icon-fillout.svg";

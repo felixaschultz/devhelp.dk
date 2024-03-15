@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Link, useLoaderData } from "@remix-run/react";
 import PostCard from "~/components/PostCard";
-import "../Blog.css";
+import "../styles/Blog.css";
 
 export const loader = async ({ request }) => {
     const posts = await mongoose.model("BlogPost").find({

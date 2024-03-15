@@ -2,7 +2,7 @@ import { authenticator } from "~/services/auth.server";
 import { useLoaderData, Link, useFetcher } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import mongoose from "mongoose";
-import "../UserProfile.css";
+import "../styles/UserProfile.css";
 import PostCard from "~/components/PostCard";
 import { useEffect, useState } from "react";
 import { uploadImage } from "../services/uploadImage";

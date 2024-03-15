@@ -2,7 +2,7 @@ import { Form, redirect, useActionData, useFetcher, useLoaderData, useLocation, 
 import { useEffect, useState } from "react";
 import { authenticator } from "~/services/auth.server";
 import mongoose, { set } from "mongoose";
-import "../ProUser.css";
+import "../styles/ProUser.css";
 import { Resend } from 'resend';
 
 export const loader = async ({ request }) => {
