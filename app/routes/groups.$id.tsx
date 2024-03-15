@@ -27,6 +27,7 @@ export default function Group() {
     const { user, groups } = useLoaderData();
     return (
         <div className="content">
+            <p>Gruppe</p>
             <h1>{groups.group_name}</h1>
             <p>{groups.description}</p>
         </div>
