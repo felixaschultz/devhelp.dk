@@ -71,8 +71,10 @@ const StudyGroups = new Schema({
                 default: "pending",
                 enum: ["pending", "accepted", "rejected"]
             },
-            type: Schema.Types.ObjectId,
-            ref: "User"
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
         }
     ],
     description: {
