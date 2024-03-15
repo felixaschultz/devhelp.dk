@@ -43,7 +43,7 @@ export default function Index() {
                 studyGroups.length === 0 && (
                     <>
                         <p>Du har ikke oprettet nogen grupper endnu.</p>
-                        <button onClick={() => {
+                        <button type="button" onClick={() => {
                             setOpen({
                                 open: true,
                                 type: "createGroup"
