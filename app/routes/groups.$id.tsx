@@ -28,11 +28,46 @@ export const meta = ({data}) => {
 
 export default function Group() {
     const { user, groups } = useLoaderData();
+    const memberStatus = groups.members.filter(member => {
+        return member._id == user._id;
+    }).filter(member => {
+        return member.status;
+    });
     return (
         <div className="content">
-            <p>Gruppe</p>
-            <h1>{groups.group_name}</h1>
-            <p>{groups.description}</p>
+            <header className="group-info">
+                <p>Gruppe</p>
+                <h1>{groups.group_name}</h1>
+                <p>Gruppen har {groups.members.length + 1} medlemmer</p>
+                {
+                    memberStatus === "pending" && (
+                        <p>Du har en anmodning om at blive medlem af gruppen</p>
+                    )
+                }
+                {
+                    memberStatus === "accepted" && (
+                        <form method="post">
+                            <button type="submit" name="action" value="leave">Forlad gruppen</button>
+                        </form>
+                    )
+                }
+            </header>
+            <section className="posts">
+                <h2>Posts</h2>
+                {
+                    groups.posts.length === 0 && (
+                        <p>Der er ingen posts i denne gruppe endnu.</p>
+                    )
+                }
+                {
+                    groups.posts.map(post => (
+                        <article key={post._id}>
+                            <p>{post.user}</p>
+                            <p>{post.body}</p>
+                        </article>
+                    ))
+                }
+            </section>
         </div>
     );
 }
