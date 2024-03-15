@@ -170,7 +170,11 @@ const questionSchema = new Schema({
                 ref: "User"
             }
         }
-    ]
+    ],
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const answerSchema = new Schema({
