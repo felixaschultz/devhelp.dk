@@ -42,6 +42,7 @@ export default function QuestionsToMe(){
                         <Link className="question" to={`/question/${question._id}`} key={question._id}>
                             <h2>{question.title}</h2>
                             <p>{question.body}</p>
+                            <p>{question?.files?.length}</p>
                         </Link>
                     )).sort((a, b) => new Date(b.date) - new Date(a.date))}
                 </section>
