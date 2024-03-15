@@ -115,11 +115,11 @@ export default function Ask() {
                                 <input className="input-fields" id="title" name="title" type="text" placeholder="Title" />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
-                                <label htmlFor="file">Upload a file</label>
+                                {/* <label htmlFor="file">Upload a file</label>
                                 <input className="input-fields" type="file" id="file" name="files" onChange={handleFileChange} multiple />
                                 <section id="files">
                                     <h3>Appended files</h3>
-                                </section>
+                                </section> */}
                                 <section className="grid">
                                     <section>
                                         <label htmlFor="public">Vil du offentliggør dit spørgsmål?</label>
@@ -139,8 +139,9 @@ export default function Ask() {
 export const action = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
     const body = await request.formData();
-    const { title, to, question, shouldBePublic, files } = Object.fromEntries(body);
-    const uploadedFiles = [];
+    const { title, to, question, shouldBePublic } = Object.fromEntries(body);
+    /* const files = body.get("files");
+    const uploadedFiles = []; */
     const resend = new Resend(process.env.RESENDGRID_API_KEY);
     if(!user){
         return new Response("Unauthorized", {
@@ -155,27 +156,34 @@ export const action = async ({ request }) => {
         };
     }
 
-    if(files){
+    /* if(files){
         const file = Array.from(files);
-        file.forEach(async f => {
-            const { url, error } = await uploadImage(f);
-            if(error){
-                return {
-                    error,
-                    status: 400
-                };
-            }
-            uploadedFiles.push(url);
+        const uploadPromises = file.map(f =>  uploadImage(f));
+        Promise.all(uploadPromises)
+        .then(results => {
+            results.forEach(({ url, error }) => {
+                if(error){
+                    return {
+                        error,
+                        status: 400
+                    };
+                }
+                uploadedFiles.push(url);
+                console.log("Uploaded file: ", url);
+            });
+        }).catch(error => {
+            console.error("Error uploading files: ", error);
         });
-    }
+    }else{
+        console.log("No files uploaded");
+    } */
 
     const newQuestion = await mongoose.model("Question").create({
         title: title,
         to: to,
         public: shouldBePublic === "on" ? true : false,
         user: user._id,
-        body: question,
-        files: uploadedFiles
+        body: question
     });
 
     if(!newQuestion){
