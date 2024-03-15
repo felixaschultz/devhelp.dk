@@ -143,7 +143,7 @@ export const action = async ({ request, params }) => {
         });
 
         return comment;
-    }else if(_action === "like") {
+    }else if(_action === "like-comment") {
         const groupId = new mongoose.Types.ObjectId(params?.id);
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
@@ -158,7 +158,7 @@ export const action = async ({ request, params }) => {
               ]
             }
           );
-    }else if(_action === "unlike") {
+    }else if(_action === "unlike-comment") {
         const groupId = new mongoose.Types.ObjectId(params?.id);
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
