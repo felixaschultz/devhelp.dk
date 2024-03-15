@@ -51,6 +51,89 @@ const userSchema = new Schema({
     ]
 });
 
+const Groups = new Schema({
+    group_name: {
+        type: String,
+        required: true
+    },
+    members: [
+        {
+            status: {
+                type: String,
+                default: "pending",
+                enum: ["pending", "accepted", "rejected"]
+            },
+            id: Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    description: {
+        type: String,
+        required: true
+    },
+    posts: [
+        {
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            },
+            body: {
+                type: String,
+                required: true
+            },
+            comments: [
+                {
+                    body: {
+                        type: String,
+                        required: true
+                    },
+                    user: {
+                        type: Schema.Types.ObjectId,
+                        ref: "User"
+                    },
+                    date: {
+                        type: Date,
+                        default: Date.now
+                    },
+                    likes: [
+                        {
+                            type: Schema.Types.ObjectId,
+                            ref: "User"
+                        }
+                    ],
+                    reply: [
+                        {
+                            body: {
+                                type: String,
+                                required: true
+                            },
+                            user: {
+                                type: Schema.Types.ObjectId,
+                                ref: "User"
+                            },
+                            likes: [
+                                {
+                                    type: Schema.Types.ObjectId,
+                                    ref: "User"
+                                }
+                            ],
+                            date: {
+                                type: Date,
+                                default: Date.now
+                            }
+                        }
+                    ]
+                }
+            ],
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    
+    ]
+});
+
 const blogPostSchema = new Schema({
     title: {
         type: String,
@@ -221,5 +304,10 @@ export const models = [
         name: "BlogPost",
         schema: blogPostSchema,
         collection: "blogposts",
+    },
+    {
+        name: "Group",
+        schema: Groups,
+        collection: "groups",
     }
 ]
