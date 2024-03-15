@@ -1,5 +1,5 @@
 # Welcome to devhelp.dk
-![devhelp.dk](/app/assets/landingPage-loggedout.png)
+![devhelp.dk](/app/asset/landingPage-loggedout.png)
 ## Development
 
 From your terminal:
