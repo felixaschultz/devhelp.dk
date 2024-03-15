@@ -82,6 +82,7 @@ export default function Group() {
                                     <p>Der er ingen posts i denne gruppe endnu.</p>
                                 )
                             }
+                            <section className="grid">
                             {
                                 groups.posts.map(post => (
                                     <section className="post-group" key={post._id}>
@@ -93,6 +94,7 @@ export default function Group() {
                                     </section>
                                 ))
                             }
+                            </section>
                         </section>
                     </>
                 )
