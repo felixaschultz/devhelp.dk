@@ -9,7 +9,10 @@ export const loader = async ({ request }) => {
         failureRedirect: "/"
     });
     const studyGroups = await mongoose.model("Group").find({
-        creator: new mongoose.Types.ObjectId(user?._id)
+        $or: [
+            { creator: new mongoose.Types.ObjectId(user?._id) },
+            { members: new mongoose.Types.ObjectId(user?._id) }
+        ]
     }).populate("creator").select("+group_name +description +creator.name");
 
     return { user, studyGroups };
