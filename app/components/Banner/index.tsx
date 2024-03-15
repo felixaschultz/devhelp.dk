@@ -13,7 +13,7 @@ function Banner({user, tags}) {
                 <div className="hero-tagline">
                     <img className="hero-logo" src={Logo} alt="DevHelp Logo" />
                     <p>Står du med udfordinger af dit projekt? Så står vores dygtige udvikler klar til at hjælpe dig.</p>
-                    <section className="flex">
+                    <section className="flex" style={{alignItems: "flex-start"}}>
                         {(!user) ? (
                             <div className="cta">
                                 <button className="btn" onClick={() => {
