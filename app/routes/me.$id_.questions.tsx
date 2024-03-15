@@ -44,7 +44,7 @@ export default function QuestionsToMe(){
                             <p>{question.body}</p>
                             <p>{question?.files?.length}</p>
                         </Link>
-                    )).sort((a, b) => new Date(b.date) - new Date(a.date))}
+                    )).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))}
                 </section>
             </div>
         </div>
