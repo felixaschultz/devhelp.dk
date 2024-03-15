@@ -7,6 +7,26 @@
     border-bottom: 1px solid #e4e4e4;
 }
 
+.group{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.group-picture{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.group-title{
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0;
+}
+
 .group-info{
     display: grid;
     grid-template-columns: 1fr 1fr;
