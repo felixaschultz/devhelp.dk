@@ -106,7 +106,12 @@ export default function App() {
             (open.open && open.type == "login") && (
                 <div className="popup">
                     <div className="popup_container">
-                        <Button className="close" onClick={() => setOpen(false)}>X</Button>
+                        <Button className="close" onClick={() => {
+                          if(sessionStorage.getItem('askButtonClicked')){
+                            sessionStorage.removeItem('askButtonClicked');
+                          }
+                          setOpen(false);
+                        }}>X</Button>
                         <Form action="/login" method="post">
                             <h2>Login</h2>
                             <label htmlFor="mail">Email</label>
