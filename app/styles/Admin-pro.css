@@ -36,3 +36,8 @@
     display: block;
     text-decoration: none;
 }
+
+.sidebar__navigation a:hover{
+    background-color: #333333;
+    border-radius: 5px;
+}
