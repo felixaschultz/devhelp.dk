@@ -27,7 +27,7 @@ export default function BlogEdit() {
     const {user, post} = useLoaderData();
     const fetcher = useFetcher();
     const [ image, setImage ] = useState(post?.image || null);
-    const [ tags, setTags ] = useState(post?.tags?.join(", "));
+    const [ tags, setTags ] = useState([...post?.tags]);
 
     return (
         <div className="content">
@@ -73,15 +73,25 @@ export default function BlogEdit() {
                             <h2>Tags</h2>
                         </label>
                         <input className="input-fields" type="text" id="tags" onChange={(e) => {
-                            setTags(e.target.value);
-                        }} name="tags" defaultValue={tags} />
+                            if(e.target.value.indexOf(",") !== -1){
+                                setTags([e.target.value.split(","), ...tags]);
+                                e.target.value = "";
+                            }
+                        }} name="tags" />
                         <input type="hidden" name="tags" value={
                             tags
                         } />
                         <p>Separate tags with a comma</p>
                         {
-                            tags && tags?.split(",")?.map((tag, index) => (
-                                <span key={index} className="tag">{tag}</span>
+                            tags && tags?.map((tag, index) => (
+                                <span key={index} className="tag">
+                                    {tag}
+                                    <button onClick={() => {
+                                        setTags(tags.filter((t, i) => i !== index));
+                                    }}>
+                                        X
+                                    </button>
+                                </span>
                             ))
                         }
                     </section>
