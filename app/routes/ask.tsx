@@ -95,7 +95,7 @@ export default function Ask() {
                 
                 ))}
                 {(openAskForm.open) && (
-                    <Form className="popup" method="post">
+                    <Form className="popup" method="post" encType="multipart/form-data">
                         <section className="popup_container">
                             <button className="close" onClick={() => setOpenAskForm({
                                 open: false,
@@ -114,6 +114,11 @@ export default function Ask() {
                                 <input className="input-fields" id="title" name="title" type="text" placeholder="Title" />
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
+                                <label htmlFor="file">Upload a file</label>
+                                <input className="input-fields" type="file" id="file" onChange={handleFileChange} multiple />
+                                <section id="files">
+                                    <h3>Appended files</h3>
+                                </section>
                                 <section className="grid">
                                     <section>
                                         <label htmlFor="public">Vil du offentliggør dit spørgsmål?</label>
@@ -182,4 +187,14 @@ export const action = async ({ request }) => {
             };
         }
     }
+}
+
+function handleFileChange(e) {
+    const file = Array.from(e.target.files);
+    const files = document.getElementById("files");
+    file.forEach(f => {
+        const p = document.createElement("p");
+        p.innerHTML += f.name;
+        files.appendChild(p);
+    });
 }
