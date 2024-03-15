@@ -68,3 +68,21 @@
 .tab:last-of-type{
     border-top-right-radius: 10px;
 }
+
+.member-container{
+    margin-top: 20px;
+    display: block;
+}
+
+.member{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.member-picture{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
