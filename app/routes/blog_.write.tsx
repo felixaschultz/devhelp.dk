@@ -55,9 +55,14 @@ export default function BlogWrite() {
 }
 
 export const action = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request, {
-        failureRedirect: "/",
-    });
+    const user = await authenticator.isAuthenticated(request);
+
+    if(!user){
+        throw new Response(null, {
+            status: 401,
+            statusText: "Unauthorized",
+        });
+    }
 
     const formData = await request.formData();
     const post = Object.fromEntries(formData);
