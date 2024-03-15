@@ -1,0 +1,9 @@
+.group-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background-color: rgb(181, 181, 181);
+    padding: 0 15px;
+    color: #363636;
+    margin-top: -20px;
+}

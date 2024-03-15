@@ -1,6 +1,7 @@
 import { authenticator } from "../services/auth.server";
 import { useLoaderData } from "@remix-run/react";
 import mongoose from "mongoose";
+import "../styles/Group.css";
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
     const groups = await mongoose.model("Group").findOne({
@@ -36,21 +37,25 @@ export default function Group() {
     return (
         <div className="content">
             <header className="group-info">
-                <p>Gruppe</p>
-                <h1>{groups.group_name}</h1>
-                <p>Gruppen har {groups.members.length + 1} medlemmer</p>
-                {
-                    memberStatus === "pending" && (
-                        <p>Du har en anmodning om at blive medlem af gruppen</p>
-                    )
-                }
-                {
-                    memberStatus === "accepted" && (
-                        <form method="post">
-                            <button type="submit" name="action" value="leave">Forlad gruppen</button>
-                        </form>
-                    )
-                }
+                <section>
+                    <p>Gruppe</p>
+                    <h1>{groups.group_name}</h1>
+                    <p>Gruppen har {groups.members.length + 1} medlemmer</p>
+                </section>
+                <section>
+                    {
+                        memberStatus === "pending" && (
+                            <p>Du har en anmodning om at blive medlem af gruppen</p>
+                        )
+                    }
+                    {
+                        memberStatus === "accepted" && (
+                            <form method="post">
+                                <button type="submit" name="action" value="leave">Forlad gruppen</button>
+                            </form>
+                        )
+                    }
+                </section>
             </header>
             <section className="posts">
                 <h2>Posts</h2>
