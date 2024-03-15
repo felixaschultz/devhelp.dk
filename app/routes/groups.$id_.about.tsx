@@ -31,6 +31,7 @@ export const meta = ({data}) => {
 export default function GroupAbout() {
     const { user, groups } = useLoaderData();
     const memberStatus = groups.members.find(member => member.user == user?._id)?.status;
+    groups.members.push({ user: groups.creator, status: "creator"});
     return (
         <div className="content">
             <header className="group-info">
@@ -59,6 +60,21 @@ export default function GroupAbout() {
             <section>
                 <h2>Beskrivelse</h2>
                 <p>{groups.description}</p>
+                <section>
+                    <h2>Medlemmer</h2>
+                    <ul>
+                        {
+                            groups.members.map(member => (
+                                <li className="member-container" key={member.user._id}>
+                                    <Link className="member" to={`/me/${member.user._id}`}>
+                                        <img className="member-picture" src={member.user.image} alt={member.user.username} />
+                                        <p>{member.user.name.firstname} {member.user.name.lastname}</p>
+                                    </Link>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </section>
             </section>
         </div>
     )
