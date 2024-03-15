@@ -198,7 +198,8 @@ export const action = async ({ request }) => {
         to: to,
         public: shouldBePublic === "on" ? true : false,
         user: user._id,
-        body: question
+        body: question,
+        files: uploadedFiles
     });
 
     if(!newQuestion){
