@@ -86,11 +86,18 @@ export default function Ask() {
                         <h2>{user.name.firstname} {user.name.lastname}</h2>
                         <button className="btn" onClick={handleClicked} data-userId={user._id} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} om hjælp</button>
                         {
-                            user.skills.map((skill, index) => (
-                                <p key={index}>
-                                    {skill.name} - {skill.level} år
-                                </p>
-                            ))
+                            (user?.skills.length > 0) && (
+                                <section style={{maxWidth: "271px"}}>
+                                    <h3>Skills</h3>
+                                    {
+                                        user.skills.map((skill, index) => (
+                                            <p className="tag" key={index}>
+                                                {skill.name} - {skill.level} år
+                                            </p>
+                                        ))
+                                    }
+                                </section>
+                            )
                         }
                     </div>
                 
