@@ -72,29 +72,33 @@ export default function BlogEdit() {
                         <label htmlFor="tags">
                             <h2>Tags</h2>
                         </label>
-                        <input className="input-fields" type="text" id="tags" onChange={(e) => {
-                            if(e.target.value.indexOf(",") !== -1){
-                                setTags([e.target.value.split(","), ...tags]);
-                                e.target.value = "";
+                        <section className="tag-container">
+                            {
+                                tags && tags?.map((tag, index) => (
+                                    <span key={index} className="tag">
+                                        {tag}
+                                        <button type="button" onClick={(e) => {
+                                            e.preventDefault();
+                                            setTags(tags.filter((t, i) => i !== index));
+                                        }}>
+                                            X
+                                        </button>
+                                    </span>
+                                )).reverse()
                             }
-                        }} name="tags" />
+                            <input className="input-fields" type="text" id="tags" placeholder="add a tag" onChange={(e) => {
+                                if(e.target.value.indexOf(",") !== -1){
+                                    if(e.target.value.split(",")[0].trim() !== ""){
+                                        setTags([e.target.value.split(","), ...tags]);
+                                        e.target.value = "";
+                                    }
+                                }
+                            }} name="tags" />
+                        </section>
                         <input type="hidden" name="tags" value={
                             tags
                         } />
                         <p>Separate tags with a comma</p>
-                        {
-                            tags && tags?.map((tag, index) => (
-                                <span key={index} className="tag">
-                                    {tag}
-                                    <button type="button" onClick={(e) => {
-                                        e.preventDefault();
-                                        setTags(tags.filter((t, i) => i !== index));
-                                    }}>
-                                        X
-                                    </button>
-                                </span>
-                            ))
-                        }
                     </section>
                     <section className="flex">
                         <button className="post-btn" type="submit">Submit</button>

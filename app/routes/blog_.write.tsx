@@ -46,20 +46,7 @@ export default function BlogWrite() {
                         <label htmlFor="content">Content</label>
                         <textarea className="input-fields textarea" id="content" name="body" />
                     </div>
-                    <section className="tags">
-                        <label htmlFor="tags">
-                            <h2>Tags</h2>
-                        </label>
-                        <input className="input-fields" type="text" id="tags" onChange={(e) => {
-                            if(e.target.value.indexOf(",") !== -1){
-                                setTags([e.target.value.split(","), ...tags]);
-                                e.target.value = "";
-                            }
-                        }} name="tags" />
-                        <input type="hidden" name="tags" value={
-                            tags
-                        } />
-                        <p>Separate tags with a comma</p>
+                    <section className="tag-container">
                         {
                             tags && tags?.map((tag, index) => (
                                 <span key={index} className="tag">
@@ -71,8 +58,19 @@ export default function BlogWrite() {
                                         X
                                     </button>
                                 </span>
-                            ))
+                            )).reverse()
                         }
+                        <input className="input-fields" type="text" id="tags" placeholder="add a tag" onChange={(e) => {
+                            if(e.target.value.indexOf(",") !== -1){
+                                if(e.target.value.split(",")[0].trim() !== ""){
+                                    setTags([e.target.value.split(","), ...tags]);
+                                    e.target.value = "";
+                                }
+                            }
+                        }} />
+                        <input type="hidden" name="tags" value={
+                            tags
+                        } />
                     </section>
                     <section className="flex">
                         <button className="post-btn" type="submit">Submit</button>
