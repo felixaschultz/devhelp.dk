@@ -51,7 +51,7 @@ const userSchema = new Schema({
     ]
 });
 
-const Groups = new Schema({
+const StudyGroups = new Schema({
     group_name: {
         type: String,
         required: true
@@ -307,7 +307,7 @@ export const models = [
     },
     {
         name: "Group",
-        schema: Groups,
+        schema: StudyGroups,
         collection: "groups",
     }
 ]
