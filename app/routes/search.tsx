@@ -82,12 +82,12 @@ export default function Search(){
             <ul className="search-results">
                 {items.map(item => (
                     <li key={item.url}>
-                        <Link to={item.url}>
-                            <h2>{item.type}</h2>
-                            <h3>{item.title}</h3>
+                        <Link className="result" to={item.url}>
+                            <h3 className="type">{item.type}</h3>
+                            <h2 className="title">{item.title}</h2>
                             {(item.type === "blog") && <p>{item.description}</p>}
                             {(item.type === "user") && item.description?.map(skill => (
-                                <p key={skill?.name}>{skill?.name}</p>
+                                <p className="skill" key={skill?.name}>{skill?.name}</p>
                             ))}
                         </Link>
                     </li>

@@ -1,0 +1,42 @@
+.search-results{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.search-results li{
+    list-style: none;
+    width: 100%;
+
+}
+
+.result{
+    width: 100%;
+    display: block;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #b8b8b8;
+    color: #363636;
+    border-radius: 5px;
+}
+
+.type{
+    font-size: 14px;
+    font-weight: 200;
+    margin-bottom: 5px;
+}
+
+.title{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.skill{
+    display: inline-block;
+    padding: 6px 15px;
+    margin: 5px;
+    background-color: rgb(192, 159, 83);
+    color: #e4e4e4;
+    border-radius: 5px;
+}
