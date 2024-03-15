@@ -56,6 +56,10 @@ const StudyGroups = new Schema({
         type: String,
         required: true
     },
+    banner: {
+        type: String,
+        default: "https://scontent-uc-d2c-7.intastellaraccounts.com/a/s/ul/p/avtr46-img/1.jpg"
+    },
     creator: {
         type: Schema.Types.ObjectId,
         ref: "User"
