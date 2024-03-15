@@ -15,9 +15,24 @@
     border: 1px solid #cacaca;
 }
 
-.sidebar-navigation{
+.sidebar{
     margin-top: 88px;
     border-right: 1px solid #5d5d5d;
     height: 100%;
-    padding: 15px;   
+    padding: 15px 0;
+    padding-right: 15px;
+}
+
+.sidebar__navigation{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar__navigation a{
+    color: #e4e4e4;
+    padding: 15px;
+    width: 100%;
+    display: block;
+    text-decoration: none;
 }
