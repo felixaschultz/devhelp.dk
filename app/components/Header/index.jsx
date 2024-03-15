@@ -23,15 +23,24 @@ export default function Header({setOpen, open, user}) {
                                 borderBottom: isActive
                                     ? "2px solid rgb(155, 121, 44)"
                                     : "",
+                                color: isActive
+                                    ? "#fff"
+                                    : "",
                             })} className="navitem" to="/ask">Ask a Professional</NavLink>
                         <NavLink style={({ isActive }) => ({
                                 borderBottom: isActive
                                     ? "2px solid rgb(155, 121, 44)"
                                     : "",
+                                color: isActive
+                                    ? "#fff"
+                                    : "",
                             })} className="navitem" to="/blog">Blog</NavLink>
                         <NavLink style={({ isActive }) => ({
                                 borderBottom: isActive
                                     ? "2px solid rgb(155, 121, 44)"
+                                    : "",
+                                color: isActive
+                                    ? "#fff"
                                     : "",
                             })} className="navitem" to="/about">About</NavLink>
                     </section>
@@ -43,6 +52,9 @@ export default function Header({setOpen, open, user}) {
                                             borderBottom: isActive
                                                 ? "2px solid rgb(155, 121, 44)"
                                                 : "",
+                                            color: isActive
+                                                ? "#fff"
+                                                : "",
                                         })} to={`/me/${user?._id}/questions`} >
                                         Forspørgsler
                                     </NavLink> : null}
@@ -50,12 +62,18 @@ export default function Header({setOpen, open, user}) {
                                         borderBottom: isActive
                                             ? "2px solid rgb(155, 121, 44)"
                                             : "",
+                                        color: isActive
+                                            ? "#fff"
+                                            : "",
                                     })} to="/blog/write" >
                                     Ny blogindlæg
                                     </NavLink>
                                     <NavLink className="navitem" style={({ isActive }) => ({
                                         borderBottom: isActive
                                             ? "2px solid rgb(155, 121, 44)"
+                                            : "",
+                                        color: isActive
+                                            ? "#fff"
                                             : "",
                                     })} to="/groups" >
                                         Grupper
