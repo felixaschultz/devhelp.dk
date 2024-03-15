@@ -68,6 +68,15 @@ export const loader = async ({request, params}) => {
     return {q, items};
 }
 
+export const meta = ({data}) => {
+    return [
+        {
+            title: "Search results for " + data.q + " | Devhelp.dk",
+            description: "Search results for " + data.q
+        }
+    ]
+}
+
 export default function Search(){
     const {q, items} = useLoaderData();
     return (
