@@ -13,7 +13,7 @@ export const loader = async ({ request }) => {
             { creator: new mongoose.Types.ObjectId(user?._id) },
             { members: new mongoose.Types.ObjectId(user?._id) }
         ]
-    }).populate("creator").select("+group_name +description +creator.name");
+    }).select("group_name description");
 
     return { user, studyGroups };
 };
