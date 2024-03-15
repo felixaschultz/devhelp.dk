@@ -1,5 +1,6 @@
 import { authenticator } from "../services/auth.server";
 import { useLoaderData, useFetcher, Link } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
 import { useEffect, useRef } from "react";
 import mongoose from "mongoose";
 import "../styles/Group.css";
@@ -15,6 +16,12 @@ export const loader = async ({ request, params }) => {
             /* {  */_id: new mongoose.Types.ObjectId(params?.id)/* } */
         /* ] */
     }).populate("creator").populate("members.user").populate("posts.user").populate("posts.comments");
+
+    if(groups.creator._id != user?._id){
+        if(!groups.members.find(member => member.user == user?._id)){
+            return redirect("/groups/" + params?.id + "/about");
+        }
+    }
 
     return { user, groups };
 }
