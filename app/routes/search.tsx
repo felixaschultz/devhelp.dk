@@ -26,7 +26,7 @@ export const loader = async ({request, params}) => {
             {
                 "skills": {
                   $elemMatch: {
-                    key: new RegExp(q, "i")
+                    name: new RegExp(q, "i"),
                   }
                 }
             }
@@ -79,7 +79,11 @@ export default function Search(){
                     <li key={item.url}>
                         <Link to={item.url}>
                             <h2>{item.type}</h2>
-                            <p>{item.title}</p>
+                            <h3>{item.title}</h3>
+                            {(item.type === "blog") && <p>{item.description}</p>}
+                            {(item.type === "user") && item.description?.map(skill => (
+                                <p key={skill?.name}>{skill?.name}</p>
+                            ))}
                         </Link>
                     </li>
                 ))}
