@@ -1,0 +1,12 @@
+.grid{
+    place-items: flex-start !important;
+}
+
+.question{
+    width: 100%;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px 0;
+    background-color: #252525;
+    border: 1px solid #cacaca;
+}

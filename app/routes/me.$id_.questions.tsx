@@ -1,6 +1,7 @@
 import { authenticator } from "../services/auth.server";
 import mongoose from "mongoose";
 import { useLoaderData, Link } from "@remix-run/react";
+import "../styles/Admin-pro.css";
 
 export const loader = async ({request}) => {
     const user = await authenticator.isAuthenticated(request, {
@@ -28,16 +29,14 @@ export default function QuestionsToMe(){
             
             <p>Here are the questions that have been asked to you.</p>
             {questionForMe.length === 0 && <p>No questions have been asked to you yet.</p>}
-            <ul>
+            <section className="grid">
                 {questionForMe.map(question => (
-                    <li key={question._id}>
-                        {question.public ? "Public" : "Private"}
+                    <Link className="question" to={`/question/${question._id}`} key={question._id}>
                         <h2>{question.title}</h2>
                         <p>{question.body}</p>
-                        <Link to={`/question/${question._id}`}>Read more</Link>
-                    </li>
-                ))}
-            </ul>
+                    </Link>
+                )).sort((a, b) => new Date(b.date) - new Date(a.date))}
+            </section>
         </div>
     );
 }

@@ -12,6 +12,15 @@ export const loader = async ({request, params}) => {
     return {question, user};
 };
 
+export const meta = ({data}) => {
+    return [
+        {
+            title: data.question.title,
+            description: data.question.body
+        }
+    ];
+}
+
 export default function Question(){
     const {question, user} = useLoaderData();
     return (
