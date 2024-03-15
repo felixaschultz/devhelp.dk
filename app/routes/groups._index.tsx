@@ -55,9 +55,8 @@ export default function Index() {
             <section className="grid">
                 {studyGroups.length > 0 && studyGroups?.map(group => (
                     <Link to={`/groups/${group._id}`} className="group" key={group?._id}>
-                        <img src="https://via.placeholder.com/150" alt="Group" />
-                        <h2>{group?.group_name}</h2>
-                        <p>{group?.description}</p>
+                        <img src="https://via.placeholder.com/150" alt="Group" className="group-picture" />
+                        <h2 className="group-title">{group?.group_name}</h2>
                     </Link>
                 ))}
             </section>
