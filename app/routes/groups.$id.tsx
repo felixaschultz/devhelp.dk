@@ -1,5 +1,5 @@
 import { authenticator } from "../services/auth.server";
-import { useLoaderData, useFetcher } from "@remix-run/react";
+import { useLoaderData, useFetcher, Link } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import mongoose from "mongoose";
 import "../styles/Group.css";
@@ -48,6 +48,8 @@ export default function Group() {
                     <p className="group-type">Gruppe</p>
                     <h1 className="group-name">{groups.group_name}</h1>
                     <p className="group-member-info">Gruppen har { groups.members.filter(member => member.status === "accepted").length + 1} medlemmer</p>
+                    <Link className="tab active" to={`/groups/${groups._id}`}>Home</Link>
+                    <Link className="tab" to={`/groups/${groups._id}/about`}>Om</Link>
                 </section>
                 <section>
                     {
