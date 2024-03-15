@@ -63,7 +63,7 @@ const Groups = new Schema({
                 default: "pending",
                 enum: ["pending", "accepted", "rejected"]
             },
-            id: Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "User"
         }
     ],
