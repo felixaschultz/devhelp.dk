@@ -24,8 +24,8 @@ export default function QuestionsToMe(){
     const {user, questionForMe} = useLoaderData();
     return (
         <div className="grid grid-sidebar">
-            <aside className="sidebar-navigation">
-                <nav>
+            <aside className="sidebar">
+                <nav className="sidebar__navigation">
                     <Link to="/admin">Admin</Link>
                     <Link to="/admin/pro">Pro</Link>
                     <Link to="/admin/questions">Questions</Link>
