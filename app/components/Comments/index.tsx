@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import like from "../../assets/like-icon.svg";
 import likeFillOut from "../../assets/like-icon-fillout.svg";
 
-export default function Comments({ post, user }) {
+export default function Comments({ postId, post, user }) {
     const fetcher = useFetcher();
     const [newReply, setReply] = useState(false);
     const [activeReply, setActiveReply] = useState({
         _id: null,
         user: null
     });
-    
+
     useEffect(() => {
         const textarea = document.querySelectorAll('.textarea');
         textarea.forEach(textarea => {
@@ -29,6 +29,11 @@ export default function Comments({ post, user }) {
                     <div>
                         <label htmlFor="comment">Comment</label>
                         <textarea className="input-fields textarea comment" id="comment" name="body" placeholder="Write your comment" />
+                        {
+                            (postId) && (
+                                <input type="hidden" name="postId" value={postId} />
+                            )
+                        }
                         <input type="hidden" name="user" value={user?._id} />
                     </div>
                     { user ? <>
@@ -46,17 +51,17 @@ export default function Comments({ post, user }) {
                         <>
                             <div className="comment-group">
                                 <div key={index} className="comment">
-                                    <p>{comment.body}</p>
+                                    <p>{comment?.body}</p>
                                     <section className="comment-reply">
                                         <p className="user">
-                                            <img src={comment.user.image} alt="" className="comment-profileImage" /> {comment.user.name.firstname}
+                                            <img src={comment?.user?.image} alt="" className="comment-profileImage" /> {comment?.user?.name?.firstname}
                                             <span className="dateTime">{Intl.DateTimeFormat("da-DK", {
                                                 year: "numeric",
                                                 month: "long",
                                                 day: "2-digit",
                                                 hour: "2-digit",
                                                 minute: "2-digit"
-                                            }).format(new Date(comment.date))}</span>
+                                            }).format(new Date(comment?.date))}</span>
                                             <fetcher.Form method="post">
                                                 {
                                                     comment?.likes?.includes(user?._id) ? (
@@ -65,15 +70,15 @@ export default function Comments({ post, user }) {
                                                         <button disabled={!user} className="like" name="_action" value="like-comment"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button>
                                                     )
                                                 }
-                                                <input type="hidden" name="commentId" value={comment._id} />
+                                                <input type="hidden" name="commentId" value={comment?._id} />
                                             </fetcher.Form>
                                         </p>
                                         { user && (
                                             <button className="reply_btn" onClick={ () => {
                                                 setReply(!newReply),
                                                 setActiveReply({
-                                                    _id: comment._id,
-                                                    user: comment.user.name.firstname
+                                                    _id: comment?._id,
+                                                    user: comment?.user?.name?.firstname
                                                 })
                                             }}>Reply</button>
                                         )}
