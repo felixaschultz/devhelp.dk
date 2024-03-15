@@ -16,12 +16,15 @@ export const loader = async ({ request, params }) => {
     return { user, groups };
 }
 
-export const meta = [
-    {
-        title: "Group | Devhelp.dk",
-        description: "Group"
-    }
-];
+export const meta = ({data}) => {
+
+    return [
+        {
+            title: data?.groups?.group_name + " | Devhelp.dk",
+            description: "Group"
+        }
+    ]
+};
 
 export default function Group() {
     const { user, groups } = useLoaderData();
