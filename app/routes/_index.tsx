@@ -31,7 +31,7 @@ export const meta: MetaFunction = () => {
     },
     {
         name: "og:description",
-        content: ""
+        content: "Din digitale partner til udvikling af Webløsninger"
     },
     {
         name: "og:image",
