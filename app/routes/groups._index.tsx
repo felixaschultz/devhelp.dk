@@ -2,7 +2,7 @@ import { authenticator } from "../services/auth.server";
 import { useLoaderData, useOutletContext, Form, Link } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import mongoose from "mongoose";
-
+import "../styles/Group.css";
 
 export const loader = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request, {
@@ -30,7 +30,15 @@ export default function Index() {
 
     return (
         <div className="content">
-            <h1>Grupper</h1>
+            <header className="groups-landingheader">
+                <h1>Grupper</h1>
+                <button className="btn" onClick={() => {
+                    setOpen({
+                        open: true,
+                        type: "createGroup"
+                    });
+                }}>Opret ny gruppe</button>
+            </header>
             {
                 studyGroups.length === 0 && (
                     <>
@@ -61,9 +69,9 @@ export default function Index() {
                             <h2>Opret gruppe</h2>
                             <fieldset>
                                 <label htmlFor="groupname">Gruppenavn</label>
-                                <input type="text" id="groupname" name="groupname" />
+                                <input className="input-fields" type="text" id="groupname" name="groupname" />
                                 <label htmlFor="description">Beskrivelse</label>
-                                <textarea id="description" name="description"></textarea>
+                                <textarea className="input-fields textarea" id="description" name="description"></textarea>
                                 <button className="btn" type="submit">Opret</button>
                             </fieldset>
                         </section>
