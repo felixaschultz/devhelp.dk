@@ -70,6 +70,16 @@ export default function BlogEntry() {
             }
              <div className="content">
                 <h1>{post.title}</h1>
+                {post.tags && (
+                    <div className="tags">
+                        {
+                            post.tags.map((tag, index) => (
+                                <Link key={index} to={"/blog?tags=" + tag} className="tag">{tag}</Link>
+                            ))
+                        }
+                    </div>
+                
+                )}
                 <Link className="created_by" to={"/me/" + post.user._id}>By {post.user.name.firstname} {post.user.name.lastname}</Link>
                 {
                     post.likes && (

@@ -53,6 +53,19 @@
     color: rgb(192, 159, 83);
 }
 
+.tag{
+    background-color: #e1e1e1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #606060;
+    display: inline-block;
+    margin: 0px 10px 20px;
+}
+
+.tag:first-child{
+    margin-left: 0;
+}
+
 /* .like::before{
     content: url('/assets/like.png');
 }
