@@ -73,7 +73,7 @@ export default function BlogWrite() {
                         } />
                     </section>
                     <section className="flex">
-                        <button className="post-btn" type="submit">Submit</button>
+                        <button className="post-btn" type="submit">Save</button>
                     </section>
                 </fieldset>
             </fetcher.Form>
