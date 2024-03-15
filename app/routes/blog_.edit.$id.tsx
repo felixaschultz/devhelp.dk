@@ -164,7 +164,7 @@ export const action = async ({ request, params }) => {
     const newPost = await mongoose.models.BlogPost.findByIdAndUpdate(postId, post);
 
     if(newPost) {
-        return redirect("/blog/" + newPost._id);
+        return newPost
     }
 
 }
