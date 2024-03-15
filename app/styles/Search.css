@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
+    padding: 0;
 }
 
 .search-results li{
