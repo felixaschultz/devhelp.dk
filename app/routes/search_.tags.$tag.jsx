@@ -21,7 +21,8 @@ export default function SearchTagsTag() {
             <ul className="search-results">
                 {items.map(item => (
                     <li key={item.url}>
-                        <Link className="result" to={item.url}>
+                        {console.log(item)}
+                        <Link className="result" to={`/blog/${item._id}`}>
                             <h2 className="title">{item.title}</h2>
                             {(item.type === "blog") && <p>{item.description}</p>}
                             {(item.type === "user") && item.description?.map(skill => (
