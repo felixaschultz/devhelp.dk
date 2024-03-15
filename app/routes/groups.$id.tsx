@@ -7,7 +7,11 @@ import "../styles/Group.css";
 import Comments from "~/components/Comments";
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
-    const groups = await mongoose.model("Group").findOne({_id: new mongoose.Types.ObjectId(params?.id)}).populate("creator").populate("members.user").populate("posts.user").populate("posts.comments");
+    const groups = await mongoose.model("Group").findOne({_id: new mongoose.Types.ObjectId(params?.id)})
+        .populate("creator")
+            .populate("members.user")
+                .populate("posts.user")
+                    .populate("posts.comments");
 
     if(groups.creator._id != user?._id){
         if(!groups.members.find(member => member.user == user?._id)){
