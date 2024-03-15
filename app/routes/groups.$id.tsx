@@ -22,6 +22,12 @@ export const loader = async ({ request, params }) => {
         }
     }
 
+    if(groups.creator._id != user?._id){
+        if(!groups.members.find(member => member.user == user?._id)){
+            return redirect("/groups/" + params?.id + "/about");
+        }
+    }
+
     return { user, groups };
 }
 
