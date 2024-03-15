@@ -4,6 +4,7 @@ import { authenticator } from "~/services/auth.server";
 import mongoose, { set } from "mongoose";
 import "../styles/ProUser.css";
 import { Resend } from 'resend';
+import { uploadImage } from "~/services/uploadImage";
 
 export const loader = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
@@ -115,7 +116,7 @@ export default function Ask() {
                                 <label htmlFor="question">Question</label>
                                 <textarea className="input-fields" id="question" name="question" placeholder={`Write your Question here...`} />
                                 <label htmlFor="file">Upload a file</label>
-                                <input className="input-fields" type="file" id="file" onChange={handleFileChange} multiple />
+                                <input className="input-fields" type="file" id="file" name="files" onChange={handleFileChange} multiple />
                                 <section id="files">
                                     <h3>Appended files</h3>
                                 </section>
@@ -138,11 +139,33 @@ export default function Ask() {
 export const action = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
     const body = await request.formData();
-    const { title, to, question, shouldBePublic } = Object.fromEntries(body);
+    const { title, to, question, shouldBePublic, files } = Object.fromEntries(body);
+    const uploadedFiles = [];
     const resend = new Resend(process.env.RESENDGRID_API_KEY);
     if(!user){
         return new Response("Unauthorized", {
             status: 401
+        });
+    }
+
+    if(!title || !to || !question){
+        return {
+            error: "All fields are required",
+            status: 400
+        };
+    }
+
+    if(files){
+        const file = Array.from(files);
+        file.forEach(async f => {
+            const { url, error } = await uploadImage(f);
+            if(error){
+                return {
+                    error,
+                    status: 400
+                };
+            }
+            uploadedFiles.push(url);
         });
     }
 
@@ -151,7 +174,8 @@ export const action = async ({ request }) => {
         to: to,
         public: shouldBePublic === "on" ? true : false,
         user: user._id,
-        body: question
+        body: question,
+        files: uploadedFiles
     });
 
     if(!newQuestion){
