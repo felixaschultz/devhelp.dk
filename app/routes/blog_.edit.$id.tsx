@@ -101,7 +101,7 @@ export default function BlogEdit() {
                         <p>Separate tags with a comma</p>
                     </section>
                     <section className="flex">
-                        <button className="post-btn" type="submit">Submit</button>
+                        <button className="post-btn" type="submit">Save</button>
                     </section>
                 </fieldset>
             </fetcher.Form>
