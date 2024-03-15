@@ -31,6 +31,10 @@
     margin: 10px auto;
 }
 
+.tag-container{
+    margin-top: 5px;
+}
+
 @media screen and (max-width: 768px){
     .banner{
         height: auto;
