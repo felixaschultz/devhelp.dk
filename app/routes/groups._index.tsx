@@ -19,7 +19,7 @@ export const loader = async ({ request }) => {
 };
 export const meta = [
     {
-        title: "Groups | Devhelp.dk",
+        title: "Grupper | Devhelp.dk",
         description: "Groups"
     }
 ];
