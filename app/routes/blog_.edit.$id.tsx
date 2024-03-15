@@ -27,6 +27,7 @@ export default function BlogEdit() {
     const {user, post} = useLoaderData();
     const fetcher = useFetcher();
     const [ image, setImage ] = useState(post?.image || null);
+    const [ tags, setTags ] = useState(post?.tags?.join(", "));
 
     return (
         <div className="content">
@@ -67,6 +68,23 @@ export default function BlogEdit() {
                         </label>
                         <textarea className="input-fields textarea" id="content" name="body" defaultValue={post?.body} />
                     </div>
+                    <section className="tags">
+                        <label htmlFor="tags">
+                            <h2>Tags</h2>
+                        </label>
+                        <input className="input-fields" type="text" id="tags" onChange={(e) => {
+                            setTags(e.target.value);
+                        }} name="tags" defaultValue={tags} />
+                        <input type="hidden" name="tags" value={
+                            tags
+                        } />
+                        <p>Separate tags with a comma</p>
+                        {
+                            tags && tags?.split(",")?.map((tag, index) => (
+                                <span key={index} className="tag">{tag}</span>
+                            ))
+                        }
+                    </section>
                     <section className="flex">
                         <button className="post-btn" type="submit">Submit</button>
                     </section>
@@ -126,6 +144,7 @@ export const action = async ({ request, params }) => {
         newImage = hiddenImage;
     }
     post.image = newImage;
+    post.tags = [...new Set(post.tags.split(",").map(tag => tag.trim()))];
 
     const newPost = await mongoose.models.BlogPost.findByIdAndUpdate(postId, post);
 
