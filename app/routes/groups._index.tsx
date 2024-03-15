@@ -25,8 +25,6 @@ export default function Index() {
     const { user, studyGroups } = useLoaderData();
     const [open, setOpen] = useOutletContext();
 
-    console.log(studyGroups);
-
     return (
         <div className="content">
             <h1>Grupper</h1>
