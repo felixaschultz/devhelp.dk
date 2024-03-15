@@ -1,5 +1,5 @@
 import "./Style.css";
-import { Link } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import Button from "../Button";
 import { Form } from "@remix-run/react";
 import Logo from "../../assets/devhelp-logo-white.svg";
@@ -19,23 +19,47 @@ export default function Header({setOpen, open, user}) {
                         })
                     }}>Menu</button>
                     <section className="flex nav" style={(open.open && open.type === "menu") ? {display: "block"} : {}} >
-                        <Link className="navitem" to="/ask">Ask a Professional</Link>
-                        <Link className="navitem" to="/blog">Blog</Link>
-                        <Link className="navitem" to="/about">About</Link>
+                        <NavLink style={({ isActive }) => ({
+                                borderBottom: isActive
+                                    ? "2px solid rgb(155, 121, 44)"
+                                    : "",
+                            })} className="navitem" to="/ask">Ask a Professional</NavLink>
+                        <NavLink style={({ isActive }) => ({
+                                borderBottom: isActive
+                                    ? "2px solid rgb(155, 121, 44)"
+                                    : "",
+                            })} className="navitem" to="/blog">Blog</NavLink>
+                        <NavLink style={({ isActive }) => ({
+                                borderBottom: isActive
+                                    ? "2px solid rgb(155, 121, 44)"
+                                    : "",
+                            })} className="navitem" to="/about">About</NavLink>
                     </section>
                     <section className="btn_container">
                         {user ? (
                             <>
                                 <div className="logged_in-nav">
-                                    {(user?.role === "pro") ? <Link className="navitem" to={`/me/${user?._id}/questions`} >
+                                    {(user?.role === "pro") ? <NavLink className="navitem" style={({ isActive }) => ({
+                                            borderBottom: isActive
+                                                ? "2px solid rgb(155, 121, 44)"
+                                                : "",
+                                        })} to={`/me/${user?._id}/questions`} >
                                         Forspørgsler
-                                    </Link> : null}
-                                    <Link className="navitem" to="/blog/write" >
+                                    </NavLink> : null}
+                                    <NavLink className="navitem" style={({ isActive }) => ({
+                                        borderBottom: isActive
+                                            ? "2px solid rgb(155, 121, 44)"
+                                            : "",
+                                    })} to="/blog/write" >
                                     Ny blogindlæg
-                                    </Link>
-                                    <Link className="navitem" to="/groups" >
+                                    </NavLink>
+                                    <NavLink className="navitem" style={({ isActive }) => ({
+                                        borderBottom: isActive
+                                            ? "2px solid rgb(155, 121, 44)"
+                                            : "",
+                                    })} to="/groups" >
                                         Grupper
-                                    </Link>
+                                    </NavLink>
                                     <Link to={"/me/" + user?._id} className="user">
                                         <img onError={(e) => {
                                             e.target.src = "https://scontent-uc-d2c-7.intastellaraccounts.com/a/s/ul/p/avtr46-img/felix.schultz@intastellar.com/profile/i3ek74fxmlnpeeazw6wadfk6lhxealofk7z6391v8a60reol0uyf4w7vic9jab2xjzmix1d3otvrsj2bv6i604id2j5j0v9nm0vlb9qv3wfb26tvw4otd0n8q49ugm4e3ew4rikm7di8qco0w33kz03nmz0r45g0bos12sbk2vra7vdmw8ewpkydo97y8f1ycr4i82eu.jpg";
