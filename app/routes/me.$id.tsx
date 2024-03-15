@@ -76,6 +76,12 @@ export default function Me() {
                         </div>
                     )
                 }
+                <h2>Skills</h2>
+                <section className="skills">
+                    {userData?.skills?.map((skill, index) => (
+                        <p key={index}>{skill.name} - {skill.level}</p>
+                    ))}
+                </section>
             </section>
             <section className="userContent">
                 <h2>{userData.name.firstname}´s top 3 popular blog posts</h2>
