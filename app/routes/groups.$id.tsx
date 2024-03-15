@@ -3,6 +3,7 @@ import { useLoaderData, useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import mongoose from "mongoose";
 import "../styles/Group.css";
+import Comments from "~/components/Comments";
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
     const groups = await mongoose.model("Group").findOne({
@@ -83,10 +84,13 @@ export default function Group() {
                             }
                             {
                                 groups.posts.map(post => (
-                                    <article key={post._id}>
-                                        <p>{post.user.name.firstname} {post.user.name.lastname}</p>
-                                        <p>{post.body}</p>
-                                    </article>
+                                    <section className="post-group" key={post._id}>
+                                        <article className="post">
+                                            <p>{post.user.name.firstname} {post.user.name.lastname}</p>
+                                            <p>{post.body}</p>
+                                        </article>
+                                        <Comments postId={post._id} post={post} user={user._id} />
+                                    </section>
                                 ))
                             }
                         </section>
@@ -106,8 +110,8 @@ export const action = async ({ request, params }) => {
         });
     }
 
-    const body = await request.formData();
-    const { _action, postContent } = Object.fromEntries(body);
+    const formData = await request.formData();
+    const { _action, postContent } = Object.fromEntries(formData);
 
     if(_action === "post"){
         const post = await mongoose.model("Group").findOneAndUpdate({
@@ -123,5 +127,21 @@ export const action = async ({ request, params }) => {
         });
 
         return post;
+    }else if(_action === "comment"){
+        const { user, body, postId } = Object.fromEntries(formData);
+        const comment = await mongoose.model("Group").findOneAndUpdate({
+            _id: new mongoose.Types.ObjectId(params?.id),
+            "posts._id": new mongoose.Types.ObjectId(postId)
+        }, {
+            $push: {
+                "posts.$.comments": {
+                    user: user?._id,
+                    body: body,
+                    date: new Date()
+                }
+            }
+        });
+
+        return comment;
     }
 };

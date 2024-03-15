@@ -39,3 +39,10 @@
     margin-top: -5px;
     color: #696969;
 }
+
+.post-group{
+    background-color: #363636;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
