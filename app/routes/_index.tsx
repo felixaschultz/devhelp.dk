@@ -74,6 +74,8 @@ export default function Index() {
   // Step 5: Map the pairs back to just the tags
   const top5Tags = top5Pairs.map(pair => pair[0]).filter(tag => tag !== "null" && tag !== "undefined" && tag !== "");
 
+  const tags = blogPosts.map(post => post.tags).flat().filter((tag, index, self) => self.indexOf(tag) === index);
+
   return (
     <>
       <Banner user={user} tags={top5Tags} />
