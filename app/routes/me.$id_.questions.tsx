@@ -40,6 +40,7 @@ export default function QuestionsToMe(){
                 <section className="grid">
                     {questionForMe.map(question => (
                         <Link className="question" to={`/question/${question._id}`} key={question._id}>
+                            <p>{(question.public) ? "Offentlig" : "Privat"}</p>
                             <h2>{question.title}</h2>
                             <p>{question.body}</p>
                             <p>{question?.files?.length}</p>
