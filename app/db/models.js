@@ -32,6 +32,10 @@ const userSchema = new Schema({
         type: String,
         default: "user"
     },
+    public: {
+        type: Boolean,
+        default: false
+    },
     skills: [
         {
             name: {

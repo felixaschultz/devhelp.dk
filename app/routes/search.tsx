@@ -30,6 +30,10 @@ export const loader = async ({request, params}) => {
                   }
                 }
             }
+        ],
+        $and: [
+            /* {public: true}, */
+            {role: "pro"}
         ]
     });
 
