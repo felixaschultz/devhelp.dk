@@ -89,7 +89,11 @@ export default function Search(){
             <p>Found {items.length} results</p>
             {items.length === 0 && <p>No results found</p>}
             <ul className="search-results">
-                {items.map(item => (
+                {items.map(post => ({
+                ...post,
+                popularityScore: post?.likes?.length + post?.comments?.length + post?.comments?.filter(comment => comment?.reply)?.length + post?.views
+                }))
+                .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date)).map(item => (
                     <li key={item.url}>
                         <Link className="result" to={item.url}>
                             <h3 className="type">{item.type}</h3>
