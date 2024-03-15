@@ -1,5 +1,6 @@
 import { authenticator } from "../services/auth.server";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useFetcher } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 import mongoose from "mongoose";
 import "../styles/Group.css";
 export const loader = async ({ request, params }) => {
@@ -12,7 +13,7 @@ export const loader = async ({ request, params }) => {
         /* $and: [ */
             /* {  */_id: new mongoose.Types.ObjectId(params?.id)/* } */
         /* ] */
-    }).populate("creator").populate("members");
+    }).populate("creator").populate("members.user").populate("posts.user").populate("posts.comments.user");
 
     return { user, groups };
 }
@@ -30,6 +31,14 @@ export const meta = ({data}) => {
 export default function Group() {
     const { user, groups } = useLoaderData();
     const memberStatus = groups.members.find(member => member.user == user?._id)?.status;
+    const fetcher = useFetcher();
+    const textArea = useRef();
+
+    useEffect(() => {
+        if(fetcher.state === "submitting"){
+            textArea.current.value = "";
+        }
+    }, [fetcher.state, textArea]);
 
     return (
         <div className="content">
@@ -54,6 +63,14 @@ export default function Group() {
                     }
                 </section>
             </header>
+            <section>
+                <fetcher.Form method="post">
+                    <fieldset disabled={fetcher.state === "submitting"}>
+                        <textarea ref={textArea} className="input-fields" name="postContent" placeholder="Skriv et opslag" />
+                        <button className="btn" name="_action" value="post" type="submit">Post</button>
+                    </fieldset>
+                </fetcher.Form>
+            </section>
             {
                 (groups.creator?._id == user?._id || groups.members.indexOf(user?._id) > -1) && (
                     <section className="posts">
@@ -66,7 +83,7 @@ export default function Group() {
                         {
                             groups.posts.map(post => (
                                 <article key={post._id}>
-                                    <p>{post.user}</p>
+                                    <p>{post.user.name.firstname} {post.user.name.lastname}</p>
                                     <p>{post.body}</p>
                                 </article>
                             ))
@@ -77,3 +94,32 @@ export default function Group() {
         </div>
     );
 }
+
+export const action = async ({ request, params }) => {
+    const user = await authenticator.isAuthenticated(request);
+    
+    if(!user){
+        throw new Response(null, {
+            status: 401,
+        });
+    }
+
+    const body = await request.formData();
+    const { _action, postContent } = Object.fromEntries(body);
+
+    if(_action === "post"){
+        const post = await mongoose.model("Group").findOneAndUpdate({
+            _id: new mongoose.Types.ObjectId(params?.id)
+        }, {
+            $push: {
+                posts: {
+                    user: user?._id,
+                    body: postContent,
+                    date: new Date()
+                }
+            }
+        });
+
+        return post;
+    }
+};
