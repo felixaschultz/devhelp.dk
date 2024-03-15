@@ -23,11 +23,11 @@ export const loader = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Digital platform for requesting help | Devhelp by Intastellar Solutiuons, International" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Digital platform for requesting help | Devhelp" },
+    { name: "description", content: "Din digitale partner til udvikling af Webløsninger" },
     {
       name: "og:title",
-      content: "Digital platform for requesting help | Devhelp by Intastellar Solutiuons, International"
+      content: "Digital platform for requesting help | Devhelp"
     },
     {
         name: "og:description",
