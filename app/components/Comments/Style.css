@@ -37,6 +37,10 @@
     margin-right: auto;
 }
 
+.commentSection .post-btn{
+    margin-top: 5px;
+}
+
 .replyComment{
     margin-top: 20px;
 }
