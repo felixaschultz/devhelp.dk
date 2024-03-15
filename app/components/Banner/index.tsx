@@ -12,9 +12,11 @@ function Banner({user, tags}) {
             <section className="banner_container">
                 <div className="hero-tagline">
                     <img className="hero-logo" src={Logo} alt="DevHelp Logo" />
-                    <h2>Vi connecter junior og senior udvikler!</h2>
-                    <p>Din platform for at hjælpe og for hjælp af andre, inden for Udviklersverden.</p>
-                    <section className="flex" style={{alignItems: "flex-start"}}>
+                    <section>
+                        <h2>Vi connecter junior og senior udvikler!</h2>
+                        <p>Din platform for at hjælpe og for hjælp af andre, inden for Udviklersverden.</p>
+                    </section>
+                    <section className="flex" style={{alignItems: "flex-start", marginTop: "20px"}}>
                         {(!user) ? (
                             <div className="cta">
                                 <button className="btn" onClick={() => {
