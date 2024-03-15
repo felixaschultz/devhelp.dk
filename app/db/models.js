@@ -89,6 +89,11 @@ const StudyGroups = new Schema({
                 type: String,
                 required: true
             },
+            status: {
+                type: String,
+                default: "pending",
+                enum: ["pending", "accepted", "rejected"]
+            },
             comments: [
                 {
                     body: {
