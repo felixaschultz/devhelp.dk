@@ -69,15 +69,14 @@
 
 .tab{
     padding: 10px 20px;
-    background-color: #fff;
-    color: #000;
+    background-color: rgb(192, 159, 83);
+    color: #fff;
     text-decoration: none;
     display: inline-block;
 }
 
 .tab.active{
-    background-color: #363636;
-    color: #fff;
+    background-color: #212121;
 }
 
 .tab:first-of-type{
