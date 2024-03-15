@@ -159,7 +159,7 @@ export const action = async ({ request, params }) => {
         newImage = hiddenImage;
     }
     post.image = newImage;
-    post.tags = [...new Set(post.tags.split(",").map(tag => tag.trim()))];
+    post.tags = [...new Set(post.tags.split(",").map(tag => tag.trim()).filter(str => str !== ""))];
 
     const newPost = await mongoose.models.BlogPost.findByIdAndUpdate(postId, post);
 

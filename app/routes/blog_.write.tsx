@@ -108,7 +108,7 @@ export const action = async ({ request }) => {
 
     post.user = user._id;
     post.image = newImage;
-    post.tags = [...new Set(post.tags.split(",").map(tag => tag.trim()))];
+    post.tags = [...new Set(post.tags.split(",").map(tag => tag.trim()).filter(str => str !== ""))];
 
     const newPost = await mongoose.models.BlogPost.create(post);
 
