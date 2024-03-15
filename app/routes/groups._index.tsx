@@ -1,13 +1,19 @@
 import { authenticator } from "../services/auth.server";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useOutletContext, Form, Link } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import mongoose from "mongoose";
 
+
 export const loader = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request);
+    const user = await authenticator.isAuthenticated(request, {
+        failureRedirect: "/"
+    });
     const studyGroups = await mongoose.model("Group").find({
         creator: new mongoose.Types.ObjectId(user?._id)
-    });
+    }).populate("creator");
+
+    console.log(studyGroups);
+
     return { user, studyGroups };
 };
 export const meta = [
@@ -19,7 +25,7 @@ export const meta = [
 
 export default function Index() {
     const { user, studyGroups } = useLoaderData();
-
+    const [open, setOpen] = useOutletContext();
     return (
         <div className="content">
             <h1>Grupper</h1>
@@ -27,18 +33,40 @@ export default function Index() {
                 studyGroups.length === 0 && (
                     <>
                         <p>Du har ikke oprettet nogen grupper endnu.</p>
-                        <button>Opret gruppe</button>
+                        <button onClick={() => {
+                            setOpen({
+                                open: true,
+                                type: "createGroup"
+                            });
+                        }}>Opret gruppe</button>
                     </>
                 )
             }
             <section className="grid">
-                {studyGroups > 0 && studyGroups.map(group => (
-                    <div className="group" key={group._id}>
-                        <h2>{group.name}</h2>
-                        <p>{group.description}</p>
-                    </div>
+                {studyGroups > 0 && studyGroups?.map(group => (
+                    <Link to={`/groups/${group._id}`} className="group" key={group?._id}>
+                        <h2>{group?.group_name}</h2>
+                        <p>{group?.description}</p>
+                    </Link>
                 ))}
             </section>
+            {
+                open.open && open.type === "createGroup" && (
+                    <Form className="popup" method="post" encType="multipart/form-data">
+                        <section className="popup_container">
+                            <button className="close" onClick={() => setOpen(false)}>X</button>
+                            <h2>Opret gruppe</h2>
+                            <fieldset>
+                                <label htmlFor="groupname">Gruppenavn</label>
+                                <input type="text" id="groupname" name="groupname" />
+                                <label htmlFor="description">Beskrivelse</label>
+                                <textarea id="description" name="description"></textarea>
+                                <button className="btn" type="submit">Opret</button>
+                            </fieldset>
+                        </section>
+                    </Form>
+                )
+            }
         </div>
     );
 }
