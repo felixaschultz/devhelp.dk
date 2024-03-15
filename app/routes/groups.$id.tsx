@@ -37,7 +37,7 @@ export default function Group() {
                 <section>
                     <p className="group-type">Gruppe</p>
                     <h1 className="group-name">{groups.group_name}</h1>
-                    <p className="group-member-info">Gruppen har {groups.members.length + 1} medlemmer</p>
+                    <p className="group-member-info">Gruppen har { groups.members.filter(member => member.status === "accepted").length + 1} medlemmer</p>
                 </section>
                 <section>
                     {
