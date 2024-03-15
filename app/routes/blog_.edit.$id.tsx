@@ -77,9 +77,14 @@ export default function BlogEdit() {
 }
 
 export const action = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request, {
-        failureRedirect: "/",
-    });
+    const user = await authenticator.isAuthenticated(request);
+
+    if(!user){
+        throw new Response(null, {
+            status: 401,
+            statusText: "Unauthorized",
+        });
+    }
 
     const postId = new mongoose.Types.ObjectId(params?.id);
 

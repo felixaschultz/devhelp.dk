@@ -138,6 +138,14 @@ export default function Ask() {
 
 export const action = async ({ request }) => {
     const user = await authenticator.isAuthenticated(request);
+
+    if(!user){
+        throw new Response(null, {
+            status: 401,
+            statusText: "Unauthorized",
+        });
+    }
+
     const body = await request.formData();
     const { title, to, question, shouldBePublic } = Object.fromEntries(body);
     /* const files = body.get("files");
