@@ -86,7 +86,8 @@ export default function BlogEdit() {
                             tags && tags?.map((tag, index) => (
                                 <span key={index} className="tag">
                                     {tag}
-                                    <button onClick={() => {
+                                    <button type="button" onClick={(e) => {
+                                        e.preventDefault();
                                         setTags(tags.filter((t, i) => i !== index));
                                     }}>
                                         X
