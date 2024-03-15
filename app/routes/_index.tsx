@@ -41,9 +41,11 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { user, blogPosts, questions } = useLoaderData();
 
+  const tags = blogPosts.map(post => post.tags).flat().filter((tag, index, self) => self.indexOf(tag) === index);
+
   return (
     <>
-      <Banner user={user} />
+      <Banner user={user} tags={tags} />
       <section className="content">
         <h2>Populær Blog Posts</h2>
         <p>Læs vores seneste indslag.</p>

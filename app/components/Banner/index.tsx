@@ -1,10 +1,10 @@
-import { Form, useOutletContext } from "@remix-run/react";
+import { Form, useOutletContext, Link } from "@remix-run/react";
 import "./Style.css"
 import Logo from "../../assets/devhelp-logo.svg";
 import BannerBG from "../../assets/bg.png";
 import MobileBanner from "../../assets/bg-mobile.png";
 
-function Banner({user}) {
+function Banner({user, tags}) {
     const [open, setOpen] = useOutletContext();
 
     return (
@@ -26,10 +26,22 @@ function Banner({user}) {
                                 }}>Start i dag</button>
                             </div>
                         ): null}
-                        <Form className="flex search" action="/search" method="GET">
-                            <input className="input-fields" type="text" name="q" placeholder="Søg for hjælp" />
-                            <button className="btn" type="submit">Søg</button>
-                        </Form>
+                        <article>
+                            <Form className="flex search" action="/search" method="GET">
+                                <input className="input-fields" type="text" name="q" placeholder="Søg for hjælp" />
+                                <button className="btn" type="submit">Søg</button>
+                            </Form>
+                            <section className="tag-container">
+                                {
+                                    tags && tags?.map((tag, index) => (
+                                        <Link to={`/search/tags/${tag}`} key={index} className="tag">
+                                            {tag}
+                                        </Link>
+                                        )
+                                    ).filter((tag, index) => index < 5)
+                                }
+                            </section>
+                        </article>
                     </section>
                 </div>
                 <div>
