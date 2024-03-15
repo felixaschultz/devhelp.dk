@@ -10,9 +10,7 @@ export const loader = async ({ request }) => {
     });
     const studyGroups = await mongoose.model("Group").find({
         creator: new mongoose.Types.ObjectId(user?._id)
-    }).populate("creator");
-
-    console.log(studyGroups);
+    }).populate("creator").select("+group_name +description +creator.name");
 
     return { user, studyGroups };
 };
@@ -26,6 +24,9 @@ export const meta = [
 export default function Index() {
     const { user, studyGroups } = useLoaderData();
     const [open, setOpen] = useOutletContext();
+
+    console.log(studyGroups);
+
     return (
         <div className="content">
             <h1>Grupper</h1>
@@ -43,7 +44,7 @@ export default function Index() {
                 )
             }
             <section className="grid">
-                {studyGroups > 0 && studyGroups?.map(group => (
+                {studyGroups.length > 0 && studyGroups?.map(group => (
                     <Link to={`/groups/${group._id}`} className="group" key={group?._id}>
                         <h2>{group?.group_name}</h2>
                         <p>{group?.description}</p>
