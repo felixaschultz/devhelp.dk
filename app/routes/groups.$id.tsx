@@ -72,14 +72,6 @@ export default function Group() {
                     }
                 </section>
             </header>
-            <section>
-                <fetcher.Form method="post">
-                    <fieldset disabled={fetcher.state === "submitting"}>
-                        <textarea ref={textArea} className="input-fields" name="postContent" placeholder="Skriv et opslag" />
-                        <button className="btn" name="_action" value="post" type="submit">Post</button>
-                    </fieldset>
-                </fetcher.Form>
-            </section>
             {
                 (groups.creator?._id == user?._id || groups.members.indexOf(user?._id) > -1) && (
                     <>
@@ -108,7 +100,7 @@ export default function Group() {
                                         </article>
                                         <Comments postId={post._id} post={post} user={user} />
                                     </section>
-                                )).sort((a, b) => new Date(b.date) + new Date(a.date))
+                                )).sort((a, b) => new Date(b.date) - new Date(a.date))
                             }
                             </section>
                         </section>
