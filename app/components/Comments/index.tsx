@@ -49,8 +49,8 @@ export default function Comments({ postId, post, user }) {
                         return comment.body !== undefined;
                     })?.map((comment, index) => (
                         <>
-                            <div className="comment-group">
-                                <div key={index} className="comment">
+                            <div key={index} className="comment-group">
+                                <div className="comment">
                                     <p>{comment?.body}</p>
                                     <section className="comment-reply">
                                         <p className="user">
