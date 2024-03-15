@@ -2,6 +2,10 @@
     place-items: flex-start !important;
 }
 
+.grid-sidebar{
+    grid-template-columns: minmax(150px,  max-content) 1fr !important;
+}
+
 .question{
     width: 100%;
     border-radius: 5px;
@@ -9,4 +13,11 @@
     margin: 10px 0;
     background-color: #252525;
     border: 1px solid #cacaca;
+}
+
+.sidebar-navigation{
+    margin-top: 88px;
+    border-right: 1px solid #5d5d5d;
+    height: 100%;
+    padding: 15px;   
 }

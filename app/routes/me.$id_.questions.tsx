@@ -23,20 +23,29 @@ export const meta = [
 export default function QuestionsToMe(){
     const {user, questionForMe} = useLoaderData();
     return (
-        <div className="content">
-            <Link to={`/me/${user?._id}`}>Back to profile</Link>
-            <h1>Questions to me</h1>
-            
-            <p>Here are the questions that have been asked to you.</p>
-            {questionForMe.length === 0 && <p>No questions have been asked to you yet.</p>}
-            <section className="grid">
-                {questionForMe.map(question => (
-                    <Link className="question" to={`/question/${question._id}`} key={question._id}>
-                        <h2>{question.title}</h2>
-                        <p>{question.body}</p>
-                    </Link>
-                )).sort((a, b) => new Date(b.date) - new Date(a.date))}
-            </section>
+        <div className="grid grid-sidebar">
+            <aside className="sidebar-navigation">
+                <nav>
+                    <Link to="/admin">Admin</Link>
+                    <Link to="/admin/pro">Pro</Link>
+                    <Link to="/admin/questions">Questions</Link>
+                </nav>
+            </aside>
+            <div className="content">
+                <Link to={`/me/${user?._id}`}>Back to profile</Link>
+                <h1>Questions to me</h1>
+                
+                <p>Here are the questions that have been asked to you.</p>
+                {questionForMe.length === 0 && <p>No questions have been asked to you yet.</p>}
+                <section className="grid">
+                    {questionForMe.map(question => (
+                        <Link className="question" to={`/question/${question._id}`} key={question._id}>
+                            <h2>{question.title}</h2>
+                            <p>{question.body}</p>
+                        </Link>
+                    )).sort((a, b) => new Date(b.date) - new Date(a.date))}
+                </section>
+            </div>
         </div>
     );
 }
