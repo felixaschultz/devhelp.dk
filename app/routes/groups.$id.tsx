@@ -14,7 +14,7 @@ export const loader = async ({ request, params }) => {
         /* $and: [ */
             /* {  */_id: new mongoose.Types.ObjectId(params?.id)/* } */
         /* ] */
-    }).populate("creator").populate("members.user").populate("posts.user").populate("posts.comments.user");
+    }).populate("creator").populate("members.user").populate("posts.user").populate("posts.comments");
 
     return { user, groups };
 }
@@ -128,7 +128,7 @@ export const action = async ({ request, params }) => {
 
         return post;
     }else if(_action === "comment"){
-        const { user, body, postId } = Object.fromEntries(formData);
+        const { body, postId } = Object.fromEntries(formData);
         const comment = await mongoose.model("Group").findOneAndUpdate({
             _id: new mongoose.Types.ObjectId(params?.id),
             "posts._id": new mongoose.Types.ObjectId(postId)
@@ -143,5 +143,36 @@ export const action = async ({ request, params }) => {
         });
 
         return comment;
+    }else if(_action === "like") {
+        const groupId = new mongoose.Types.ObjectId(params?.id);
+        const postId = new mongoose.Types.ObjectId(formData.get("postId"));
+        const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
+        const userId = user?._id;
+        return await mongoose.model("Group").updateOne(
+            { _id: groupId, "posts._id": postId, "posts.comments._id": commentId },
+            { $push: { "posts.$[post].comments.$[comment].likes": userId } },
+            {
+              arrayFilters: [
+                { "post._id": postId },
+                { "comment._id": commentId }
+              ]
+            }
+          );
+    }else if(_action === "unlike") {
+        const groupId = new mongoose.Types.ObjectId(params?.id);
+        const postId = new mongoose.Types.ObjectId(formData.get("postId"));
+        const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
+        const userId = user?._id;
+        return await mongoose.model("Group").updateOne(
+            { _id: groupId, "posts._id": postId, "posts.comments._id": commentId },
+            { $pull: { "posts.$[post].comments.$[comment].likes": userId } },
+            {
+              arrayFilters: [
+                { "post._id": postId },
+                { "comment._id": commentId }
+              ]
+            }
+          );
+
     }
 };
