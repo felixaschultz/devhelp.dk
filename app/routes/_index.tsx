@@ -41,7 +41,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { user, blogPosts, questions } = useLoaderData();
 
-  const tags = blogPosts.map(post => post.tags).flat().filter((tag, index, self) => self.indexOf(tag) === index);
+  const tags = blogPosts.map(post => post.tags).flat();
 
   return (
     <>
