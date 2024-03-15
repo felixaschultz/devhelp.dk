@@ -1,6 +1,7 @@
 import {useLoaderData, Link, Form} from "@remix-run/react";
 import mongoose from "mongoose";
-import "../App.css";
+import "../Styles/App.css";
+import "../Styles/Search.css";
 
 export const loader = async ({request, params}) => {
     const q = request.url.split("?q=")[1];
