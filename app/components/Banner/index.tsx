@@ -47,7 +47,7 @@ function Banner({user, tags}) {
                                 }}>Start i dag</button>
                             </div>
                         ): null}
-                        <article>
+                        <article className="search-container">
                             <Form className="flex search" action="/search" method="GET">
                                 <input className="input-fields" type="text" name="q" placeholder="Søg for hjælp" />
                                 <button className="btn" type="submit">Søg</button>

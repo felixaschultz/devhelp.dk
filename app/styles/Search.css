@@ -47,3 +47,7 @@
     color: #e4e4e4;
     border-radius: 5px;
 }
+
+.search-container .btn{
+    margin-right: 0;
+}
