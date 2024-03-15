@@ -41,3 +41,22 @@
     text-transform: uppercase;
     flex: 0 0 100%;
 }
+
+.tag-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tag-container input{
+    padding: 5px;
+    border: none;
+    background-color: #212121;
+    color: #e4e4e4;
+    border-radius: 5px;
+    width: max-content;
+}
+
+.tag-container .tag{
+    margin: 0;
+}
