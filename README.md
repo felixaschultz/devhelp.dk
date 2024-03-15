@@ -1,7 +1,5 @@
-# Welcome to Remix!
-
-- [Remix Docs](https://remix.run/docs)
-
+# Welcome to devhelp.dk
+![devhelp.dk](/app/asset/landingPage-loggedout.png)
 ## Development
 
 From your terminal:
