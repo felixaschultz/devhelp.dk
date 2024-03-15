@@ -18,8 +18,6 @@ export const loader = async ({ request }) => {
     public: true
   });
 
-  console.log(userTags);
-
   return { user, blogPosts, questions, userTags};
 };
 
