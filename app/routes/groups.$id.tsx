@@ -63,32 +63,34 @@ export default function Group() {
                     }
                 </section>
             </header>
-            <section>
-                <fetcher.Form method="post">
-                    <fieldset disabled={fetcher.state === "submitting"}>
-                        <textarea ref={textArea} className="input-fields" name="postContent" placeholder="Skriv et opslag" />
-                        <button className="btn" name="_action" value="post" type="submit">Post</button>
-                    </fieldset>
-                </fetcher.Form>
-            </section>
             {
                 (groups.creator?._id == user?._id || groups.members.indexOf(user?._id) > -1) && (
-                    <section className="posts">
-                        <h2>Posts</h2>
-                        {
-                            groups.posts.length === 0 && (
-                                <p>Der er ingen posts i denne gruppe endnu.</p>
-                            )
-                        }
-                        {
-                            groups.posts.map(post => (
-                                <article key={post._id}>
-                                    <p>{post.user.name.firstname} {post.user.name.lastname}</p>
-                                    <p>{post.body}</p>
-                                </article>
-                            ))
-                        }
-                    </section>
+                    <>
+                        <section>
+                            <fetcher.Form method="post">
+                                <fieldset disabled={fetcher.state === "submitting"}>
+                                    <textarea ref={textArea} className="input-fields" name="postContent" placeholder="Skriv et opslag" />
+                                    <button className="btn" name="_action" value="post" type="submit">Post</button>
+                                </fieldset>
+                            </fetcher.Form>
+                        </section>
+                        <section className="posts">
+                            <h2>Posts</h2>
+                            {
+                                groups.posts.length === 0 && (
+                                    <p>Der er ingen posts i denne gruppe endnu.</p>
+                                )
+                            }
+                            {
+                                groups.posts.map(post => (
+                                    <article key={post._id}>
+                                        <p>{post.user.name.firstname} {post.user.name.lastname}</p>
+                                        <p>{post.body}</p>
+                                    </article>
+                                ))
+                            }
+                        </section>
+                    </>
                 )
             }
         </div>
