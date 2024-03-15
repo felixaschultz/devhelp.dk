@@ -96,7 +96,7 @@ export default function Group() {
                                 groups.posts.map(post => (
                                     <section className="post-group" key={post._id}>
                                         <article className="post">
-                                            <p>{post.user.name.firstname} {post.user.name.lastname}</p>
+                                            <p className="user"><img className="profileImg" src={post.user.image} alt="" /> {post.user.name.firstname} {post.user.name.lastname}</p>
                                             <p>{post.body}</p>
                                         </article>
                                         <Comments postId={post._id} post={post} user={user._id} />
