@@ -75,6 +75,26 @@ export default function Index() {
   const top5Tags = top5Pairs.map(pair => pair[0]).filter(tag => tag !== "null" && tag !== "undefined" && tag !== "");
 
   const tags = blogPosts.map(post => post.tags).flat();
+  const tagCounts = {};
+  tags.forEach(tag => {
+      if (tagCounts[tag]) {
+          tagCounts[tag]++;
+      } else {
+          tagCounts[tag] = 1;
+      }
+  });
+
+  // Step 2: Convert the object to an array of [tag, count] pairs
+  const tagCountPairs = Object.entries(tagCounts);
+
+  // Step 3: Sort the array by the count in descending order
+  tagCountPairs.sort((a, b) => b[1] - a[1]);
+
+  // Step 4: Select the first 5 pairs
+  const top5Pairs = tagCountPairs.slice(0, 5);
+
+  // Step 5: Map the pairs back to just the tags
+  const top5Tags = top5Pairs.map(pair => pair[0]);
 
   return (
     <>
