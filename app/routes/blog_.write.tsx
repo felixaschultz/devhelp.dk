@@ -113,7 +113,7 @@ export const action = async ({ request }) => {
     const newPost = await mongoose.models.BlogPost.create(post);
 
     if(newPost) {
-        return redirect("/blog/" + newPost._id);
+        return redirect("/blog/edit/" + newPost._id);
     }
 
 }
