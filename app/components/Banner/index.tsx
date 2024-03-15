@@ -24,7 +24,6 @@ function Banner({user, tags}) {
 
     // Step 4: Select the first 5 pairs
     const top5Pairs = tagCountPairs.slice(0, 5);
-    console.log(tags, top5Pairs);
 
     // Step 5: Map the pairs back to just the tags
     const top5Tags = top5Pairs.map(pair => pair[0]);
