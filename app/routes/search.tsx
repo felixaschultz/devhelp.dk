@@ -93,6 +93,7 @@ export default function Search(){
                 ...post,
                 popularityScore: post?.likes?.length + post?.comments?.length + post?.comments?.filter(comment => comment?.reply)?.length + post?.views
                 }))
+                .sort((a,b) => b.type === "blog" ? b.popularityScore - a.popularityScore : new Date(b.date) - new Date(a.date))
                 .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date)).map(item => (
                     <li key={item.url}>
                         <Link className="result" to={item.url}>
