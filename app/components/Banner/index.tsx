@@ -12,7 +12,8 @@ function Banner({user, tags}) {
             <section className="banner_container">
                 <div className="hero-tagline">
                     <img className="hero-logo" src={Logo} alt="DevHelp Logo" />
-                    <p>Står du med udfordinger af dit projekt? Så står vores dygtige udvikler klar til at hjælpe dig.</p>
+                    <h2>Vi connecter junior og senior udvikler!</h2>
+                    <p>Din platform for at hjælpe og for hjælp af andre, inden for Udviklersverden.</p>
                     <section className="flex" style={{alignItems: "flex-start"}}>
                         {(!user) ? (
                             <div className="cta">
