@@ -154,6 +154,11 @@ const questionSchema = new Schema({
         type: Boolean,
         default: false
     },
+    files: [
+        {
+            type: String
+        }
+    ],
     comments: [
         {
             body: {
