@@ -42,12 +42,22 @@ export default function Index() {
   const { user, blogPosts, questions } = useLoaderData();
 
   const tags = blogPosts.map(post => post.tags).flat();
+  const userTags = user?.skills.map(skill => skill.name).flat();
   const tagCounts = {};
   tags.forEach(tag => {
-      if (tagCounts[tag]) {
-          tagCounts[tag]++;
+    const newTag = tag.toLowerCase();
+      if (tagCounts[newTag]) {
+          tagCounts[newTag]++;
       } else {
-          tagCounts[tag] = 1;
+          tagCounts[newTag] = 1;
+      }
+  });
+  userTags.forEach(tag => {
+    const newTag = tag.toLowerCase();
+      if (tagCounts[newTag]) {
+          tagCounts[newTag]++;
+      } else {
+          tagCounts[newTag] = 1;
       }
   });
 
@@ -61,11 +71,11 @@ export default function Index() {
   const top5Pairs = tagCountPairs.slice(0, 5);
 
   // Step 5: Map the pairs back to just the tags
-  const top5Tags = top5Pairs.map(pair => pair[0]);
+  const top5Tags = top5Pairs.map(pair => pair[0]).filter(tag => tag !== "null" && tag !== "undefined" && tag !== "");
 
   return (
     <>
-      <Banner user={user} tags={tags} />
+      <Banner user={user} tags={top5Tags} />
       <section className="content">
         <h2>Populær Blog Posts</h2>
         <p>Læs vores seneste indslag.</p>
