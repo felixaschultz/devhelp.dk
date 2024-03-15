@@ -43,7 +43,7 @@ export default function QuestionsToMe(){
                             <p>{(question.public) ? "Offentlig" : "Privat"}</p>
                             <h2>{question.title}</h2>
                             <p>{question.body}</p>
-                            <p>{question?.files?.length}</p>
+                            <p>Filer: {question?.files?.length}</p>
                         </Link>
                     )).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))}
                 </section>
