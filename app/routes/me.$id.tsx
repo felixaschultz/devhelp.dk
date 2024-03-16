@@ -63,6 +63,7 @@ export default function Me() {
                     (user?._id === userData?._id) && (
                         <div className="menu">
                             <Link to={`/blog/write`}>Write a new Blog post</Link>
+                            <Link to={`/settings`}>Settings</Link>
                             {
                                 userData?.role !== "pro" && (
                                     <button onClick={() => {

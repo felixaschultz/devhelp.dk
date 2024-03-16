@@ -1,0 +1,11 @@
+.settings-nav{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.settings-nav a{
+    text-decoration: none;
+    font-size: 15px;
+    margin: 10px 0;
+}
