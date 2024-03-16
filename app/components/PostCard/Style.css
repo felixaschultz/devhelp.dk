@@ -11,7 +11,12 @@
     justify-content: space-between;
     color: #000;
     text-decoration: none;
-    max-height: 500px;
+    max-height: 550px;
+    overflow: hidden;
+}
+
+.post-card-content{
+    height: 300px;
     overflow: hidden;
 }
 
