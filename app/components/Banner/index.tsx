@@ -70,18 +70,6 @@ function Banner({user, tags}) {
                         <p>Vi forstår, at nogle gange kan man stå fast i udviklingsprocessen, og det er her, vores platform virkelig skinner.</p>
                     </section>
                     <section className="flex" style={{alignItems: "flex-start", marginTop: "20px"}}>
-                        {(!user) ? (
-                            <div className="cta">
-                                <button className="btn" onClick={() => {
-                                    setOpen(
-                                        {
-                                            open: true,
-                                            type: "signup"
-                                        }
-                                    );
-                                }}>Start i dag</button>
-                            </div>
-                        ): null}
                         <article className="search-container">
                             <Form className="flex search" action="/search" method="GET">
                                 <input className="input-fields" type="text" name="q" placeholder="Søg for hjælp" />
@@ -99,6 +87,21 @@ function Banner({user, tags}) {
                                 }
                             </section>
                         </article>
+                    </section>
+                    <section className="flex">
+                        {(!user) ? (
+                            <div className="cta">
+                                <button className="btn" onClick={() => {
+                                    setOpen(
+                                        {
+                                            open: true,
+                                            type: "signup"
+                                        }
+                                        );
+                                    }}>Start i dag</button>
+                            </div>
+                        ): null}
+                        <Link className="btn btn-second" to="/ask">Explore the Pros</Link>
                     </section>
                 </div>
                 <div>
