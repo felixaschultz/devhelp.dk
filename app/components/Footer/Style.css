@@ -27,3 +27,7 @@
     text-align: center;
     font-size: 14px;
 }
+
+.legal a[target="_blank"]::after{
+    content: "";
+}
