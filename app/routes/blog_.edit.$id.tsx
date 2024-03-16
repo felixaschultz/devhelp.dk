@@ -118,6 +118,28 @@ export default function BlogEdit() {
                                 here we add custom filepicker only to Image dialog
                             */
                             file_picker_types: 'image',
+                            images_reuse_filename: true,
+                            images_upload_handler: function (blobInfo, success, failure, progress) {
+                                const xhr = new XMLHttpRequest();
+                                xhr.withCredentials = false;
+                                xhr.open('POST', `https://firebasestorage.googleapis.com/v0/b/devhelp-3e125.appspot.com/o/${blobInfo.filename()}`);
+                                xhr.upload.onprogress = function (e) {
+                                    progress(e.loaded / e.total * 100);
+                                };
+                                xhr.onload = function () {
+                                    const json = JSON.parse(xhr.responseText);
+                                    console.log(json);
+                                    if (!json) {
+                                        console.log("No JSON");
+                                        /* failure('Invalid JSON: ' + xhr.responseText); */
+                                        return;
+                                    }
+                                    success("https://firebasestorage.googleapis.com/v0/b/devhelp-3e125.appspot.com/o/" + json.name);
+                                };
+                                const formData = new FormData();
+                                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                                xhr.send(formData);
+                            },
                             /* and here's our custom image picker*/
                             file_picker_callback: (cb, value, meta) => {
                                 const input = document.createElement('input');

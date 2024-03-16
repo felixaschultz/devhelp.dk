@@ -96,6 +96,7 @@ export default function BlogWrite() {
                                 here we add custom filepicker only to Image dialog
                             */
                             file_picker_types: 'image',
+                            images_upload_url: 'https://firebasestorage.googleapis.com/v0/b/devhelp-3e125.appspot.com/o/',
                             /* and here's our custom image picker*/
                             file_picker_callback: (cb, value, meta) => {
                                 const input = document.createElement('input');
@@ -104,7 +105,7 @@ export default function BlogWrite() {
 
                                 input.addEventListener('change', (e) => {
                                 const file = e.target.files[0];
-
+                                    
                                 const reader = new FileReader();
                                 reader.addEventListener('load', () => {
                                     /*

@@ -8,7 +8,7 @@ export default function PostCard({post, user}) {
             {post?.published || post?.public ? null : <p style={{color: "red", marginTop: 0}}>Draft</p>}
             {post.image && <img onLoadStart={(e) => {
                 e.target.style.display = "none";
-            }} src={post.image} alt={post.title} />}
+            }} loading="lazy" src={post.image} alt={post.title} />}
             <h2>{post.title}</h2>
             <div className="post-card-content" dangerouslySetInnerHTML={{
                             __html: post.body,
