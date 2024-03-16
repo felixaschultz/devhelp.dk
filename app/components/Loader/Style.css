@@ -3,10 +3,28 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.673);
+    height: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+.loading-bar{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(155, 121, 44);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        width: 0;
+    }
+    50%{
+        width: 100%;
+    }
+    100%{
+        width: 0;
+    }
 }
