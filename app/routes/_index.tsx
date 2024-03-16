@@ -23,11 +23,11 @@ export const loader = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Digital platform for requesting help | Devhelp" },
+    { title: "Devhelp.dk" },
     { name: "description", content: "Din digitale partner til udvikling af Webløsninger" },
     {
       name: "og:title",
-      content: "Digital platform for requesting help | Devhelp"
+      content: "Devhelp.dk"
     },
     {
         name: "og:description",
