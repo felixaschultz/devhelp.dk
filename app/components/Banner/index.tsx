@@ -72,7 +72,7 @@ function Banner({user, tags}) {
                 <div>
                     <img src={BannerBG} srcSet={
                         `${MobileBanner} 300w,
-                        ${MobileBanner} 768w,
+                        ${BannerBG} 768w,
                         ${BannerBG} 1280w,
                         ${BannerBG} 1920w`
                     } sizes="(max-width: 768px) 100vw, 50vw"
