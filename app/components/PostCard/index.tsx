@@ -11,7 +11,7 @@ export default function PostCard({post, user}) {
             }} src={post.image} alt={post.title} />}
             <h2>{post.title}</h2>
             <div className="post-card-content" dangerouslySetInnerHTML={{
-                            __html: post.body
+                            __html: post.body,
                         }}></div>
             {
                 (post.user == user?._id) ? (
