@@ -55,9 +55,9 @@ export default function BlogWrite() {
                             onInit={(evt, editor) => editorRef.current = editor}
                             init={{
                             height: 500,
-                            menubar: false,
+                            menubar: true,
                             inline: false,
-                            language: 'da_DK',
+                            language: 'da',
                             plugins: [
                                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -68,13 +68,24 @@ export default function BlogWrite() {
                                 'contextmenu', 'noneditable', 'template', 'toc', 'visualchars',
                                 'linkchecker', 'advcode', 'advlist', 'autosave', 'bbcode',
                             ],
+                            menu: {
+                                file: { title: 'File', items: 'newdocument restoredraft | preview | export print | deleteallconversations' },
+                                edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
+                                view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments' },
+                                insert: { title: 'Insert', items: 'image link media addcomment pageembed template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+                                format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat' },
+                                tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | a11ycheck code wordcount' },
+                                table: { title: 'Table', items: 'inserttable | cell row column | advtablesort | tableprops deletetable' },
+                                help: { title: 'Help', items: 'help' }
+                            },
                             toolbar: 'undo redo | blocks | ' +
                                 'bold italic forecolor | alignleft aligncenter' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
                                 'link image | code | codesample |',
-                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | codesample | removeformat | help',
+                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | codesample | removeformat',
                             image_advtab: true,
                             toolbar_float: true,
+                            toolbar_sticky: true,
                                 /* enable title field in the Image dialog*/
                             image_title: true,
                             /* enable automatic uploads of images represented by blob or data URIs*/
