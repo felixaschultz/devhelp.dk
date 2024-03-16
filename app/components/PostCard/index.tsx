@@ -10,7 +10,9 @@ export default function PostCard({post, user}) {
                 e.target.style.display = "none";
             }} src={post.image} alt={post.title} />}
             <h2>{post.title}</h2>
-            <p>{post.body}</p>
+            <div dangerouslySetInnerHTML={{
+                            __html: post.body
+                        }}></div>
             {
                 (post.user == user?._id) ? (
                     <>
