@@ -24,9 +24,14 @@ export const meta = [
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
     return (
-        <div className="content">
-            <h1>Settings</h1>
-            <SettingsNav userSettings={userSettings} />
+        <div className="content grid">
+            <aside>
+                <h1>Settings</h1>
+                <SettingsNav userSettings={userSettings} />
+            </aside>
+            <div>
+                
+            </div>
         </div>
     )
 }
