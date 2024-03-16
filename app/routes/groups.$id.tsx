@@ -190,5 +190,71 @@ export const action = async ({ request, params }) => {
         // Save the group
         return await group.save();
 
+    }else if(_action === "reply") {
+        const { body, postId, commentId } = Object.fromEntries(formData);
+
+        const reply = await mongoose.model("Group").findOneAndUpdate({
+            _id: new mongoose.Types.ObjectId(params?.id),
+            "posts._id": new mongoose.Types.ObjectId(postId),
+            "posts.comments._id": new mongoose.Types.ObjectId(commentId)
+        }, {
+            $push: {
+                "posts.$.comments.$[comment].reply": {
+                    user: user?._id,
+                    body: body,
+                    date: new Date()
+                }
+            }
+        }, {
+            arrayFilters: [
+                { "comment._id": new mongoose.Types.ObjectId(commentId) }
+            ]
+        });
+
+        return reply;
+    }else if(_action === "like-reply") {
+        const groupId = new mongoose.Types.ObjectId(params?.id);
+        const postId = new mongoose.Types.ObjectId(formData.get("postId"));
+        const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
+        const replyId = new mongoose.Types.ObjectId(formData.get("replyId"));
+        const userId = user?._id;
+
+        // Fetch the group
+        const group = await mongoose.model("Group").findById(groupId);
+
+        // Find the post and comment
+        const post = group.posts.id(postId);
+        const comment = post.comments.id(commentId);
+        const reply = comment.reply.id(replyId);
+
+        // Add the like
+        reply.likes.push(userId);
+
+        // Save the group
+        return await group.save();
+
+        return reply;
+    }else if(_action === "unlike-reply") {
+        const groupId = new mongoose.Types.ObjectId(params?.id);
+        const postId = new mongoose.Types.ObjectId(formData.get("postId"));
+        const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
+        const replyId = new mongoose.Types.ObjectId(formData.get("replyId"));
+        const userId = user?._id;
+
+        // Fetch the group
+        const group = await mongoose.model("Group").findById(groupId);
+
+        // Find the post and comment
+        const post = group.posts.id(postId);
+        const comment = post.comments.id(commentId);
+        const reply = comment.reply.id(replyId);
+
+        // Add the like
+        reply.likes.pull(userId);
+
+        // Save the group
+        return await group.save();
+
+        return reply;
     }
 };
