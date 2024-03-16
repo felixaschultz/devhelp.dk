@@ -70,6 +70,11 @@ export default function Comments({ postId, post, user }) {
                                                         <button disabled={!user} className="like" name="_action" value="like-comment"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button>
                                                     )
                                                 }
+                                                {
+                                                    (postId) && (
+                                                        <input type="hidden" name="postId" value={postId} />
+                                                    )
+                                                }
                                                 <input type="hidden" name="commentId" value={comment?._id} />
                                             </fetcher.Form>
                                         </p>
