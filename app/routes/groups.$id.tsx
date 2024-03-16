@@ -98,7 +98,7 @@ export default function Group() {
                                             <p className="user"><img className="profileImg" src={post.user.image} alt="" /> {post.user.name.firstname} {post.user.name.lastname}</p>
                                             <p>{post.body}</p>
                                         </article>
-                                        <Comments postId={post._id} post={post} user={user._id} />
+                                        <Comments postId={post._id} post={post} user={user} />
                                     </section>
                                 ))
                             }
@@ -159,18 +159,12 @@ export const action = async ({ request, params }) => {
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
         const userId = user?._id;
 
-        console.log("Group ID: ", groupId);
-        console.log("Post ID: ", postId);
-
         // Fetch the group
         const group = await mongoose.model("Group").findById(groupId);
 
         // Find the post and comment
         const post = group.posts.id(postId);
-        console.log("Post: ", post);
         const comment = post.comments.id(commentId);
-
-        console.log("Comment: ", comment);
 
         // Add the like
         comment.likes.push(userId);
@@ -182,16 +176,19 @@ export const action = async ({ request, params }) => {
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
         const userId = user?._id;
-        return await mongoose.model("Group").updateOne(
-            { _id: groupId, "posts._id": postId, "posts.comments._id": commentId },
-            { $pull: { "posts.$[post].comments.$[comment].likes": userId } },
-            {
-              arrayFilters: [
-                { "post._id": postId },
-                { "comment._id": commentId }
-              ]
-            }
-          );
+
+        // Fetch the group
+        const group = await mongoose.model("Group").findById(groupId);
+
+        // Find the post and comment
+        const post = group.posts.id(postId);
+        const comment = post.comments.id(commentId);
+
+        // Add the like
+        comment.likes.pull(userId);
+
+        // Save the group
+        return await group.save();
 
     }
 };
