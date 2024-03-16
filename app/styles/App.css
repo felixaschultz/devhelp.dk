@@ -18,6 +18,17 @@ a[target="_blank"]::after{
     filter: invert(1);
 }
 
+a[target="_blank"]{
+    display: inline-block;
+    color: #b4b4b4;
+    text-decoration: underline;
+}
+
+h2 a[target="_blank"]{
+    color: #e4e4e4;
+    text-decoration: none;
+}
+
 fieldset{
     border: none;
 }
