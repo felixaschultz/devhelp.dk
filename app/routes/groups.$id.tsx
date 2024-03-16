@@ -158,16 +158,25 @@ export const action = async ({ request, params }) => {
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
         const userId = user?._id;
-        return await mongoose.model("Group").updateOne(
-            { _id: groupId, "posts._id": postId, "posts.comments._id": commentId },
-            { $push: { "posts.$[post].comments.$[comment].likes": userId } },
-            {
-              arrayFilters: [
-                { "post._id": postId },
-                { "comment._id": commentId }
-              ]
-            }
-          );
+
+        console.log("Group ID: ", groupId);
+        console.log("Post ID: ", postId);
+
+        // Fetch the group
+        const group = await mongoose.model("Group").findById(groupId);
+
+        // Find the post and comment
+        const post = group.posts.id(postId);
+        console.log("Post: ", post);
+        const comment = post.comments.id(commentId);
+
+        console.log("Comment: ", comment);
+
+        // Add the like
+        comment.likes.push(userId);
+
+        // Save the group
+        return await group.save();
     }else if(_action === "unlike-comment") {
         const groupId = new mongoose.Types.ObjectId(params?.id);
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
