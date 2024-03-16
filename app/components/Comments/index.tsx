@@ -97,7 +97,7 @@ export default function Comments({ postId, post, user }) {
                                             {comment.reply?.filter((comment) => {
                                                 return comment.body != undefined;
                                             }).sort((a, b) => {
-                                                return new Date(a.date) - new Date(b.date);
+                                                return new Date(b.date) - new Date(a.date);
                                             }).map((reply, index) => (
                                                 <div key={index} className="comment reply">
                                                     <p>{reply.body}</p>
