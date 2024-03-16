@@ -57,16 +57,20 @@ export default function BlogWrite() {
                             init={{
                             height: 500,
                             menubar: false,
+                            inline: false,
                             plugins: [
                                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount',
+                                'imagetools', 'textpattern', 'autoresize', 'codesample'
                             ],
                             toolbar: 'undo redo | blocks | ' +
                                 'bold italic forecolor | alignleft aligncenter' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
-                                'link image | code |' +
-                                'removeformat | help',
+                                'link image | code | codesample |',
+                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | codesample | removeformat | help',
+                            image_advtab: true,
+                            toolbar_float: true,
                                 /* enable title field in the Image dialog*/
                             image_title: true,
                             /* enable automatic uploads of images represented by blob or data URIs*/
