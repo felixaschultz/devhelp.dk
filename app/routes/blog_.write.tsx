@@ -57,11 +57,16 @@ export default function BlogWrite() {
                             height: 500,
                             menubar: false,
                             inline: false,
+                            language: 'da_DK',
                             plugins: [
                                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                                 'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount',
-                                'imagetools', 'textpattern', 'autoresize', 'codesample'
+                                'imagetools', 'textpattern', 'autoresize', 'codesample',
+                                'save', 'directionality', 'emoticons', 'hr', 'nonbreaking', 'pagebreak',
+                                'paste', 'tabfocus', 'textcolor', 'colorpicker', 'textpattern',
+                                'contextmenu', 'noneditable', 'template', 'toc', 'visualchars',
+                                'linkchecker', 'advcode', 'advlist', 'autosave', 'bbcode',
                             ],
                             toolbar: 'undo redo | blocks | ' +
                                 'bold italic forecolor | alignleft aligncenter' +
