@@ -11,6 +11,13 @@ a{
     color: #e4e4e4;
 }
 
+a[target="_blank"]::after{
+    content: url('https://img.icons8.com/ios/20/000000/external-link.png');
+    margin-left: 10px;
+    display: inline-block;
+    filter: invert(1);
+}
+
 fieldset{
     border: none;
 }
