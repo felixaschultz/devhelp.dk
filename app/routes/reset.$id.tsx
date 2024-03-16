@@ -34,7 +34,6 @@ export const action = async ({request}) => {
     const user = await authenticator.isAuthenticated(request);
     const formData = await request.formData();
     const {id, password, password2} = Object.fromEntries(formData);
-    const email = id;
 
     if(password !== password2){
         return new Response("Passwords do not match", {
@@ -42,7 +41,7 @@ export const action = async ({request}) => {
         });
     }
 
-    const updatedUser = await resetPassword({email, password});
+    const updatedUser = await resetPassword({email: id, password});
 
     if(!updatedUser){
         return new Response("User not found", {
