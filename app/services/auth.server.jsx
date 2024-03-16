@@ -19,6 +19,11 @@ async function verifyUser({ email, password }) {
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  console.log("Input Password", password);
+  console.log("User Password", user.password);
+  console.log("Is Password Valid", isPasswordValid);
+
   if (!isPasswordValid || password == null || password === "" || password === undefined) {
     throw new AuthorizationError("Wrong password or username");
   }
@@ -32,7 +37,6 @@ export async function resetPassword({ email, password }) {
   if (!user) {
     throw new AuthorizationError("No user found with this email");
   }
-
   const salt = await bcrypt.genSalt(10); // generate a salt
   user.password = await bcrypt.hash(password, salt); // hash the password
   await user.save();
