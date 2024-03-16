@@ -46,6 +46,12 @@
     overflow: hidden;
 }
 
+.btn-second{
+    background-color: transparent;
+    border: 2px solid #7c7c7c;
+    color: #333;
+}
+
 @keyframes pushDown {
     0% {
         transform: translateY(0);
