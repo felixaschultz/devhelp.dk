@@ -30,12 +30,7 @@ export default function Settings(){
                 <SettingsNav userSettings={userSettings} />
             </aside>
             <section>
-                <article>
-                    <h2>How you sign in</h2>
-                    <p>Make sure that you can always access your Intastellar Account by keeping this information up to date</p>
-                    <Link to="/settings/security/password">Change your password</Link>
-                    <Link to="/settings/security/passkeys">Passkeys</Link>
-                </article>
+                <h2>Passkeys</h2>
             </section>
         </div>
     )
