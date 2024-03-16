@@ -30,12 +30,12 @@ export default function SettingsNav({userSettings}){
             }
             <NavLink style={({ isActive }) => ({
                         color: isActive
-                            ? "#fff"
+                            ? "rgb(192, 159, 83)"
                             : "",
                     })} to="/settings/privacy">Privacy</NavLink>
             <NavLink style={({ isActive }) => ({
                         color: isActive
-                            ? "#fff"
+                            ? "rgb(192, 159, 83)"
                             : "",
                     })} to="/settings/billing">Billing</NavLink>
         </nav>
