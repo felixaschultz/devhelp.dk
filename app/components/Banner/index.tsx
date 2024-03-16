@@ -67,7 +67,7 @@ function Banner({user, tags}) {
                     <img className="hero-logo" src={Logo} alt="DevHelp Logo" />
                     <section>
                         <h2 className="hero-heading">Vi forbinder <span id="rolled-text" className="highlightedText">junior og senior</span> udvikler</h2>
-                        <p>Din platform for at hjælpe og for hjælp af andre, inden for Udviklersverden.</p>
+                        <p>Vi forstår, at nogle gange kan man stå fast i udviklingsprocessen, og det er her, vores platform virkelig skinner.</p>
                     </section>
                     <section className="flex" style={{alignItems: "flex-start", marginTop: "20px"}}>
                         {(!user) ? (

@@ -78,6 +78,9 @@ export default function Index() {
     <>
       <Banner user={user} tags={top5Tags} />
       <section className="content">
+          
+      </section>
+      <section className="content">
         <h2>Populær Blog Posts</h2>
         <p>Læs vores seneste indslag.</p>
         <section className="blog-grid">
@@ -95,19 +98,9 @@ export default function Index() {
               <p>No blog posts found</p>
             )}
         </section>
-        {/* <article style={{marginTop: "100px"}}>
-          <h2>Seneste Spørgsmål</h2>
-          <p>Se de seneste spørgsmål stillet af vores brugere.</p>
-          <section className="blog-grid">
-                {(questions) ? questions.map((question) => (
-                  <Link style={{textDecoration: "none", height:"max-content"}} to={`/question/${question._id}`} key={question._id}>
-                    <PostCard post={question} />
-                  </Link>
-                )).slice(0, 9) : (
-                  <p>No questions found</p>
-                )}
-          </section>
-        </article> */}
+      </section>
+      <section className="content">
+        
       </section>
     </>
   );
