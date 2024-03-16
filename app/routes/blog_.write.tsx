@@ -50,7 +50,6 @@ export default function BlogWrite() {
                         <input className="input-fields" type="text" id="title" name="title" />
                     </div>
                     <div>
-                        <label htmlFor="content">Content</label>
                         <Editor
                             apiKey='3ioqryb6do0jjs1dqe42hr1sf7nkuzwi1ig8qu2wx8xtvxzq'
                             onInit={(evt, editor) => editorRef.current = editor}
