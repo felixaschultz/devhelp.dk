@@ -116,6 +116,11 @@ export default function Comments({ postId, post, user }) {
                                                             }
                                                             <input type="hidden" name="commentId" value={comment._id} />
                                                             <input type="hidden" name="replyId" value={reply._id} />
+                                                            {
+                                                                (postId) && (
+                                                                    <input type="hidden" name="postId" value={postId} />
+                                                                )
+                                                            }
                                                         </fetcher.Form>
                                                     </p>
                                                 </div>
@@ -132,6 +137,11 @@ export default function Comments({ postId, post, user }) {
                                                     <textarea className="input-fields textarea comment" id="reply" name="body" placeholder={"Write your reply to " + activeReply.user} />
                                                     <input type="hidden" name="user" value={user?._id} />
                                                     <input type="hidden" name="commentId" value={comment?._id} />
+                                                    {
+                                                        (postId) && (
+                                                            <input type="hidden" name="postId" value={postId} />
+                                                        )
+                                                    }
                                                 </div>
                                                 <section className="flex">
                                                     <button name="_action" value="reply" className="post-btn" type="submit">Reply</button>
