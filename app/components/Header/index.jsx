@@ -21,7 +21,7 @@ export default function Header({setOpen, open, user}) {
                     <section className="flex nav" style={(open.open && open.type === "menu") ? {display: "block"} : {}} >
                         <NavLink style={({ isActive }) => ({
                                 borderBottom: isActive
-                                    ? "2px solid rgb(155, 121, 44)"
+                                    ? "2px solid rgb(192, 159, 83)"
                                     : "",
                                 color: isActive
                                     ? "#fff"
@@ -29,7 +29,7 @@ export default function Header({setOpen, open, user}) {
                             })} className="navitem" to="/ask">Ask a Professional</NavLink>
                         <NavLink style={({ isActive }) => ({
                                 borderBottom: isActive
-                                    ? "2px solid rgb(155, 121, 44)"
+                                    ? "2px solid rgb(192, 159, 83)"
                                     : "",
                                 color: isActive
                                     ? "#fff"
@@ -37,7 +37,7 @@ export default function Header({setOpen, open, user}) {
                             })} className="navitem" to="/blog">Blog</NavLink>
                         <NavLink style={({ isActive }) => ({
                                 borderBottom: isActive
-                                    ? "2px solid rgb(155, 121, 44)"
+                                    ? "2px solid rgb(192, 159, 83)"
                                     : "",
                                 color: isActive
                                     ? "#fff"
@@ -50,7 +50,7 @@ export default function Header({setOpen, open, user}) {
                                 <div className="logged_in-nav">
                                     {(user?.role === "pro") ? <NavLink className="navitem" style={({ isActive }) => ({
                                             borderBottom: isActive
-                                                ? "2px solid rgb(155, 121, 44)"
+                                                ? "2px solid rgb(192, 159, 83)"
                                                 : "",
                                             color: isActive
                                                 ? "#fff"
@@ -60,7 +60,7 @@ export default function Header({setOpen, open, user}) {
                                     </NavLink> : null}
                                     <NavLink className="navitem" style={({ isActive }) => ({
                                         borderBottom: isActive
-                                            ? "2px solid rgb(155, 121, 44)"
+                                            ? "2px solid rgb(192, 159, 83)"
                                             : "",
                                         color: isActive
                                             ? "#fff"
@@ -70,7 +70,7 @@ export default function Header({setOpen, open, user}) {
                                     </NavLink>
                                     <NavLink className="navitem" style={({ isActive }) => ({
                                         borderBottom: isActive
-                                            ? "2px solid rgb(155, 121, 44)"
+                                            ? "2px solid rgb(192, 159, 83)"
                                             : "",
                                         color: isActive
                                             ? "#fff"
