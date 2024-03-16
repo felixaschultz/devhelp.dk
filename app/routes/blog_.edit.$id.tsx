@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import { Form, redirect, useFetcher, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
+import { useState,useRef } from "react";
+import { Editor } from '@tinymce/tinymce-react';
 import "../styles/BlogWrite.css";
 import { uploadImage } from "~/services/uploadImage";
 
@@ -28,6 +29,12 @@ export default function BlogEdit() {
     const fetcher = useFetcher();
     const [ image, setImage ] = useState(post?.image || null);
     const [ tags, setTags ] = useState([...post?.tags]);
+    const handleChange = (e) => {
+        const body = e;
+        const textarea = document.querySelector("textarea[name=body]");
+        textarea.value = body;
+    }
+    const editorRef = useRef(null);
 
     return (
         <div className="content">
@@ -66,7 +73,31 @@ export default function BlogEdit() {
                         <label htmlFor="content">
                             <h2>Content</h2>
                         </label>
-                        <textarea className="input-fields textarea" id="content" name="body" defaultValue={post?.body} />
+                        <Editor
+                            apiKey='3ioqryb6do0jjs1dqe42hr1sf7nkuzwi1ig8qu2wx8xtvxzq'
+                            onInit={(evt, editor) => editorRef.current = editor}
+                            initialValue={post?.body}
+                            init={{
+                            height: 500,
+                            menubar: false,
+                            plugins: [
+                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                            ],
+                            toolbar: 'undo redo | blocks | ' +
+                                'bold italic forecolor | alignleft aligncenter ' +
+                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                'removeformat | help',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            }}
+                            onEditorChange={handleChange}
+                        />
+                        <textarea style={{
+                            display: "none"
+                        }} name="body" defaultValue={editorRef?.current?.getContent()}>
+                            {editorRef.current?.getContent()}
+                        </textarea>
                     </div>
                     <section className="tags">
                         <label htmlFor="tags">

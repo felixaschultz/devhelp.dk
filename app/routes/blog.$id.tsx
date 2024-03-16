@@ -98,7 +98,9 @@ export default function BlogEntry() {
                 }
                 {
                     post.body.split("\n").map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
+                        <div key={index} dangerouslySetInnerHTML={{
+                            __html: paragraph
+                        }}></div>
                     ))
                 }
                 <Comments post={post} user={user} />

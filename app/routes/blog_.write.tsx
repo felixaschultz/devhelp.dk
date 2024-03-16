@@ -1,7 +1,8 @@
 import mongoose, { set } from "mongoose";
 import { authenticator } from "~/services/auth.server";
 import { Form, redirect, useFetcher } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Editor } from '@tinymce/tinymce-react';
 import "../styles/BlogWrite.css";
 import { uploadImage } from "~/services/uploadImage";
 
@@ -22,6 +23,12 @@ export default function BlogWrite() {
     const [image, setImage] = useState(null);
     const [ tags, setTags ] = useState([]);
     const fetcher = useFetcher();
+    const editorRef = useRef(null);
+    const handleChange = (e) => {
+        const body = e;
+        const textarea = document.querySelector("textarea[name=body]");
+        textarea.value = body;
+    }
     return (
         <div className="content">
             <h1>Write a blog post</h1>
@@ -44,7 +51,30 @@ export default function BlogWrite() {
                     </div>
                     <div>
                         <label htmlFor="content">Content</label>
-                        <textarea className="input-fields textarea" id="content" name="body" />
+                        <Editor
+                            apiKey='3ioqryb6do0jjs1dqe42hr1sf7nkuzwi1ig8qu2wx8xtvxzq'
+                            onInit={(evt, editor) => editorRef.current = editor}
+                            init={{
+                            height: 500,
+                            menubar: false,
+                            plugins: [
+                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                            ],
+                            toolbar: 'undo redo | blocks | ' +
+                                'bold italic forecolor | alignleft aligncenter ' +
+                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                'removeformat | help',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            }}
+                            onEditorChange={handleChange}
+                        />
+                        <textarea style={{
+                            display: "none"
+                        }} name="body" defaultValue={editorRef?.current?.getContent()}>
+                            {editorRef.current?.getContent()}
+                        </textarea>
                     </div>
                     <section className="tag-container">
                         {
