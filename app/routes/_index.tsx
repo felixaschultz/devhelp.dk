@@ -95,7 +95,7 @@ export default function Index() {
               <p>No blog posts found</p>
             )}
         </section>
-        <article style={{marginTop: "100px"}}>
+        {/* <article style={{marginTop: "100px"}}>
           <h2>Seneste Spørgsmål</h2>
           <p>Se de seneste spørgsmål stillet af vores brugere.</p>
           <section className="blog-grid">
@@ -107,7 +107,7 @@ export default function Index() {
                   <p>No questions found</p>
                 )}
           </section>
-        </article>
+        </article> */}
       </section>
     </>
   );

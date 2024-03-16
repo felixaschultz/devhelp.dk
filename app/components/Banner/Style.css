@@ -26,6 +26,10 @@
     place-content: center;
 }
 
+.hero-heading{
+    text-transform: uppercase;
+}
+
 .hero-logo{
     width: 250px;
     margin: 10px auto;
@@ -33,6 +37,31 @@
 
 .tag-container{
     margin-top: 5px;
+}
+
+.highlightedText{
+    color: rgb(171, 139, 64);
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+    overflow: hidden;
+}
+
+@keyframes pushDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    50.01% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 @media screen and (max-width: 768px){

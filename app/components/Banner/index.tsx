@@ -3,6 +3,8 @@ import "./Style.css"
 import Logo from "../../assets/devhelp-logo.svg";
 import BannerBG from "../../assets/bg.png";
 import MobileBanner from "../../assets/bg-mobile.png";
+import { useEffect } from "react";
+import { set } from "mongoose";
 
 function Banner({user, tags}) {
     const [open, setOpen] = useOutletContext();
@@ -28,13 +30,43 @@ function Banner({user, tags}) {
     // Step 5: Map the pairs back to just the tags
     const top5Tags = top5Pairs.map(pair => pair[0]);
 
+    function RolledText(){
+        const rolledText = document.getElementById("rolled-text");
+        const text = [
+            "verdens bedste",
+            "verdens mest erfarne",
+            "junior og senior",
+        ];
+        let i = 0;
+        setInterval(() => {
+            rolledText.style.transform = '0';
+
+            setTimeout(() => {
+                // Change the text
+                rolledText.textContent = text[i];
+
+                // Fade in the new text
+                rolledText.style.opacity = '1';
+
+                i++;
+                if(i === text.length){
+                    i = 0;
+                }
+            }, 500);
+        }, 3000);
+    }
+
+    useEffect(() => {
+        RolledText();
+    }, []);
+
     return (
         <article className="banner">
             <section className="banner_container">
                 <div className="hero-tagline">
                     <img className="hero-logo" src={Logo} alt="DevHelp Logo" />
                     <section>
-                        <h2>Vi connecter junior og senior udvikler!</h2>
+                        <h2 className="hero-heading">Vi forbinder <span id="rolled-text" className="highlightedText">junior og senior</span> udvikler</h2>
                         <p>Din platform for at hjælpe og for hjælp af andre, inden for Udviklersverden.</p>
                     </section>
                     <section className="flex" style={{alignItems: "flex-start", marginTop: "20px"}}>
