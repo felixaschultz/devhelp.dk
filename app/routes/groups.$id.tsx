@@ -12,7 +12,9 @@ export const loader = async ({ request, params }) => {
             .populate("members.user")
                 .populate("posts.user")
                     .populate("posts.comments")
-                        .populate("posts.comments.user");
+                        .populate("posts.comments.user")
+                            .populate("posts.comments.reply")
+                                .populate("posts.comments.reply.user");
 
     if(groups.creator._id != user?._id){
         if(!groups.members.find(member => member.user == user?._id)){
