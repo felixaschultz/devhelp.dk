@@ -103,8 +103,8 @@ export default function BlogEdit() {
                                 'bold italic forecolor | alignleft aligncenter' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
                                 'emoticons | template | contextmenu |' +
-                                'link image | code | codesample |',
-                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | codesample | removeformat',
+                                'link image | codesample |',
+                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | codesample | removeformat',
                             image_advtab: true,
                             toolbar_float: false,
                             toolbar_sticky: true,

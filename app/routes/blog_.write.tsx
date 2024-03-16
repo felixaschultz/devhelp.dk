@@ -81,8 +81,8 @@ export default function BlogWrite() {
                             toolbar: 'undo redo | blocks | ' +
                                 'bold italic forecolor | alignleft aligncenter' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
-                                'link image | code | codesample |',
-                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | codesample | removeformat',
+                                'link image | codesample |',
+                            toolbar2: 'fontselect fontsizeselect formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | codesample | removeformat',
                             image_advtab: true,
                             toolbar_float: true,
                             toolbar_sticky: true,
