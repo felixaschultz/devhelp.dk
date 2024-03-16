@@ -47,6 +47,8 @@ export default function Comments({ postId, post, user }) {
                 <h2>Comments ({(post?.comments?.length > 0) ? post?.comments?.length : "0"})</h2>
                     {post?.comments?.length === 0 ? <p>No comments yet</p> : post?.comments?.filter((comment) => {
                         return comment.body !== undefined;
+                    })?.sort((a, b) => {
+                        return new Date(b.date) - new Date(a.date);
                     })?.map((comment, index) => (
                         <>
                             <div key={index} className="comment-group">
@@ -94,6 +96,9 @@ export default function Comments({ postId, post, user }) {
                                         <div className="replies">
                                             {comment.reply?.filter((comment) => {
                                                 return comment.body != undefined;
+                                            }).sort((a, b) => {
+                                                console.log(a,b);
+                                                return new Date(a.date) - new Date(b.date);
                                             }).map((reply, index) => (
                                                 <div key={index} className="comment reply">
                                                     <p>{reply.body}</p>
@@ -153,9 +158,7 @@ export default function Comments({ postId, post, user }) {
                             </div>
                         </>
                         
-                    )).sort((a, b) => {
-                        return new Date(b.date) - new Date(a.date);
-                    })}
+                    ))}
             </div>
         </div>
     );

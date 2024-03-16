@@ -100,7 +100,7 @@ export default function Group() {
                                         </article>
                                         <Comments postId={post._id} post={post} user={user} />
                                     </section>
-                                ))
+                                )).sort((a, b) => new Date(b.date) + new Date(a.date))
                             }
                             </section>
                         </section>
