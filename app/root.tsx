@@ -14,7 +14,8 @@ import {
   useLoaderData,
   useRouteError,
   isRouteErrorResponse,
-  Link
+  useNavigation,
+  Link,
 } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
@@ -25,6 +26,7 @@ import { authenticator } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
+import Loader from "./components/Loader";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -74,6 +76,7 @@ export default function App() {
     open: false,
     type: "login"
   });
+  const { state } = useNavigation();
   const fetcher = useFetcher();
   const { user, error } = useLoaderData();
   const actionData = useActionData();
@@ -97,6 +100,9 @@ export default function App() {
       </head>
       <body>
         <Header setOpen={setOpen} open={open} user={user} />
+        {state === 'loading' && (
+          <Loader />
+        )}
         <Outlet context={[open, setOpen]} />
         <Footer />
         <ScrollRestoration />
