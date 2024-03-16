@@ -24,6 +24,11 @@ export default function BlogWrite() {
     const [ tags, setTags ] = useState([]);
     const fetcher = useFetcher();
     const editorRef = useRef(null);
+    const handleChange = (e) => {
+        const body = e;
+        const textarea = document.querySelector("textarea[name=body]");
+        textarea.value = body;
+    }
     return (
         <div className="content">
             <h1>Write a blog post</h1>
@@ -49,7 +54,6 @@ export default function BlogWrite() {
                         <Editor
                             apiKey='3ioqryb6do0jjs1dqe42hr1sf7nkuzwi1ig8qu2wx8xtvxzq'
                             onInit={(evt, editor) => editorRef.current = editor}
-                            initialValue={post?.body}
                             init={{
                             height: 500,
                             menubar: false,
@@ -64,12 +68,11 @@ export default function BlogWrite() {
                                 'removeformat | help',
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
+                            onEditorChange={handleChange}
                         />
                         <textarea style={{
                             display: "none"
-                        }} name="body" onChange={() => {
-                            editorRef.current?.save();
-                        }}>
+                        }} name="body" defaultValue={editorRef?.current?.getContent()}>
                             {editorRef.current?.getContent()}
                         </textarea>
                     </div>

@@ -29,6 +29,11 @@ export default function BlogEdit() {
     const fetcher = useFetcher();
     const [ image, setImage ] = useState(post?.image || null);
     const [ tags, setTags ] = useState([...post?.tags]);
+    const handleChange = (e) => {
+        const body = e;
+        const textarea = document.querySelector("textarea[name=body]");
+        textarea.value = body;
+    }
     const editorRef = useRef(null);
 
     return (
@@ -86,12 +91,11 @@ export default function BlogEdit() {
                                 'removeformat | help',
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
+                            onEditorChange={handleChange}
                         />
                         <textarea style={{
                             display: "none"
-                        }} name="body" onChange={() => {
-                            editorRef.current?.save();
-                        }}>
+                        }} name="body" defaultValue={editorRef?.current?.getContent()}>
                             {editorRef.current?.getContent()}
                         </textarea>
                     </div>
