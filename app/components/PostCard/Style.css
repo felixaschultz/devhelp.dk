@@ -28,3 +28,11 @@
     object-fit: cover;
     border-radius: 5px;
 }
+
+.post-card a{
+    color: #000;
+}
+
+.post-card a[target="_blank"]::after{
+    filter: invert(0);
+}
