@@ -37,6 +37,11 @@ const userSchema = new Schema({
         default: false
     },
     settings: {
+        account: {
+            type: String,
+            enum: ["personal", "business"],
+            default: "personal"
+        },
         notifications: [
             {
                 
