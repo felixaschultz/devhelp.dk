@@ -62,28 +62,20 @@ const userSchema = new Schema({
                 }
             }
         ],
-        security: [
-            {
-                type: {
-                    type: String,
-                    enum: ["2fa", "password"],
-                    default: "password"
-                },
-                passkey: [
-                    {
-                        publicKey: {
-                            type: String,
-                            select: false,
-                        },
-                        name: {
-                            type: String,
-                            required: true
-                        }
-                    }
-                ]
-            },
-            
-        ],
+        security: {
+            passkeys: [
+                {
+                    publicKey: {
+                        type: String,
+                        select: false,
+                    },
+                    name: {
+                        type: String,
+                        required: true
+                    },
+                }
+            ]
+        },
         privacy: [
             {
                 type: String,
