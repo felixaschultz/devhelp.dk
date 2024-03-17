@@ -235,6 +235,12 @@ export const action = async ({ request }) => {
                     status: 200
                 };
             }
+        }else{
+            return {
+                message: "Yeah, du har nu bedt " + proUser.name.firstname + ", han glæder sig til at svare dig.",
+                status: 200
+            };
+        
         }
     }
 }
