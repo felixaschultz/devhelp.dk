@@ -70,10 +70,18 @@ const userSchema = new Schema({
             },
             {
                 type: String,
-                passkey: {
-                    type: String,
-                    select: false
-                }
+                passkey: [
+                    {
+                        publicKey: {
+                            type: String,
+                            select: false,
+                        },
+                        name: {
+                            type: String,
+                            required: true
+                        }
+                    }
+                ]
             }
         ],
         privacy: [
