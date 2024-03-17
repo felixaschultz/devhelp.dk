@@ -24,7 +24,7 @@ export const meta = [
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
     return (
-        <div className="content grid">
+        <div className="content settings grid">
             <aside>
                 <h1>Billing Settings</h1>
                 <SettingsNav userSettings={userSettings} />
