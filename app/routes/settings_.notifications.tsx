@@ -9,7 +9,8 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?._id});
+    const userSettings = await mongoose.model("User").findOne({_id: user?._id})
+            .select("settings.notifications");
 
     return {user, userSettings};
 };
@@ -30,7 +31,27 @@ export default function Settings(){
                 <SettingsNav userSettings={userSettings} />
             </aside>
             <div>
-                
+                {
+                    
+                    <div>
+                        <h2>Notifications</h2>
+                        <div>
+                            <div>
+                                <h3>Questions to me</h3>
+                                <p>Get notified when someone asks you a question</p>
+                                <div>
+                                    <input type="checkbox" id="questions-to-me" name="questions-to-me" checked={
+                                        userSettings?.settings?.notifications[0]?.notification_type === "new_question" && userSettings?.settings?.notifications[0]?.enabled
+                                    } onChange={(e) => {
+                                        console.log(e.target.checked);
+                                    }} />
+                                    <label htmlFor="questions-to-me">Notify me</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                }
             </div>
         </div>
     )

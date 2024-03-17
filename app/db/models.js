@@ -44,8 +44,13 @@ const userSchema = new Schema({
                 default: "email",
                 notification_type: {
                     type: String,
-                    enum: ["new_post", "new_comment", "new_answer", "new_group", "new_member", "new_message", "new_request", "new_connection", "new_like", "new_follow", "new_tag", "new_mention"],
+                    enum: ["new_post", "new_comment", "new_answer", "new_group", "new_member", "new_message", "new_request", "new_connection", "new_like", "new_follow", "new_tag", "new_mention", "new_question", "new_answer"],
                     default: "new_post"
+                },
+                enabled: {
+                    type: Boolean,
+                    enum: [true, false],
+                    default: true
                 }
             }
         ],
