@@ -65,24 +65,22 @@ const userSchema = new Schema({
         security: {
             passkeys: [
                 {
-                    publicKey: {
-                        type: String,
-                        select: false,
-                    },
                     name: {
                         type: String,
                         required: true
                     },
+                    key: {
+                        type: String,
+                        required: true
+                    }
                 }
             ]
         },
-        privacy: [
-            {
-                type: String,
-                enum: ["public", "private"],
-                default: "public"
-            }
-        ],
+        privacy: {
+            type: String,
+            enum: ["public", "private"],
+            default: "public"
+        },
     },
     skills: [
         {
