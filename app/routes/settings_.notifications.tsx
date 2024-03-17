@@ -55,7 +55,6 @@ export default function Settings(){
                                                 userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving
                                             }>
                                                 <option value="email">Email</option>
-                                                <option value="push">Push</option>
                                             </select>
                                             <button type="submit">
                                                 {userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled ? "Deaktiver" : "Aktiver"}
