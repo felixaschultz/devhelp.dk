@@ -36,6 +36,37 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    settings: {
+        notifications: [
+            {
+                type: String,
+                enum: ["email", "push"],
+                default: "email",
+                
+            }
+        ],
+        security: [
+            {
+                type: String,
+                enum: ["2fa", "password"],
+                default: "password"
+            },
+            {
+                type: String,
+                passkey: {
+                    type: String,
+                    select: false
+                }
+            }
+        ],
+        privacy: [
+            {
+                type: String,
+                enum: ["public", "private"],
+                default: "public"
+            }
+        ],
+    },
     skills: [
         {
             name: {
