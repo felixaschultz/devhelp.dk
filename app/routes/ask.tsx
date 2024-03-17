@@ -208,31 +208,34 @@ export const action = async ({ request }) => {
         };
     }else{
         const proUser = await mongoose.model("User").findById(to);
-        /* const { data, error } = await resend.emails.send({
-            from: 'Support Devhelp.dk <info.no_reply@devhelp.dk>',
-            to: proUser.email,
-            subject: 'You have a new question from a user | Devhelp.dk',
-            html: `
-                <h1>You have a new question from a user</h1>
-                <p>${user.name.firstname} ${user.name.lastname} has asked you a question</p>
-                <p>Title: ${title}</p>
-                <p>Question: ${question}</p>
-                <p>Public: ${shouldBePublic === "on" ? "Yes" : "No"}</p>
-                <a href="http://localhost:60565/question/${newQuestion._id}">See it</a>
-            `,
-        });
+        const notificationType = proUser.settings.notifications.find(notification => notification.notification_type === "questions_to_me");
+        if(notificationType.enabled && notificationType.receiving === "email"){
+            const { data, error } = await resend.emails.send({
+                from: 'Support Devhelp.dk <info.no_reply@devhelp.dk>',
+                to: proUser.email,
+                subject: 'You have a new question from a user | Devhelp.dk',
+                html: `
+                    <h1>You have a new question from a user</h1>
+                    <p>${user.name.firstname} ${user.name.lastname} has asked you a question</p>
+                    <p>Title: ${title}</p>
+                    <p>Question: ${question}</p>
+                    <p>Public: ${shouldBePublic === "on" ? "Yes" : "No"}</p>
+                    <a href="http://localhost:60565/question/${newQuestion._id}">See it</a>
+                `,
+            });
 
-        if (error) {
-            return {
-                error,
-                status: 400
-            };
-        }else{ */
-            return {
-                message: "Yeah, du har nu bedt " + proUser.name.firstname + ", han glæder sig til at svare dig.",
-                status: 200
-            };
-        /* } */
+            if (error) {
+                return {
+                    error,
+                    status: 400
+                };
+            }else{
+                return {
+                    message: "Yeah, du har nu bedt " + proUser.name.firstname + ", han glæder sig til at svare dig.",
+                    status: 200
+                };
+            }
+        }
     }
 }
 
