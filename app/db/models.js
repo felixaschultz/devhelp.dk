@@ -42,7 +42,11 @@ const userSchema = new Schema({
                 type: String,
                 enum: ["email", "push"],
                 default: "email",
-                
+                notification_type: {
+                    type: String,
+                    enum: ["new_post", "new_comment", "new_answer", "new_group", "new_member", "new_message", "new_request", "new_connection", "new_like", "new_follow", "new_tag", "new_mention"],
+                    default: "new_post"
+                }
             }
         ],
         security: [
