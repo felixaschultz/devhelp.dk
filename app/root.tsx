@@ -213,6 +213,9 @@ export default function App() {
 export function ErrorBoundary({ error }) {
   const user = "";
   const [open, setOpen] = useState(false);
+  const routeError = useRouteError();
+
+  console.log(routeError);
 
   return (
     <html lang="en">
@@ -228,6 +231,10 @@ export function ErrorBoundary({ error }) {
         {isRouteErrorResponse(error) ? (
             <h2>
               {error?.status} – {error?.statusText}
+            </h2>
+          ) : routeError ? (
+            <h2>
+              {routeError.message}
             </h2>
           ) : error instanceof Error ? (
             <p>{error?.message}</p>
