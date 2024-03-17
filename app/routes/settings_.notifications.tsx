@@ -11,7 +11,8 @@ export const loader = async ({request}) => {
     });
 
     const userSettings = await mongoose.model("User").findOne({_id: user?._id})
-            .select("settings.notifications");
+            .select("settings.notifications")
+            .select("role");
 
     return {user, userSettings};
 };
@@ -26,6 +27,7 @@ export const meta = [
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
     const fetcher = useFetcher();
+
     return (
         <div className="content grid">
             <aside>
@@ -43,18 +45,22 @@ export default function Settings(){
                                 <p>Get notified when someone asks you a question</p>
                                 <div>
                                     <fetcher.Form method="post">
-                                        <input type="hidden" name="notification_type" value="questions_to_me" />
-                                        <input type="hidden" name="enabled" value={userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled} />
-                                        <label htmlFor="notification_recieving">Hvordan vil du blive notificeret?</label>
-                                        <select name="notification_recieving" id="notification_recieving" defaultValue={
-                                            userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving
+                                        <fieldset disabled={
+                                            userSettings.role === "pro" ? false : true
                                         }>
-                                            <option value="email">Email</option>
-                                            <option value="push">Push</option>
-                                        </select>
-                                        <button type="submit">
-                                            {userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled ? "Deaktiver" : "Aktiver"}
-                                        </button>
+                                            <input type="hidden" name="notification_type" value="questions_to_me" />
+                                            <input type="hidden" name="enabled" value={userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled} />
+                                            <label htmlFor="notification_recieving">Hvordan vil du blive notificeret?</label>
+                                            <select name="notification_recieving" id="notification_recieving" defaultValue={
+                                                userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving
+                                            }>
+                                                <option value="email">Email</option>
+                                                <option value="push">Push</option>
+                                            </select>
+                                            <button type="submit">
+                                                {userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled ? "Deaktiver" : "Aktiver"}
+                                            </button>
+                                        </fieldset>
                                     </fetcher.Form>
                                 </div>
                             </div>
