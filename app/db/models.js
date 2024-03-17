@@ -63,6 +63,7 @@ const userSchema = new Schema({
             }
         ],
         security: {
+            type: Object,
             passkeys: [
                 {
                     name: {

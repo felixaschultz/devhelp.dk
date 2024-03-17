@@ -140,7 +140,7 @@ export const action = async ({request}) => {
             { _id: new mongoose.Types.ObjectId(user?._id) },
             {
                 $push: {
-                    "settings.security.passkeys": passkey
+                    "settings.security.$.passkeys": passkey
                 }
             },
             { new: true, upsert: true } // return the updated document
