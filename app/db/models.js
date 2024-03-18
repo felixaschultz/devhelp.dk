@@ -6,8 +6,25 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, "Please enter an email address."],
+        //lowercase: true,
+        match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        "Please enter a valid email address",
+        ],
+        validate: {
+            validator: async function (email) {
+                const user = await this.constructor.findOne({ email });
+                if (user) {
+                if (this.id === user.id) {
+                    return true;
+                }
+                return false;
+                }
+                return true;
+            },
+            message: (props) => "The specified email address is already in use.",
+        },
     },
     password: {
         type: String,
