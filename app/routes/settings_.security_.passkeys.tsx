@@ -26,6 +26,7 @@ export const meta = [
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
     const [publicKey, setPublicKey] = useState("");
+    const [newPasskey, setNewPasskey] = useState(false);
     const fetcher = useFetcher();
 
     const passkeys = userSettings?.settings?.security?.passkeys;
@@ -86,23 +87,40 @@ export default function Settings(){
             <section>
                 <h2>Passkeys</h2>
                 <p>Passkeys are a way to secure your account. You can use them to authenticate with the API or to login to your account.</p>
-                <fetcher.Form method="post">
-                    <div>
-                        <label htmlFor="publicKey">Public key</label>
-                        <input type="hidden" id="publicKey" name="publicKey" required readOnly value={publicKey} />
-                    </div>
-                    <div>
-                        <label htmlFor="name">Name</label>
-                        <input className="input-fields" type="text" id="name" name="name" required />
-                    </div>
-                    <button className="btn" type="button" onClick={async (e) => {
-                        e.preventDefault();
-                        const passkey = await createPasskey(user);
-                        setPublicKey(passkey.id);
-                    }
-                    }>Generate new Passkey</button>
-                    <button className="btn" type="submit">Save Passkey</button>
-                </fetcher.Form>
+                <section>
+                    <button type="button" onClick={
+                        (e) => {
+                            setNewPasskey(!newPasskey);
+                        }
+                    } className="btn">Add new Passkey</button>
+                    <h3>Current Passkeys</h3>
+                    <ul>
+                        {
+                            passkeys?.map(passkey => (
+                                <li key={passkey.publicKey}>{passkey.name}</li>
+                            ))
+                        }
+                    </ul>
+                    { (newPasskey) ?? (
+                        <fetcher.Form method="post">
+                        <div>
+                            <label htmlFor="publicKey">Public key</label>
+                            <input type="hidden" id="publicKey" name="publicKey" required readOnly value={publicKey} />
+                        </div>
+                        <div>
+                            <label htmlFor="name">Name</label>
+                            <input className="input-fields" type="text" id="name" name="name" required />
+                        </div>
+                        <button className="btn" type="button" onClick={async (e) => {
+                            e.preventDefault();
+                            const passkey = await createPasskey(user);
+                            setPublicKey(passkey.id);
+                        }
+                        }>Generate new Passkey</button>
+                        <button className="btn" type="submit">Save Passkey</button>
+                    </fetcher.Form>
+                    )}
+                </section>
             </section>
         </div>
     )
@@ -122,38 +140,27 @@ export const action = async ({request}) => {
     }
 
     const passkey = {
-        publicKey: publicKey,
-        name: name
+        name: name,
+        publicKey: publicKey
     }
+    let userSettings = await mongoose.model("User").findOne({ _id: new mongoose.Types.ObjectId(user._id) });
 
-    let userSettings = await mongoose.model("User").findOneAndUpdate(
-        { _id: new mongoose.Types.ObjectId(user?._id)},
-        {
-            $push: {
-                "settings.security.$.passkeys": passkey
+    if (!userSettings?.settings?.security?.passkeys) {
+        // Create a new security object with a passkeys array and push the new passkey into it
+        userSettings.settings = {
+            security: {
+                passkeys: [passkey]
             }
-        },
-        { new: true, upsert: true } // return the updated document
-    ); 
-    if(!userSettings.settings.security.passkeys){
-        userSettings = await mongoose.model("User").findOneAndUpdate(
-            { _id: new mongoose.Types.ObjectId(user?._id) },
-            {
-                $push: {
-                    "settings.security.$.passkeys": passkey
-                }
-            },
-            { new: true, upsert: true } // return the updated document
-        );
-    }
-    const save = await userSettings.save();
+        }
+        return await userSettings.save();
+    } else {
 
-    if(!save){
-        return new Response("Could not save passkey", {
-            status: 500
+        return await mongoose.model("User").findByIdAndUpdate(user._id, {
+            $push: {
+                "settings.security.passkeys": passkey
+            }
+        }, {
+            new: true
         });
-
     }
-
-    return save;
 }

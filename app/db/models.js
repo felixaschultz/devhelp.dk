@@ -69,13 +69,14 @@ const userSchema = new Schema({
                         type: String,
                         required: true
                     },
-                    key: {
+                    publicKey: {
                         type: String,
                         required: true
                     }
                 }
             ]
-        },
+        }
+        ,
         privacy: {
             type: String,
             enum: ["public", "private"],
