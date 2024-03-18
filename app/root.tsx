@@ -22,7 +22,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
-import { authenticator, webAuthnStrategy } from "./services/auth.server";
+import { authenticator } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
