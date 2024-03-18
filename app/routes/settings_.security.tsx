@@ -34,8 +34,8 @@ export default function Settings(){
                 <article>
                     <h2>How you sign in</h2>
                     <p>Make sure that you can always access your Intastellar Account by keeping this information up to date</p>
-                    <Link to="/settings/security/password">Change your password</Link>
-                    <Link to="/settings/security/passkeys">Passkeys</Link>
+                    <Link className="settings-links" to="/settings/security/password">Change your password</Link>
+                    <Link className="settings-links" to="/settings/security/passkeys">Passkeys</Link>
                 </article>
             </section>
         </div>

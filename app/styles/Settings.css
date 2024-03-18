@@ -3,3 +3,10 @@
   grid-template-columns: minmax(200px, max-content) 1fr;
   grid-gap: 50px;
 }
+
+.settings-links{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
