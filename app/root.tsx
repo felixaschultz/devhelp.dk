@@ -22,7 +22,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
-import { authenticator } from "./services/auth.server";
+import { authenticator, webAuthnStrategy } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
@@ -58,12 +58,14 @@ export const loader = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
   const session = await getSession(request.headers.get("Cookie"));
 
+  /* const webAuthn = await webAuthnStrategy.generateOptions(request, request.headers.get("Cookie"), user); */
+
   const error = session.get("sessionErrorKey");
   session.unset("sessionErrorKey");
   const headers = new Headers({
     "Set-Cookie": await commitSession(session),
   });
-  
+
   return {
     user,
     error,
@@ -120,26 +122,50 @@ export default function App() {
                         }}>X</Button>
                         <Form action="/login" method="post">
                             <h2>Login</h2>
-                            <label htmlFor="mail">Email</label>
-                            <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
-                            <label htmlFor="password">Password</label>
-                            <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
-                            <section>
-                              {
-                                  error?.message && (
-                                      <p className="error">{error?.message}</p>
-                                  )
-                              }
-                              <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
-                              <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
-                                  open: true,
-                                  type: "reset"
-                              })}>Sæt det tilbage</button></p>
-                              <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
-                                  open: true,
-                                  type: "signup"
-                              })}>Registrer dig i dag</button></p>
-                            </section>
+                            {
+                              /* (!user.passKey) &&  */(
+                                <>
+                                  <label htmlFor="mail">Email</label>
+                                  <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
+                                  <label htmlFor="password">Password</label>
+                                  <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
+                                  <section>
+                                    {
+                                        error?.message && (
+                                            <p className="error">{error?.message}</p>
+                                        )
+                                    }
+                                    <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                                    <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
+                                        open: true,
+                                        type: "reset"
+                                    })}>Sæt det tilbage</button></p>
+                                    <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                        open: true,
+                                        type: "signup"
+                                    })}>Registrer dig i dag</button></p>
+                                  </section>
+                                </>
+                              )
+                            }
+                            {/* {
+                              (user.passKey) && (
+                                <section>
+                                  <h2>Brug din Passkey</h2>
+                                  <Button onClick={
+                                      handlePasskeyCheck(user.passKey)
+                                  }>Continue</Button>
+                                    <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
+                                        open: true,
+                                        type: "reset"
+                                    })}>Sæt det tilbage</button></p>
+                                    <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                        open: true,
+                                        type: "signup"
+                                    })}>Registrer dig i dag</button></p>
+                                  </section>
+                              )
+                            } */}
                         </Form>
                     </div>
                 </div>
@@ -255,6 +281,14 @@ export function ErrorBoundary({ error }) {
 
 
 export const action = async ({ request }) => {
+  /* try {
+    await authenticator.authenticate("webauthn", request, {
+      successRedirect: "/",
+    });
+    return {error: null}
+  } catch (error) {
+    throw new Error(error);
+  } */
   return Authenticate(request);
 };
 

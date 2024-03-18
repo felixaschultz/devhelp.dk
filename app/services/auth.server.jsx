@@ -1,4 +1,5 @@
 // app/services/auth.server.ts
+import { WebAuthnStrategy } from "remix-auth-webauthn/server";
 import { Authenticator, AuthorizationError } from "remix-auth";
 import { sessionStorage } from "./session.server";
 import { FormStrategy } from "remix-auth-form";
@@ -13,22 +14,25 @@ export let authenticator = new Authenticator(sessionStorage, {
 // ...
 async function verifyUser({ email, password }) {
   // ...
-  const user = await mongoose.models.User.findOne({ email }).select("+password");
+  let user = await mongoose.models.User.findOne({ email }).select("+password");
   if (!user) {
     throw new AuthorizationError("No user found with this email");
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
-  console.log("Input Password", password);
-  console.log("User Password", user.password);
-  console.log("Is Password Valid", isPasswordValid);
-
   if (!isPasswordValid || password == null || password === "" || password === undefined) {
     throw new AuthorizationError("Wrong password or username");
   }
   user.password = undefined;
-  return user;
+  if(user.settings.security.passkeys.length > 0){
+    //send 2fa code
+    const passKey = user.settings.security.passkeys
+    return {passKey, user};
+  } else{
+    return user;
+  }
+  
 }
 
 export async function resetPassword({ email, password }) {
@@ -43,6 +47,21 @@ export async function resetPassword({ email, password }) {
   user.password = undefined;
   return user;
 
+}
+
+async function getUserByUsername(email) {
+  // ...
+  return await mongoose.models.User.findOne({ email });
+}
+
+async function getAuthenticators(email) {
+  // ...
+  return await mongoose.models.User.findOne({ email }).select("security.passkeys");
+}
+
+async function getAuthenticatorById(id) {
+  // ...
+  return await mongoose.models.User.findOne({ "security": { "passkeys": { $elemMatch: { id } } } });
 }
 
 // Tell the Authenticator to use the form strategy
@@ -74,3 +93,79 @@ authenticator.use(
     }),
     "user-pass"
 );
+
+export const webAuthnStrategy = new WebAuthnStrategy(
+  {
+    // Options here...
+  },
+  async function verify({ authenticator, type, username }) {
+    let user = null;
+    const savedAuthenticator = await getAuthenticatorById(
+      authenticator.credentialID
+    );
+    if (type === "registration") {
+      // Check if the authenticator exists in the database
+      if (savedAuthenticator) {
+        throw new Error("Authenticator has already been registered.");
+      } else {
+        // Username is null for authentication verification,
+        // but required for registration verification.
+        // It is unlikely this error will ever be thrown,
+        // but it helps with the TypeScript checking
+        if (!username) throw new Error("Username is required.");
+        user = await getUserByUsername(username);
+
+        // Don't allow someone to register a passkey for
+        // someone elses account.
+        if (user) throw new Error("User already exists.");
+
+        // Create a new user and authenticator
+        user = await createUser(username);
+        await createAuthenticator(authenticator, user.id);
+      }
+    } else if (type === "authentication") {
+      if (!savedAuthenticator) throw new Error("Authenticator not found");
+      user = await getUserById(savedAuthenticator.userId);
+    }
+
+    if (!user) throw new Error("User not found");
+    return user;
+  }
+);
+
+/* authenticator.use(
+  new WebAuthnStrategy(
+    {
+      // The human-readable name of your app
+      // Type: string | (response:Response) => Promise<string> | string
+      rpName: "Devhelp.dk | Intastellar Solutions",
+      // The hostname of the website, determines where passkeys can be used
+      // See https://www.w3.org/TR/webauthn-2/#relying-party-identifier
+      // Type: string | (response:Response) => Promise<string> | string
+      rpID: (request) => new URL(request.url).hostname,
+      // Website URL (or array of URLs) where the registration can occur
+      origin: (request) => new URL(request.url).origin,
+      // Return the list of authenticators associated with this user. You might
+      // need to transform a CSV string into a list of strings at this step.
+      getUserAuthenticators: async (user) => {
+        const authenticators = await getAuthenticators(user);
+  
+        return authenticators.map((authenticator) => ({
+          ...authenticator,
+          transports: authenticator.transports.split(","),
+        }));
+      },
+      // Transform the user object into the shape expected by the strategy.
+      // You can use a regular username, the users email address, or something else.
+      getUserDetails: (user) =>
+        user ? { id: user.id, username: user.username } : null,
+      // Find a user in the database with their username/email.
+      getUserByUsername: (username) => getUserByUsername(username),
+      getAuthenticatorById: (id) => getAuthenticatorById(id),
+    },
+    async function verify({ authenticator, type, username }) {
+      // Verify Implementation Here
+    }
+  ),
+  "passkey"
+) */

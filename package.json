@@ -27,6 +27,7 @@
     "react-player": "^2.15.1",
     "remix-auth": "^3.6.0",
     "remix-auth-form": "^1.4.0",
+    "remix-auth-webauthn": "^0.2.1",
     "resend": "^3.2.0",
     "tinymce": "^6.8.3"
   },
