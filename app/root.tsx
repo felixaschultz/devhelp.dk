@@ -215,8 +215,6 @@ export function ErrorBoundary({ error }) {
   const [open, setOpen] = useState(false);
   const routeError = useRouteError();
 
-  console.log(routeError);
-
   return (
     <html lang="en">
       <head>
