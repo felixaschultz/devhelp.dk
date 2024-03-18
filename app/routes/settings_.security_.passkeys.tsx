@@ -78,6 +78,8 @@ export default function Settings(){
         }
     }
 
+    console.log(newPasskey);
+
     return (
         <div className="content settings grid">
             <aside>
@@ -88,11 +90,7 @@ export default function Settings(){
                 <h2>Passkeys</h2>
                 <p>Passkeys are a way to secure your account. You can use them to authenticate with the API or to login to your account.</p>
                 <section>
-                    <button type="button" onClick={
-                        (e) => {
-                            setNewPasskey(!newPasskey);
-                        }
-                    } className="btn">Add new Passkey</button>
+                    <button type="button" onClick={() => setNewPasskey(!newPasskey)} className="btn">Add new Passkey</button>
                     <h3>Current Passkeys</h3>
                     <ul>
                         {
@@ -101,10 +99,9 @@ export default function Settings(){
                             ))
                         }
                     </ul>
-                    { (newPasskey) ?? (
+                    { newPasskey ? 
                         <fetcher.Form method="post">
                         <div>
-                            <label htmlFor="publicKey">Public key</label>
                             <input type="hidden" id="publicKey" name="publicKey" required readOnly value={publicKey} />
                         </div>
                         <div>
@@ -119,7 +116,7 @@ export default function Settings(){
                         }>Generate new Passkey</button>
                         <button className="btn" type="submit">Save Passkey</button>
                     </fetcher.Form>
-                    )}
+                    : null}
                 </section>
             </section>
         </div>
