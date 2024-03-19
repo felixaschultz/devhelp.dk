@@ -9,8 +9,7 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id})
-        .select("settings.privacy");
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id});
 
     return {user, userSettings};
 };

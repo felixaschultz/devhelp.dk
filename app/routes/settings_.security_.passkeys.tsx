@@ -78,8 +78,6 @@ export default function Settings(){
         }
     }
 
-    console.log(newPasskey);
-
     return (
         <div className="content settings grid">
             <aside>

@@ -9,8 +9,9 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id})
-    .   select("settings.security");
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id});
+
+    console.log(userSettings);
 
     return {user, userSettings};
 };
@@ -24,7 +25,7 @@ export const meta = [
 
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
-    console.log(userSettings);
+
     return (
         <div className="content settings grid">
             <aside>
