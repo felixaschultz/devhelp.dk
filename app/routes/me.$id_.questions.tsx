@@ -8,7 +8,7 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const questionForMe = await mongoose.model("Question").find({to: user?._id});
+    const questionForMe = await mongoose.model("Question").find({to: user?.user?._id});
 
     return {user, questionForMe};
 };
@@ -32,7 +32,7 @@ export default function QuestionsToMe(){
                 </nav>
             </aside>
             <div className="content">
-                <Link to={`/me/${user?._id}`}>Back to profile</Link>
+                <Link to={`/me/${user?.user?._id}`}>Back to profile</Link>
                 <h1>Questions to me</h1>
                 
                 <p>Here are the questions that have been asked to you.</p>

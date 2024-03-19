@@ -10,8 +10,8 @@ export const loader = async ({ request }) => {
     });
     const studyGroups = await mongoose.model("Group").find({
         $or: [
-            { creator: new mongoose.Types.ObjectId(user?._id) },
-            { members: new mongoose.Types.ObjectId(user?._id) }
+            { creator: new mongoose.Types.ObjectId(user?.user?._id) },
+            { members: new mongoose.Types.ObjectId(user?.user?._id) }
         ]
     }).select("group_name description");
 
@@ -88,7 +88,7 @@ export const action = async ({ request }) => {
     const group = await mongoose.model("Group").create({
         group_name: groupname,
         description,
-        creator: new mongoose.Types.ObjectId(user?._id)
+        creator: new mongoose.Types.ObjectId(user?.user?._id)
     });
 
     return redirect(`/groups/${group._id}`);

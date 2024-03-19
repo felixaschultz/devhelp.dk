@@ -10,7 +10,7 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?._id})
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id})
             .select("settings.notifications")
             .select("role");
 
@@ -46,10 +46,10 @@ export default function Settings(){
                                 <div>
                                     <fetcher.Form method="post">
                                         <fieldset disabled={
-                                            userSettings.role === "pro" ? false : true
+                                            userSettings?.role === "pro" ? false : true
                                         }>
                                             <input type="hidden" name="notification_type" value="questions_to_me" />
-                                            <input type="hidden" name="enabled" value={userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled} />
+                                            <input type="hidden" name="enabled" value={userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled} />
                                             <label htmlFor="notification_recieving">Hvordan vil du blive notificeret?</label>
                                             <select name="notification_recieving" id="notification_recieving" defaultValue={
                                                 userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving
@@ -57,7 +57,7 @@ export default function Settings(){
                                                 <option value="email">Email</option>
                                             </select>
                                             <button type="submit">
-                                                {userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled ? "Deaktiver" : "Aktiver"}
+                                                {userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled ? "Deaktiver" : "Aktiver"}
                                             </button>
                                         </fieldset>
                                     </fetcher.Form>
@@ -77,7 +77,7 @@ export const action = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?._id})
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id})
             .select("settings.notifications");
     const formData = await request.formData();
     const { _action, notification_type, notification_recieving, enabled } = Object.fromEntries(formData);

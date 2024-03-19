@@ -2,6 +2,7 @@ import {NavLink} from "@remix-run/react";
 import "./Style.css";
 
 export default function SettingsNav({userSettings}){
+    console.log(userSettings);
     return (
         <nav className="settings-nav">
             <NavLink style={({ isActive }) => ({

@@ -9,7 +9,7 @@ import { uploadImage } from "../services/uploadImage";
 
 export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
-    const userId = new mongoose.Types.ObjectId(user?._id || params?.id);
+    const userId = new mongoose.Types.ObjectId(user?.user?._id || params?.id);
 
     const published = (!user) ? { user: userId, published: true } :  { user: userId };
 
@@ -21,7 +21,7 @@ export const loader = async ({ request, params }) => {
         throw new Error("User not found");
     }
 
-    return { user, userData, userPosts, likedPosts };
+    return { user: user?.user, userData, userPosts, likedPosts };
 }
 export const meta = ({data}) => {
 
@@ -58,7 +58,7 @@ export default function Me() {
                     )}    
                 </div>
                 <h1>{userData?.name.firstname} {userData?.name.lastname}</h1>
-                {userData?.role === "pro" && <Link to={`/me/${user?._id}/questions/ask`}>Ask a question</Link>}
+                {userData?.role === "pro" && <Link to={`/me/${user?.user?._id}/questions/ask`}>Ask a question</Link>}
                 {
                     (user?._id === userData?._id) && (
                         <div className="menu">
@@ -194,7 +194,7 @@ export const action = async ({ request }) => {
 
     if(_action === "add-skills"){
         const skills = formData.get("newSkills");
-        const userId = new mongoose.Types.ObjectId(user?._id);
+        const userId = new mongoose.Types.ObjectId(user?.user?._id);
 
         const updatedUser = JSON.parse(skills).map(async(skill) => {
             if(skill.level++ > 5) {
@@ -213,7 +213,7 @@ export const action = async ({ request }) => {
 
     if(image) {
         const newImage = await uploadImage(image);
-        const userId = new mongoose.Types.ObjectId(user?._id);
+        const userId = new mongoose.Types.ObjectId(user?.user?._id);
         const updatedUser = await mongoose.model("User").findByIdAndUpdate(userId, { image: newImage });
         return json(updatedUser);
     }

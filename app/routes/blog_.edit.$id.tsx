@@ -17,7 +17,7 @@ export const loader = async ({ request, params }) => {
     });
 
     const postId = new mongoose.Types.ObjectId(params?.id);
-    const userId = new mongoose.Types.ObjectId(user?._id);
+    const userId = new mongoose.Types.ObjectId(user?.user?._id);
 
     const post = await mongoose.model("BlogPost").findOne({ _id: postId, user: userId });
 

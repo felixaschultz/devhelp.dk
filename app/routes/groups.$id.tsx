@@ -16,8 +16,8 @@ export const loader = async ({ request, params }) => {
                             .populate("posts.comments.reply")
                                 .populate("posts.comments.reply.user");
 
-    if(groups.creator._id != user?._id){
-        if(!groups.members.find(member => member.user == user?._id)){
+    if(groups.creator._id != user?.user?._id){
+        if(!groups.members.find(member => member.user == user?.user?._id)){
             return redirect("/groups/" + params?.id + "/about");
         }
     }
@@ -37,7 +37,7 @@ export const meta = ({data}) => {
 
 export default function Group() {
     const { user, groups } = useLoaderData();
-    const memberStatus = groups.members.find(member => member.user == user?._id)?.status;
+    const memberStatus = groups.members.find(member => member.user == user?.user?._id)?.status;
     const fetcher = useFetcher();
     const textArea = useRef();
 
@@ -73,7 +73,7 @@ export default function Group() {
                 </section>
             </header>
             {
-                (groups.creator?._id == user?._id || groups.members.indexOf(user?._id) > -1) && (
+                (groups.creator?._id == user?.user?._id || groups.members.indexOf(user?.user?._id) > -1) && (
                     <>
                         <section>
                             <fetcher.Form method="post">
@@ -129,7 +129,7 @@ export const action = async ({ request, params }) => {
         }, {
             $push: {
                 posts: {
-                    user: user?._id,
+                    user: user?.user?._id,
                     body: postContent,
                     date: new Date()
                 }
@@ -145,7 +145,7 @@ export const action = async ({ request, params }) => {
         }, {
             $push: {
                 "posts.$.comments": {
-                    user: user?._id,
+                    user: user?.user?._id,
                     body: body,
                     date: new Date()
                 }
@@ -157,7 +157,7 @@ export const action = async ({ request, params }) => {
         const groupId = new mongoose.Types.ObjectId(params?.id);
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
-        const userId = user?._id;
+        const userId = user?.user?._id;
 
         // Fetch the group
         const group = await mongoose.model("Group").findById(groupId);
@@ -175,7 +175,7 @@ export const action = async ({ request, params }) => {
         const groupId = new mongoose.Types.ObjectId(params?.id);
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
-        const userId = user?._id;
+        const userId = user?.user?._id;
 
         // Fetch the group
         const group = await mongoose.model("Group").findById(groupId);
@@ -200,7 +200,7 @@ export const action = async ({ request, params }) => {
         }, {
             $push: {
                 "posts.$.comments.$[comment].reply": {
-                    user: user?._id,
+                    user: user?.user?._id,
                     body: body,
                     date: new Date()
                 }
@@ -217,7 +217,7 @@ export const action = async ({ request, params }) => {
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
         const replyId = new mongoose.Types.ObjectId(formData.get("replyId"));
-        const userId = user?._id;
+        const userId = user?.user?._id;
 
         // Fetch the group
         const group = await mongoose.model("Group").findById(groupId);
@@ -239,7 +239,7 @@ export const action = async ({ request, params }) => {
         const postId = new mongoose.Types.ObjectId(formData.get("postId"));
         const commentId = new mongoose.Types.ObjectId(formData.get("commentId"));
         const replyId = new mongoose.Types.ObjectId(formData.get("replyId"));
-        const userId = user?._id;
+        const userId = user?.user?._id;
 
         // Fetch the group
         const group = await mongoose.model("Group").findById(groupId);

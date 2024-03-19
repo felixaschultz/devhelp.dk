@@ -7,8 +7,8 @@ export const loader = async ({ request, params }) => {
     const user = await authenticator.isAuthenticated(request);
     const groups = await mongoose.model("Group").findOne({
         /* $or: [
-            { creator: new mongoose.Types.ObjectId(user?._id) },
-            { members: new mongoose.Types.ObjectId(user?._id) }
+            { creator: new mongoose.Types.ObjectId(user?.user?._id) },
+            { members: new mongoose.Types.ObjectId(user?.user?._id) }
         ], */
         /* $and: [ */
             /* {  */_id: new mongoose.Types.ObjectId(params?.id)/* } */
@@ -30,7 +30,7 @@ export const meta = ({data}) => {
 
 export default function GroupAbout() {
     const { user, groups } = useLoaderData();
-    const memberStatus = groups.members.find(member => member.user == user?._id)?.status;
+    const memberStatus = groups.members.find(member => member.user == user?.user?._id)?.status;
     if(groups.members.find(member => member.user._id == groups.creator._id) === undefined){
         groups.members.push({ user: groups.creator, status: "creator"});
     }

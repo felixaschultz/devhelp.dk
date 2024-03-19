@@ -34,7 +34,7 @@ export default function Comments({ postId, post, user }) {
                                 <input type="hidden" name="postId" value={postId} />
                             )
                         }
-                        <input type="hidden" name="user" value={user?._id} />
+                        <input type="hidden" name="user" value={user?.user?._id} />
                     </div>
                     { user ? <>
                         <section className="flex">
@@ -66,7 +66,7 @@ export default function Comments({ postId, post, user }) {
                                             }).format(new Date(comment?.date))}</span>
                                             <fetcher.Form method="post">
                                                 {
-                                                    comment?.likes?.includes(user?._id) ? (
+                                                    comment?.likes?.includes(user?.user?._id) ? (
                                                         <button disabled={!user} className="like dislike" name="_action" value="unlike-comment"><img src={likeFillOut} className="likeIcon" alt="" /> {comment?.likes?.length}</button>
                                                     ) : (
                                                         <button disabled={!user} className="like" name="_action" value="like-comment"><img src={like} className="likeIcon" alt="" /> {comment?.likes?.length}</button>
@@ -112,7 +112,7 @@ export default function Comments({ postId, post, user }) {
                                                         }).format(new Date(reply.date))}</span>
                                                         <fetcher.Form method="post">
                                                             {
-                                                                reply?.likes?.includes(user?._id) ? (
+                                                                reply?.likes?.includes(user?.user?._id) ? (
                                                                     <button disabled={!user} className="like dislike" name="_action" value="unlike-reply"><img src={likeFillOut} className="likeIcon" alt="" /> {reply?.likes?.length}</button>
                                                                 ) : (
                                                                     <button disabled={!user} className="like" name="_action" value="like-reply"><img src={like} className="likeIcon" alt="" /> {reply?.likes?.length}</button>
@@ -139,7 +139,7 @@ export default function Comments({ postId, post, user }) {
                                                 <div>
                                                     <label htmlFor="reply">Reply</label>
                                                     <textarea className="input-fields textarea comment" id="reply" name="body" placeholder={"Write your reply to " + activeReply.user} />
-                                                    <input type="hidden" name="user" value={user?._id} />
+                                                    <input type="hidden" name="user" value={user?.user?._id} />
                                                     <input type="hidden" name="commentId" value={comment?._id} />
                                                     {
                                                         (postId) && (

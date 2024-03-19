@@ -13,7 +13,7 @@ export const loader = async ({ request, params }) => {
     const postId = params.id;
     const post = await mongoose.model("BlogPost").findOne({ _id: postId }).populate("user").populate("comments.user").populate("comments.reply.user");
 
-    if(!post.published && user?._id != post.user._id) {
+    if(!post.published && user?.user?._id != post.user._id) {
         throw new Response(null, {
             status: 403,
             statusText: "Post not published"
@@ -86,7 +86,7 @@ export default function BlogEntry() {
                         <div className="likes">
                             <fetcher.Form method="post">
                                 {
-                                    post.likes.includes(user?._id) ? (
+                                    post.likes.includes(user?.user?._id) ? (
                                         <button disabled={!user} className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {post.likes.length}</button>
                                     ) : (
                                         <button disabled={!user} className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {post.likes.length}</button>
@@ -127,19 +127,19 @@ export const action = async ({ request, params }) => {
     if(_action === "like") {
         return  await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
-                likes: user?._id
+                likes: user?.user?._id
             }
         });
     }else if(_action === "unlike") {
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $pull: {
-                likes: user?._id
+                likes: user?.user?._id
             }
         });
 
     }else if(_action === "comment") {
         const comment = Object.fromEntries(formData);
-        comment.user = user?._id;
+        comment.user = user?.user?._id;
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
                 comments: comment
@@ -149,7 +149,7 @@ export const action = async ({ request, params }) => {
     } else if(_action === "reply") {
         const reply = Object.fromEntries(formData);
         const commentId = formData.get("commentId");
-        reply.user = user?._id;
+        reply.user = user?.user?._id;
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
                 "comments.$[comment].reply": reply
@@ -166,7 +166,7 @@ export const action = async ({ request, params }) => {
         const commentId = formData.get("commentId");
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
-                "comments.$[comment].likes": user?._id
+                "comments.$[comment].likes": user?.user?._id
             }
         }, {
             arrayFilters: [
@@ -181,7 +181,7 @@ export const action = async ({ request, params }) => {
         const replyId = formData.get("replyId");
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
-                "comments.$[comment].reply.$[reply].likes": user?._id
+                "comments.$[comment].reply.$[reply].likes": user?.user?._id
             }
         }, {
             arrayFilters: [
@@ -198,7 +198,7 @@ export const action = async ({ request, params }) => {
         const replyId = formData.get("replyId");
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $pull: {
-                "comments.$[comment].reply.$[reply].likes": user?._id
+                "comments.$[comment].reply.$[reply].likes": user?.user?._id
             }
         }, {
             arrayFilters: [
@@ -214,7 +214,7 @@ export const action = async ({ request, params }) => {
         const commentId = formData.get("commentId");
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $pull: {
-                "comments.$[comment].likes": user?._id
+                "comments.$[comment].likes": user?.user?._id
             }
         }, {
             arrayFilters: [

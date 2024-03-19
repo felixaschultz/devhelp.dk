@@ -9,9 +9,9 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?._id});
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id});
 
-    return {user, userSettings};
+    return {user: user?.user, userSettings};
 };
 
 export const meta = [
