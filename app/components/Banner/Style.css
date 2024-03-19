@@ -20,7 +20,7 @@
 .hero-tagline{
     text-align: center;
     color: #333;
-    padding: 20px;
+    padding: 60px 20px;
     height: 100%;
     display: grid;
     place-content: center;
