@@ -31,6 +31,16 @@ export const loader = async ({ request, params }) => {
     // Update the views
     post.views += 1;
     await post.save();
+
+    const hasUserSeenPost = await mongoose.model("LookedAtLast").findOne({user: user?.user?._id, post: { $in: [postId] }});
+    if(!hasUserSeenPost) {
+        await mongoose.model("LookedAtLast").findOneAndUpdate({user: user?.user?._id}, {
+            $push: {
+                post: postId,
+                tags: post.tags
+            },
+        }, {upsert: true});
+    }
     
     return { post, user };
 };

@@ -115,6 +115,30 @@ const userSchema = new Schema({
     ]
 });
 
+const lookedAtLast = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    post: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "BlogPost"
+        }
+    ],
+    tags: [
+        {
+            type: String
+        }
+    ],
+    question: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Question"
+        }
+    ],
+});
+
 const StudyGroups = new Schema({
     group_name: {
         type: String,
@@ -388,5 +412,10 @@ export const models = [
         name: "Group",
         schema: StudyGroups,
         collection: "groups",
+    },
+    {
+        name: "LookedAtLast",
+        schema: lookedAtLast,
+        collection: "lookedatlast",
     }
 ]
