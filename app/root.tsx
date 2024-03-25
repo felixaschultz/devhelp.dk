@@ -16,6 +16,7 @@ import {
   isRouteErrorResponse,
   useNavigation,
   Link,
+  useNavigate
 } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
@@ -30,6 +31,10 @@ import Loader from "./components/Loader";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  {
+    rel: 'stylesheet',
+    href: 'https://account.api.intastellarsolutions.com/insign/style.css'
+  },
   {
     rel: 'apple-touch-icon',
     sizes: '180x180',
@@ -82,8 +87,17 @@ export default function App() {
   const fetcher = useFetcher();
   const { user, error } = useLoaderData();
   const actionData = useActionData();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(open){
+      const button = document.querySelector("#login");
+      Intastellar.accounts.id.renderButton(button);
+    }
+  }, [open]);
+
+  useEffect(() => {
+
     if(!error){
       setOpen({
         open: false,
@@ -92,11 +106,14 @@ export default function App() {
     }
   }, [error, user]);
 
+  
+
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://account.api.intastellarsolutions.com/login.js"></script>
         <Meta />
         <Links />
       </head>
@@ -135,7 +152,11 @@ export default function App() {
                                             <p className="error">{error?.message}</p>
                                         )
                                     }
-                                    <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                                    <section>
+                                      <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                                      <p>Eller</p>
+                                      <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={window.location.host + "/login"}></div>
+                                    </section>
                                     <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
                                         open: true,
                                         type: "reset"

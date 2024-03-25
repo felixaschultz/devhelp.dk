@@ -33,7 +33,7 @@ export const loader = async ({ request, params }) => {
     await post.save();
 
     const hasUserSeenPost = await mongoose.model("LookedAtLast").findOne({user: user?.user?._id, post: { $in: [postId] }});
-    if(!hasUserSeenPost) {
+    if(!hasUserSeenPost && user) {
         await mongoose.model("LookedAtLast").findOneAndUpdate({user: user?.user?._id}, {
             $push: {
                 post: postId,
