@@ -45,7 +45,7 @@ export default function Settings(){
                     userSettings?.linkedAccount.length > 0 ? userSettings?.linkedAccount?.map((account, index) => {
                         return (
                             <div key={index}>
-                                <h2>{account.issuer}</h2>
+                                <h2><a href={account.issuer_url} target="_blank">{account.issuer}</a></h2>
                                 <p>{account.name}</p>
                                 <p>{account.email}</p>
                             </div>
