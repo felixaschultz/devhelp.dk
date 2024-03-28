@@ -1,10 +1,13 @@
 import { useLoaderData } from "@remix-run/react";
 import mongoose from "mongoose";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import Comments from "~/components/Comments";
 
 export const loader = async ({request, params}) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const question = await mongoose.model("Question").findOne({
         _id: params.id
     });

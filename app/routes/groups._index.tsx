@@ -84,7 +84,10 @@ export default function Index() {
 export const action = async ({ request }) => {
     const body = await request.formData();
     const { groupname, description } = Object.fromEntries(body);
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const group = await mongoose.model("Group").create({
         group_name: groupname,
         description,

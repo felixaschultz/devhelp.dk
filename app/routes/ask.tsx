@@ -1,13 +1,16 @@
 import { Form, redirect, useActionData, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import mongoose, { set } from "mongoose";
 import "../styles/ProUser.css";
 import { Resend } from 'resend';
 import { uploadImage } from "~/services/uploadImage";
 
 export const loader = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const proUsers = await mongoose.model("User").find({role: "pro"});
     return { proUsers, user };
 }
@@ -144,7 +147,10 @@ export default function Ask() {
 }
 
 export const action = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
 
     if(!user){
         throw new Response(null, {

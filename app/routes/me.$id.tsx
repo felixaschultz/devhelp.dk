@@ -1,4 +1,4 @@
-import { authenticator } from "~/services/auth.server";
+import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import { useLoaderData, Link, useFetcher } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import mongoose from "mongoose";
@@ -8,7 +8,11 @@ import { useEffect, useState } from "react";
 import { uploadImage } from "../services/uploadImage";
 
 export const loader = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
+
     const userId = new mongoose.Types.ObjectId(user?.user?._id || params?.id);
 
     const published = (!user) ? { user: userId, published: true } :  { user: userId };
@@ -21,7 +25,7 @@ export const loader = async ({ request, params }) => {
         throw new Error("User not found");
     }
 
-    return { user: user?.user, userData, userPosts, likedPosts };
+    return { user: user?.user || user, userData, userPosts, likedPosts };
 }
 export const meta = ({data}) => {
 
@@ -39,6 +43,8 @@ export default function Me() {
     const [openRequest, setOpenRequest] = useState(false);
     const [newSkills, setNewSkills] = useState([]);
     const fetcher = useFetcher();
+
+    console.log(userData?._id, user?._id);
 
     useEffect(() => {
         if(userData.image){

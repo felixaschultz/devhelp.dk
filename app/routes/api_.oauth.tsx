@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import { authenticator } from "../services/auth.server";
 export const loader = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const referrer = request.headers.get('Referer') || '/';
     const info = await request.url;
     const query = new URLSearchParams(new URL(info).search);
@@ -13,7 +16,7 @@ export const loader = async ({ request }) => {
     const foundAccount = await mongoose.models.User.findOne({linkedAccount: IntastellarAccount});
 
     if(!foundAccount){
-        const newLinkedAccount = await mongoose.models.User.findOneAndUpdate({_id: user?.user?._id}, {
+        const newLinkedAccount = await mongoose.models.User.findOneAndUpdate({_id: user?.user?._id || user?._id}, {
             $push: {
                 linkedAccount: IntastellarAccount
             },

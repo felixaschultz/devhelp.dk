@@ -11,7 +11,7 @@ export const loader = async ({request}) => {
     });
     const host = new URL(request.url).host;
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id});
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id || user?._id});
 
     return {user, userSettings, host};
 };

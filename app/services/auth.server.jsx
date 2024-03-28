@@ -133,6 +133,16 @@ export const webAuthnStrategy = new WebAuthnStrategy(
   }
 );
 
+export function oauthAuthenticated({ request }) {
+  const cookie = request?.headers?.get("Cookie");
+  if (cookie) {
+    const sessionId = cookie.split(";").find((c) => c.includes("_loggedin"));
+    if (sessionId) {
+      return sessionId.split("=")[1];
+    }
+  }
+}
+
 export async function oauthLogin(user, {
   successRedirect,
   failureRedirect

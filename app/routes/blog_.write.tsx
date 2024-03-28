@@ -1,5 +1,5 @@
 import mongoose, { set } from "mongoose";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import { Form, redirect, useFetcher } from "@remix-run/react";
 import { useState, useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
@@ -173,7 +173,10 @@ export default function BlogWrite() {
 }
 
 export const action = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
 
     if(!user){
         throw new Response(null, {

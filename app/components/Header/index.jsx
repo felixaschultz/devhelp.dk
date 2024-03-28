@@ -5,8 +5,6 @@ import { Form } from "@remix-run/react";
 import Logo from "../../assets/devhelp-logo-white.svg";
 export default function Header({setOpen, open, user}) {
     user = user?.user || user;
-
-    console.log(user);
     return (
         <>
         <header className="header">

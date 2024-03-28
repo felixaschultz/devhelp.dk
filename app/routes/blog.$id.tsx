@@ -1,7 +1,7 @@
 import { useLoaderData, useFetcher, useOutletContext, Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import mongoose from "mongoose";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import Comments from "~/components/Comments";
 import "../styles/Blog.css";
 import { useEffect } from "react";
@@ -9,7 +9,10 @@ import like from "../assets/like-icon.svg";
 import likeFillOut from "../assets/like-icon-fillout.svg";
 
 export const loader = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const postId = params.id;
     const post = await mongoose.model("BlogPost").findOne({ _id: postId }).populate("user").populate("comments.user").populate("comments.reply.user");
 
@@ -120,7 +123,10 @@ export default function BlogEntry() {
 }
 
 export const action = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const postId = params.id;
     const formData = await request.formData();
     const _action = formData.get("_action");

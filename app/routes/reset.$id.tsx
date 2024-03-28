@@ -3,7 +3,10 @@ import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticator, resetPassword } from "~/services/auth.server";
 
 export const loader = async ({request, params}) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
 
     const foundUser = await mongoose.model("User").findOne({
         email: params.id
@@ -31,7 +34,10 @@ export default function Reset(){
 }
 
 export const action = async ({request}) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const formData = await request.formData();
     const {id, password, password2} = Object.fromEntries(formData);
 

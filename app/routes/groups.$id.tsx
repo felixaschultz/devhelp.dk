@@ -6,7 +6,10 @@ import mongoose from "mongoose";
 import "../styles/Group.css";
 import Comments from "~/components/Comments";
 export const loader = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const groups = await mongoose.model("Group").findOne({_id: new mongoose.Types.ObjectId(params?.id)})
         .populate("creator")
             .populate("members.user")
@@ -112,7 +115,10 @@ export default function Group() {
 }
 
 export const action = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     
     if(!user){
         throw new Response(null, {

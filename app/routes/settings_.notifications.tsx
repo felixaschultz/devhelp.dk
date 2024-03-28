@@ -10,7 +10,7 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id})
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id || user?._id})
             .select("settings.notifications")
             .select("role");
 
@@ -77,7 +77,7 @@ export const action = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id})
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id || user?._id})
             .select("settings.notifications");
     const formData = await request.formData();
     const { _action, notification_type, notification_recieving, enabled } = Object.fromEntries(formData);

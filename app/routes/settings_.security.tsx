@@ -9,7 +9,7 @@ export const loader = async ({request}) => {
         failureRedirect: "/"
     });
 
-    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id});
+    const userSettings = await mongoose.model("User").findOne({_id: user?.user?._id || user?._id});
 
     console.log(userSettings);
 

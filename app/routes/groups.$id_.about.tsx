@@ -4,7 +4,10 @@ import { useEffect, useRef } from "react";
 import mongoose from "mongoose";
 import "../styles/Group.css";
 export const loader = async ({ request, params }) => {
-    const user = await authenticator.isAuthenticated(request);
+    let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
     const groups = await mongoose.model("Group").findOne({
         /* $or: [
             { creator: new mongoose.Types.ObjectId(user?.user?._id) },

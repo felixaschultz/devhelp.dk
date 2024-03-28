@@ -23,7 +23,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
-import { authenticator } from "./services/auth.server";
+import { authenticator,oauthAuthenticated } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
@@ -60,7 +60,10 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }) => {
-  const user = await authenticator.isAuthenticated(request);
+  let user = await authenticator.isAuthenticated(request);
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
   const session = await getSession(request.headers.get("Cookie"));
 
   /* const webAuthn = await webAuthnStrategy.generateOptions(request, request.headers.get("Cookie"), user); */
