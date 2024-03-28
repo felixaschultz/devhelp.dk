@@ -1,4 +1,4 @@
-import { authenticator } from "../services/auth.server";
+import { authenticator, oauthAuthenticated } from "../services/auth.server";
 import { useLoaderData, useFetcher, Link } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { useEffect, useRef } from "react";
@@ -10,6 +10,7 @@ export const loader = async ({ request, params }) => {
     if(!user){
         user = await oauthAuthenticated(request);
     }
+    const userId = user?.user?._id || user?._id;
     const groups = await mongoose.model("Group").findOne({_id: new mongoose.Types.ObjectId(params?.id)})
         .populate("creator")
             .populate("members.user")
@@ -19,8 +20,8 @@ export const loader = async ({ request, params }) => {
                             .populate("posts.comments.reply")
                                 .populate("posts.comments.reply.user");
 
-    if(groups.creator._id != user?.user?._id){
-        if(!groups.members.find(member => member.user == user?.user?._id)){
+    if(groups.creator._id != userId){
+        if(!groups.members.find(member => member.user == userId)){
             return redirect("/groups/" + params?.id + "/about");
         }
     }
@@ -40,7 +41,8 @@ export const meta = ({data}) => {
 
 export default function Group() {
     const { user, groups } = useLoaderData();
-    const memberStatus = groups.members.find(member => member.user == user?.user?._id)?.status;
+    const userId = user?.user?._id || user?._id;
+    const memberStatus = groups.members.find(member => member.user == userId)?.status;
     const fetcher = useFetcher();
     const textArea = useRef();
 
@@ -76,7 +78,7 @@ export default function Group() {
                 </section>
             </header>
             {
-                (groups.creator?._id == user?.user?._id || groups.members.indexOf(user?.user?._id) > -1) && (
+                (groups.creator?._id == userId || groups.members.indexOf(userId) > -1) && (
                     <>
                         <section>
                             <fetcher.Form method="post">

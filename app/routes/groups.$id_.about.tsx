@@ -1,4 +1,4 @@
-import { authenticator } from "../services/auth.server";
+import { authenticator, oauthAuthenticated } from "../services/auth.server";
 import { useLoaderData, useFetcher, Link } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import mongoose from "mongoose";
