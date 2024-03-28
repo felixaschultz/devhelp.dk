@@ -19,11 +19,32 @@ export const loader = async ({ request }) => {
             },
         }, {upsert: true});
 
-        return { newLinkedAccount }
+        if(newLinkedAccount){
+            return new Response("Account Linked", {
+                status: 302,
+                statusText: "Redirecting...",
+                headers: {
+                  "Location": referrer
+                }
+            });
+        }
     }
 
-    // Now you can use the decodedToken
-    console.log(JSON.parse(decodedToken));
-
-    return { decodedToken }
+    if(foundAccount){
+        return new Response(null, {
+            status: 400,
+            statusText: "Account already linked",
+            headers: {
+                "Location": referrer
+            }
+        });
+    }else{
+        return new Response(null, {
+            status: 500,
+            statusText: "Something went wrong",
+            headers: {
+                "Location": referrer
+            }
+        });
+    }
 }

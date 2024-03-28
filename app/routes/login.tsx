@@ -1,4 +1,5 @@
 import { authenticator } from "../services/auth.server";
+import mongoose from "mongoose";
 
 export const loader = async ({ request }) => {
     const referrer = request.headers.get('Referer') || '/';
