@@ -133,10 +133,9 @@ export const webAuthnStrategy = new WebAuthnStrategy(
   }
 );
 
-export function oauthAuthenticated(request, {
-  successRedirect,
-  failureRedirect
-}) {
+export function oauthAuthenticated(request, redirect) {
+  const failureRedirect = redirect?.failureRedirect;
+  const successRedirect = redirect?.successRedirect;
   const cookie = request?.headers?.get("Cookie");
   if (cookie) {
     const sessionId = cookie.split(";").find((c) => c.includes("_loggedin"));
