@@ -12,9 +12,15 @@ export const meta = [
 ];
 
 export const loader = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request, {
+    let user = await authenticator.isAuthenticated(request, {
         failureRedirect: "/",
     });
+
+    if(!user){
+        user = await oauthAuthenticated(request, {
+            failureRedirect: "/",
+        });
+    }
 
     return {user};
 };

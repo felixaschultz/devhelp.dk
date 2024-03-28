@@ -1,17 +1,22 @@
-import { authenticator } from "../services/auth.server";
+import { authenticator, oauthAuthenticated } from "../services/auth.server";
 import { useLoaderData, useOutletContext, Form, Link } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import mongoose from "mongoose";
 import "../styles/Group.css";
 
 export const loader = async ({ request }) => {
-    const user = await authenticator.isAuthenticated(request, {
+    let user = await authenticator.isAuthenticated(request, {
         failureRedirect: "/"
     });
+
+    if(!user){
+        user = await oauthAuthenticated(request);
+    }
+
     const studyGroups = await mongoose.model("Group").find({
         $or: [
-            { creator: new mongoose.Types.ObjectId(user?.user?._id) },
-            { members: new mongoose.Types.ObjectId(user?.user?._id) }
+            { creator: new mongoose.Types.ObjectId(user?.user?._id || user?._id) },
+            { members: new mongoose.Types.ObjectId(user?.user?._id || user?._id) }
         ]
     }).select("group_name description");
 

@@ -133,13 +133,23 @@ export const webAuthnStrategy = new WebAuthnStrategy(
   }
 );
 
-export function oauthAuthenticated({ request }) {
+export function oauthAuthenticated(request, {
+  successRedirect,
+  failureRedirect
+}) {
   const cookie = request?.headers?.get("Cookie");
   if (cookie) {
     const sessionId = cookie.split(";").find((c) => c.includes("_loggedin"));
     if (sessionId) {
       return sessionId.split("=")[1];
     }
+  }else{
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: failureRedirect,
+      },
+    });
   }
 }
 
