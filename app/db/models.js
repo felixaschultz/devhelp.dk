@@ -53,6 +53,11 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    linkedAccount: [
+        {
+            type: "Object"
+        }
+    ],
     settings: {
         account: {
             type: String,

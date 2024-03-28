@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { useLoaderData, Link } from "@remix-run/react";
 import SettingsNav from "../components/SettingsNav";
 import "../styles/Admin-pro.css";
+import { useEffect } from "react";
 
 export const loader = async ({request}) => {
     const user = await authenticator.isAuthenticated(request, {
@@ -23,15 +24,29 @@ export const meta = [
 
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
+    const currentHost = window.location.host;
+
+    console.log(currentHost);
+
+    useEffect(() => {
+        const intaLogin = document.getElementById("inta-login");
+        Intastellar.accounts.id.renderButton(intaLogin);
+    }, []);
+
     return (
-        <div className="content settings grid">
+        <>
+            <div className="content settings grid">
             <aside>
                 <h1>Account Settings</h1>
                 <SettingsNav userSettings={userSettings} />
             </aside>
             <div>
-                
-            </div>
+                <h2>Link an social account</h2>
+                <p>Intastellar Accounts</p>
+                <div id="inta-login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk"
+                 data-login_uri={currentHost + "/api/oauth"}></div>
+            </div>          
         </div>
+        </>
     )
 }
