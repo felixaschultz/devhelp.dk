@@ -40,7 +40,7 @@ export default function Settings(){
                 <SettingsNav userSettings={userSettings} />
             </aside>
             <div>
-                <h2>Link an social account</h2>
+                <h2>Your linked Social accounts</h2>
                 {
                     userSettings?.linkedAccount.length > 0 ? userSettings?.linkedAccount?.map((account, index) => {
                         return (
