@@ -1,4 +1,4 @@
-import { authenticator } from "../services/auth.server";
+import { authenticator, oauthLogin} from "../services/auth.server";
 import mongoose from "mongoose";
 
 export const loader = async ({ request }) => {
@@ -10,7 +10,15 @@ export const loader = async ({ request }) => {
     const decodedToken = Buffer.from(token, 'base64').toString('utf-8');
 
     // Now you can use the decodedToken
-    console.log(JSON.parse(decodedToken));
+    const IntastellarAccount = JSON.parse(decodedToken);
+    const foundAccount = await mongoose.models.User.findOne({ linkedAccount: IntastellarAccount });
+
+    if(foundAccount){
+        return await oauthLogin(foundAccount, {
+            successRedirect: referrer,
+            failureRedirect: referrer
+        });
+    }
     return { decodedToken }
 };
 

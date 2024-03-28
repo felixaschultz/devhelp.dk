@@ -1,7 +1,7 @@
 // app/services/auth.server.ts
 import { WebAuthnStrategy } from "remix-auth-webauthn/server";
 import { Authenticator, AuthorizationError } from "remix-auth";
-import { sessionStorage } from "./session.server";
+import { sessionStorage, commitSession, getSession } from "./session.server";
 import { FormStrategy } from "remix-auth-form";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
@@ -97,7 +97,7 @@ authenticator.use(
 export const webAuthnStrategy = new WebAuthnStrategy(
   {
     // Options here...
-  },
+},
   async function verify({ authenticator, type, username }) {
     let user = null;
     const savedAuthenticator = await getAuthenticatorById(
@@ -132,6 +132,38 @@ export const webAuthnStrategy = new WebAuthnStrategy(
     return user;
   }
 );
+
+export async function oauthLogin(user, {
+  successRedirect,
+  failureRedirect
+}) {
+  let session = await getSession();
+  if(!session){
+    session = await commitSession(sessionStorage);
+  }
+  session.set("user", user);
+  const foundUser = await mongoose.models.User.findOne({
+    _id: user._id,
+    linkedAccount: {
+      $elemMatch: {
+        provider: user.linkedAccount.provider,
+      },
+    },
+  })
+
+  if (foundUser) {
+    const sessionId = await commitSession(session);
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: successRedirect,
+        "Set-Cookie": `${
+          sessionId
+        }; Path=/; HttpOnly; SameSite=Lax`,
+      },
+    });
+  }
+}
 
 /* authenticator.use(
   new WebAuthnStrategy(

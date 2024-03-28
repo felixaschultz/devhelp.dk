@@ -46,7 +46,6 @@ export default function Settings(){
                         return (
                             <div key={index}>
                                 <h2><a href={account.issuer_url} target="_blank">{account.issuer}</a></h2>
-                                <p>{account.name}</p>
                                 <p>{account.email}</p>
                             </div>
                         )
