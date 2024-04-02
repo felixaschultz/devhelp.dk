@@ -202,7 +202,8 @@ export async function oauthLogin(user, {
     });
   }else{
     return new Response(null, {
-      status: 500,
+      status: 404,
+      statusText: "No linked account found for this user.",
       headers: {
         Location: failureRedirect
       }
