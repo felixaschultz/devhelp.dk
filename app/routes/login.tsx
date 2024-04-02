@@ -11,7 +11,11 @@ export const loader = async ({ request }) => {
 
     // Now you can use the decodedToken
     const IntastellarAccount = JSON.parse(decodedToken);
-    const foundAccount = await mongoose.models.User.findOne({ linkedAccount: IntastellarAccount });
+    const foundAccount = await mongoose.models.User.findOne({
+        linkedAccount: {
+            $elemMatch: {user_id: IntastellarAccount.user_id}
+        }
+    });
 
     if(foundAccount){
         return await oauthLogin(foundAccount, {
@@ -19,7 +23,7 @@ export const loader = async ({ request }) => {
             failureRedirect: referrer
         });
     }
-    return { decodedToken }
+    return { foundAccount, IntastellarAccount }
 };
 
 export const action = async ({ request }) => {
