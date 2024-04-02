@@ -160,7 +160,26 @@ export async function oauthLogin(user, {
   if(!session){
     session = await commitSession(sessionStorage);
   }
+  if(!user){
+    return new Error(
+      "Please provide a user object to the oauthLogin function."
+    );
+  }
+
+  if(!successRedirect){
+    return new Error(
+      "Please provide a url for a successful redirect to the oauthLogin function."
+    )
+  }
+
+  if(!failureRedirect){
+    return new Error(
+      "Please provide a url for a failed redirect to the oauthLogin function."
+    )
+  }
+
   session.set("user", user);
+
   const foundUser = await mongoose.models.User.findOne({
     _id: user._id,
     linkedAccount: {
@@ -181,6 +200,13 @@ export async function oauthLogin(user, {
         }; Path=/; HttpOnly; SameSite=Lax`,
       },
     });
+  }else{
+    return new Response(null, {
+      status: 500,
+      headers: {
+        Location: failureRedirect
+      }
+    })
   }
 }
 
