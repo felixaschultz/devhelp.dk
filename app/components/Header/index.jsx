@@ -5,6 +5,7 @@ import { Form } from "@remix-run/react";
 import Logo from "../../assets/devhelp-logo-white.svg";
 export default function Header({setOpen, open, user}) {
     user = user?.user || user;
+    console.log(user);
     return (
         <>
         <header className="header">
@@ -46,7 +47,7 @@ export default function Header({setOpen, open, user}) {
                             })} className="navitem" to="/about">About</NavLink>
                     </section>
                     <section className="btn_container">
-                        {user ? (
+                        {user && user._id ? (
                             <>
                                 <div className="logged_in-nav">
                                     {(user?.role === "pro") ? <NavLink className="navitem" style={({ isActive }) => ({
