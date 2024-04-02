@@ -145,7 +145,7 @@ export default function App() {
                           }
                           setOpen(false);
                         }}>X</Button>
-                        <Form action="/login" method="post">
+                        <Form action="/login" method="post" className="login-form">
                             <h2>Login</h2>
                             {
                               /* (!user.passKey) &&  */(

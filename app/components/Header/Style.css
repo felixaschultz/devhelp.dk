@@ -79,6 +79,15 @@
     border-color: #5d5d5d;
 }
 
+.login-form label{
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.login-form .input-fields{
+    margin-bottom: 16px;
+}
+
 /* User */
 .user{
     display: flex;
