@@ -18,6 +18,7 @@ export const loader = async ({ request }) => {
     });
 
     if(foundAccount){
+        foundAccount.image = IntastellarAccount.image;
         return await oauthLogin(foundAccount, {
             successRedirect: referrer,
             failureRedirect: referrer
