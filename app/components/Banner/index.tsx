@@ -28,7 +28,12 @@ function Banner({user, tags}) {
     const top5Pairs = tagCountPairs.slice(0, 5);
 
     // Step 5: Map the pairs back to just the tags
-    const top5Tags = top5Pairs.map(pair => pair[0]);
+    const top5Tags = top5Pairs.map(pair => {
+        return {
+            tag: pair[0],
+            count: pair[1]
+        }
+    });
 
     function RolledText(){
         const rolledText = document.getElementById("rolled-text");
@@ -79,8 +84,8 @@ function Banner({user, tags}) {
                                 <p>Populær tags:</p>
                                 {
                                     tags && top5Tags?.map((tag, index) => (
-                                        <Link to={`/search/tags/${tag}`} key={index} className="tag">
-                                            {tag}
+                                        <Link to={`/search/tags/${tag.tag}`} key={index} className="tag">
+                                            {tag.tag} ({tag.count})
                                         </Link>
                                         )
                                     )
