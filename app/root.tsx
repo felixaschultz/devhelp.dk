@@ -139,63 +139,66 @@ export default function App() {
             (open.open && open.type == "login") && (
                 <div className="popup">
                     <div className="popup_container">
+                        <h2>Login</h2>
                         <Button className="close" onClick={() => {
                           if(sessionStorage.getItem('askButtonClicked')){
                             sessionStorage.removeItem('askButtonClicked');
                           }
                           setOpen(false);
                         }}>X</Button>
-                        <Form action="/login" method="post" className="login-form">
-                            <h2>Login</h2>
-                            {
-                              /* (!user.passKey) &&  */(
-                                <>
-                                  <label htmlFor="mail">Email</label>
-                                  <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
-                                  <label htmlFor="password">Password</label>
-                                  <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
-                                  <section>
-                                    {
-                                        error?.message && (
-                                            <p className="error">{error?.message}</p>
-                                        )
-                                    }
+                        <section className="grid">
+                          <Form action="/login" method="post" className="login-form">
+                              {
+                                /* (!user.passKey) &&  */(
+                                  <>
+                                    <label htmlFor="mail">Email</label>
+                                    <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
+                                    <label htmlFor="password">Password</label>
+                                    <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
                                     <section>
-                                      <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                                      {
+                                          error?.message && (
+                                              <p className="error">{error?.message}</p>
+                                          )
+                                      }
+                                      <section>
+                                        <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                                      </section>
                                     </section>
-                                  </section>
-                                </>
-                              )
-                            }
-                            {/* {
-                              (user.passKey) && (
-                                <section>
-                                  <h2>Brug din Passkey</h2>
-                                  <Button onClick={
-                                      handlePasskeyCheck(user.passKey)
-                                  }>Continue</Button>
-                                    <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
-                                        open: true,
-                                        type: "reset"
-                                    })}>Sæt det tilbage</button></p>
-                                    <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
-                                        open: true,
-                                        type: "signup"
-                                    })}>Registrer dig i dag</button></p>
-                                  </section>
-                              )
-                            } */}
-                        </Form>
-                        <p>eller</p>
-                        <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={window.location.host + "/login"}></div>
-                        <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
-                            open: true,
-                            type: "reset"
-                        })}>Sæt det tilbage</button></p>
-                        <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
-                            open: true,
-                            type: "signup"
-                        })}>Registrer dig i dag</button></p>
+                                  </>
+                                )
+                              }
+                              {/* {
+                                (user.passKey) && (
+                                  <section>
+                                    <h2>Brug din Passkey</h2>
+                                    <Button onClick={
+                                        handlePasskeyCheck(user.passKey)
+                                    }>Continue</Button>
+                                      <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
+                                          open: true,
+                                          type: "reset"
+                                      })}>Sæt det tilbage</button></p>
+                                      <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                          open: true,
+                                          type: "signup"
+                                      })}>Registrer dig i dag</button></p>
+                                    </section>
+                                )
+                              } */}
+                              <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
+                                open: true,
+                                type: "reset"
+                            })}>Sæt det tilbage</button></p>
+                          </Form>
+                          <section>
+                            <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={window.location.host + "/login"}></div>
+                            <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                open: true,
+                                type: "signup"
+                            })}>Registrer dig i dag</button></p>
+                          </section>
+                        </section>
                     </div>
                 </div>
             )
@@ -230,34 +233,37 @@ export default function App() {
             (open.open && open.type == "signup") && (
                 <div className="popup">
                     <div className="popup_container">
+                        <h2>Registrering</h2>
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
-                        <fetcher.Form method="post" className="login-form">
-                            <h2>Registrering</h2>
-                            <label htmlFor="firstname">Fornavn</label>
-                            <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
-                            <label htmlFor="lastname">Efternavn</label>
-                            <input className="input-fields" type="text" name="lastname" id="lastname" placeholder="Doe" />
-                            <label htmlFor="email">Email</label>
-                            <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
-                            <label htmlFor="password">Password</label>
-                            <input className="input-fields" type="password" name="password" id="password" placeholder="******'" />
-                            <label htmlFor="re-password">Repeat Password</label>
-                            <input className="input-fields" type="password" name="repeat-password" id="re-password" placeholder="******" />
-                            <section>
-                              {
-                                  error?.error && (
-                                      <p>{error?.error?.message}</p>
-                                  )
-                              }
-                              <Button name="_action" value="signup" className="btn signin no-margin">Signup</Button>
-                            </section>
-                        </fetcher.Form>
-                        <p>eller</p>
-                        <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-type="signup" data-login_uri={window.location.host + "/signup"}></div>
-                        <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
-                            open: true,
-                            type: "login"
-                        })}>Login</button></p>
+                        <section className="grid">
+                          <fetcher.Form method="post" className="login-form">
+                              <label htmlFor="firstname">Fornavn</label>
+                              <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
+                              <label htmlFor="lastname">Efternavn</label>
+                              <input className="input-fields" type="text" name="lastname" id="lastname" placeholder="Doe" />
+                              <label htmlFor="email">Email</label>
+                              <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
+                              <label htmlFor="password">Password</label>
+                              <input className="input-fields" type="password" name="password" id="password" placeholder="******'" />
+                              <label htmlFor="re-password">Repeat Password</label>
+                              <input className="input-fields" type="password" name="repeat-password" id="re-password" placeholder="******" />
+                              <section>
+                                {
+                                    error?.error && (
+                                        <p>{error?.error?.message}</p>
+                                    )
+                                }
+                                <Button name="_action" value="signup" className="btn signin no-margin">Signup</Button>
+                              </section>
+                          </fetcher.Form>
+                          <section>
+                            <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login-type="signup" data-login_uri={window.location.host + "/signup"}></div>
+                            <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
+                                open: true,
+                                type: "login"
+                            })}>Login</button></p>
+                          </section>
+                        </section>
                     </div>
                 </div>
             )
