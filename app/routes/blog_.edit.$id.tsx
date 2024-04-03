@@ -17,7 +17,7 @@ export const loader = async ({ request, params }) => {
     });
 
     const postId = new mongoose.Types.ObjectId(params?.id);
-    const userId = new mongoose.Types.ObjectId(user?.user?._id);
+    const userId = new mongoose.Types.ObjectId(user?.user?._id || user?._id);
 
     const post = await mongoose.model("BlogPost").findOne({ _id: postId, user: userId });
 
@@ -87,7 +87,7 @@ export default function BlogEdit() {
                                 'save', 'directionality', 'emoticons', 'hr', 'nonbreaking', 'pagebreak',
                                 'paste', 'tabfocus', 'textcolor', 'colorpicker',
                                 'contextmenu', 'noneditable', 'template', 'toc', 'visualchars',
-                                'linkchecker', 'advcode', 'autosave', 'bbcode',
+                                'linkchecker', 'autosave', 'bbcode',
                             ],
                             menu: {
                                 file: { title: 'File', items: 'newdocument restoredraft | preview | export print | deleteallconversations' },

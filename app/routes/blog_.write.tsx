@@ -72,7 +72,7 @@ export default function BlogWrite() {
                                 'save', 'directionality', 'emoticons', 'hr', 'nonbreaking', 'pagebreak',
                                 'paste', 'tabfocus', 'textcolor', 'colorpicker', 'textpattern',
                                 'contextmenu', 'noneditable', 'template', 'toc', 'visualchars',
-                                'linkchecker', 'advcode', 'advlist', 'autosave', 'bbcode',
+                                'linkchecker', 'advlist', 'autosave', 'bbcode',
                             ],
                             menu: {
                                 file: { title: 'File', items: 'newdocument restoredraft | preview | export print | deleteallconversations' },
