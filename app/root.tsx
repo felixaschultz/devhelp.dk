@@ -139,7 +139,6 @@ export default function App() {
             (open.open && open.type == "login") && (
                 <div className="popup">
                     <div className="popup_container">
-                        <h2>Login</h2>
                         <Button className="close" onClick={() => {
                           if(sessionStorage.getItem('askButtonClicked')){
                             sessionStorage.removeItem('askButtonClicked');
@@ -148,6 +147,7 @@ export default function App() {
                         }}>X</Button>
                         <section className="grid">
                           <Form action="/login" method="post" className="login-form">
+                              <h2>Login</h2>
                               {
                                 /* (!user.passKey) &&  */(
                                   <>
@@ -233,10 +233,10 @@ export default function App() {
             (open.open && open.type == "signup") && (
                 <div className="popup">
                     <div className="popup_container">
-                        <h2>Registrering</h2>
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
                         <section className="grid">
                           <fetcher.Form method="post" className="login-form">
+                              <h2>Registrering</h2>
                               <label htmlFor="firstname">Fornavn</label>
                               <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
                               <label htmlFor="lastname">Efternavn</label>
