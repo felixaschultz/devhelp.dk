@@ -231,7 +231,7 @@ export default function App() {
                 <div className="popup">
                     <div className="popup_container">
                         <Button className="close" onClick={() => setOpen(false)}>X</Button>
-                        <fetcher.Form method="post">
+                        <fetcher.Form method="post" className="login-form">
                             <h2>Registrering</h2>
                             <label htmlFor="firstname">Fornavn</label>
                             <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
@@ -250,12 +250,14 @@ export default function App() {
                                   )
                               }
                               <Button name="_action" value="signup" className="btn signin no-margin">Signup</Button>
-                              <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
-                                  open: true,
-                                  type: "login"
-                              })}>Login</button></p>
                             </section>
                         </fetcher.Form>
+                        <p>eller</p>
+                        <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-type="signup" data-login_uri={window.location.host + "/signup"}></div>
+                        <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
+                            open: true,
+                            type: "login"
+                        })}>Login</button></p>
                     </div>
                 </div>
             )
