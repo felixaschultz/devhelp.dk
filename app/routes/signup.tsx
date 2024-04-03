@@ -5,6 +5,11 @@ import { useLoaderData, useFetcher } from "@remix-run/react";
 import Button  from "../components/Button";
 
 export const loader = async ({ request }) => {
+    await authenticator.isAuthenticated(request, {
+        successRedirect: "/",
+    });
+
+
     const referrer = request.headers.get('Referer') || '/';
     const info = await request.url;
     const query = new URLSearchParams(new URL(info).search);
@@ -68,6 +73,15 @@ export default function Signup(){
 }
 
 export const action = async ({ request }) => {
+    const info = await request.url;
+    const query = new URLSearchParams(new URL(info).search);
+    const token = query.get('token');
+    // Decode the token
+    const decodedToken = Buffer.from(token, 'base64').toString('utf-8');
+
+    // Now you can use the decodedToken
+    const IntastellarAccount = JSON.parse(decodedToken);
+    
     const data = await request.formData();
     const userInfos = Object.fromEntries(data);
     if(!userInfos){
@@ -81,6 +95,9 @@ export const action = async ({ request }) => {
         email: userInfos.email,
         image: userInfos.image,
         password: userInfos.password,
+        linkedAccount: [
+            IntastellarAccount
+        ]
     };
 
     if (newData.password !== userInfos["repeat-password"]) {
