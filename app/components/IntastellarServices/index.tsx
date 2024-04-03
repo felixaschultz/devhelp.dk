@@ -11,7 +11,7 @@ export default function IntastellarServices() {
             {
                 show && (
                     <div className="services-container">
-                        <iframe title="Intastellar Services" src="https://doc.intastellaraccounts.com/services-overview" frameborder="0"></iframe>
+                        <iframe title="Intastellar Services" src="https://doc.intastellaraccounts.com/services-overview?mode=dark" frameBorder="0"></iframe>
                     </div>
                 )
             }
