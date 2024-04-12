@@ -4,7 +4,6 @@ import Logo from "../../assets/devhelp-logo.svg";
 import BannerBG from "../../assets/bg.png";
 import MobileBanner from "../../assets/bg-mobile.png";
 import { useEffect } from "react";
-import { set } from "mongoose";
 
 function Banner({user, tags}) {
     const [open, setOpen] = useOutletContext();
