@@ -1,6 +1,7 @@
 import { authenticator } from "../services/auth.server";
 import mongoose from "mongoose";
 import { useLoaderData, Link, useFetcher } from "@remix-run/react";
+import { useState } from "react";
 import { json } from "@remix-run/node";
 import SettingsNav from "../components/SettingsNav";
 import "../styles/Admin-pro.css";
@@ -27,6 +28,7 @@ export const meta = [
 export default function Settings(){
     const {user, userSettings} = useLoaderData();
     const fetcher = useFetcher();
+    const [notfication, setNotification] = useState(userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving);
 
     return (
         <div className="content settings grid">
@@ -52,12 +54,23 @@ export default function Settings(){
                                             <input type="hidden" name="enabled" value={userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled} />
                                             <label htmlFor="notification_recieving">Hvordan vil du blive notificeret?</label>
                                             <select name="notification_recieving" id="notification_recieving" defaultValue={
-                                                userSettings.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving
-                                            }>
+                                                notfication || userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving
+                                            } onChange={(e) => {
+                                                setNotification(e.target.value);
+                                                if(e.target.value === "push" && Notification.permission !== "granted"){
+                                                    Notification.requestPermission().then(permission => {
+                                                        if(permission !== "granted"){
+                                                            alert("Du skal give tilladelse til at modtage notifikationer");
+                                                        }
+                                                    })
+                                                }
+                                            }}>
                                                 <option value="email">Email</option>
+                                                <option value="push">Push</option>
                                             </select>
                                             <button type="submit">
-                                                {userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled ? "Deaktiver" : "Aktiver"}
+                                                {userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.enabled
+                                                && userSettings?.settings.notifications.find(notification => notification.notification_type === "questions_to_me")?.receiving === notfication  ? "Deaktiver" : "Aktiver"}
                                             </button>
                                         </fieldset>
                                     </fetcher.Form>

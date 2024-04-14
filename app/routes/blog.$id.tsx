@@ -156,6 +156,7 @@ export const action = async ({ request, params }) => {
     }else if(_action === "comment") {
         const comment = Object.fromEntries(formData);
         comment.user = user?.user?._id || user?._id;
+
         return await mongoose.model("BlogPost").findByIdAndUpdate(postId, {
             $push: {
                 comments: comment
