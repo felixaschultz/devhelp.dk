@@ -116,7 +116,7 @@ export default function BlogEntry() {
                         }}></div>
                     ))
                 }
-                <Comments post={post} user={user} />
+                <Comments postId={post?._id} post={post} user={user} />
             </div>
         </>
     );
