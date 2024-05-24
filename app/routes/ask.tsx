@@ -53,10 +53,14 @@ export default function Ask() {
             setOpen(
                 {
                     open: true,
-                    type: "login"
+                    type: "login",
+                    profesional: e.target.getAttribute("data-user"),
+                    pro_id: e.target.getAttribute("data-userId")
                 }
             );
             sessionStorage.setItem('askButtonClicked', 'true');
+            sessionStorage.setItem('pro', e.target.getAttribute("data-user"));
+            sessionStorage.setItem('pro-id', e.target.getAttribute("data-userId"));
         }else{
             setOpenAskForm({
                 open: !openAskForm.open,
@@ -120,7 +124,7 @@ export default function Ask() {
                                     actionData?.error && (<p className="highlight errorMessage">{actionData?.error}</p>),
                                     actionData?.message && (<p className="highlight successMessage">{actionData?.message}</p>)
                                 )}
-                                <input type="hidden" name="to" value={openAskForm.pro_id} />
+                                <input type="hidden" name="to" value={openAskForm.pro_id  || sessionStorage.getItem("pro-id")} />
                                 <label htmlFor="title">Title</label>
                                 <input className="input-fields" id="title" name="title" type="text" placeholder="Title" />
                                 <label htmlFor="question">Question</label>
@@ -170,6 +174,10 @@ export const action = async ({ request }) => {
         });
     }
 
+    console.log("Title: ", title);
+    console.log("To: ", to);
+    console.log("Question: ", question);
+
     if(!title || !to || !question){
         return {
             error: "All fields are required",
@@ -208,6 +216,7 @@ export const action = async ({ request }) => {
     });
 
     if(!newQuestion){
+        console.log("Question could not be sent");
         return {
             error: "Your question could not be sent",
             status: 400
@@ -215,6 +224,7 @@ export const action = async ({ request }) => {
     }else{
         const proUser = await mongoose.model("User").findById(to);
         const notificationType = proUser.settings.notifications.find(notification => notification.notification_type === "questions_to_me");
+        console.log("Notification type: ", notificationType);
         if(notificationType.enabled && notificationType.receiving === "email"){
             const { data, error } = await resend.emails.send({
                 from: 'Support Devhelp.dk <info.no_reply@devhelp.dk>',
@@ -229,6 +239,8 @@ export const action = async ({ request }) => {
                     <a href="http://localhost:60565/question/${newQuestion._id}">See it</a>
                 `,
             });
+
+            console.log("Email sent: ", data, error)
 
             if (error) {
                 return {
