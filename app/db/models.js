@@ -433,7 +433,7 @@ export const models = [
     {
         name: "Question",
         schema: QuestionSchema,
-        collection: "Questions",
+        collection: "questions",
     },
     {
         name: "Answer",
