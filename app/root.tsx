@@ -18,6 +18,7 @@ import {
   Link,
   useNavigate
 } from "@remix-run/react";
+import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -134,6 +135,7 @@ export default function App() {
         <Footer />
         <ScrollRestoration />
         <Scripts />
+        <SpeedInsights />
         <LiveReload />
         {
             (open.open && open.type == "login") && (
