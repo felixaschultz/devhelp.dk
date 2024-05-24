@@ -10,7 +10,7 @@ export const loader = async ({request, params}) => {
     }
     const question = await mongoose.model("Question").findOne({
         _id: params.id
-    });
+    }).populate("user").populate("comments.user").populate("comments.reply.user");
 
     return {question, user};
 };
@@ -30,7 +30,7 @@ export default function Question(){
         <div className="content">
             <h1>{question.title}</h1>
             <p>{question.body}</p>
-            <Comments user={user} comments={question.comments} />
+            <Comments user={user} post={question} />
         </div>
     );
 }
