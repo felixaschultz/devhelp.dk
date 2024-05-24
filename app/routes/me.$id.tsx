@@ -44,8 +44,6 @@ export default function Me() {
     const [newSkills, setNewSkills] = useState([]);
     const fetcher = useFetcher();
 
-    console.log(userData?._id, user?._id);
-
     useEffect(() => {
         if(userData.image){
             setOpenImage(false);
@@ -134,8 +132,8 @@ export default function Me() {
                                 <input className="input-fields" type="file" id="image" name="image" />
                             </div>
                             <section className="flex">
-                                <button type="submit">Submit</button>
-                                <button onClick={() => {
+                                <button className="cta" type="submit">Submit</button>
+                                <button className="cta --error" onClick={() => {
                                     setOpenImage(false);
                                 }}>Cancel</button>
                             </section>
