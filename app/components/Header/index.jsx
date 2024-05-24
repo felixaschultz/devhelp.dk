@@ -6,7 +6,6 @@ import Logo from "../../assets/devhelp-logo-white.svg";
 import IntastellarServices from "../IntastellarServices";
 export default function Header({setOpen, open, user}) {
     user = user?.user || user;
-    console.log(user);
     return (
         <>
         <header className="header">

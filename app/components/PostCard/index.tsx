@@ -2,7 +2,6 @@ import "./Style.css";
 import { Link } from "@remix-run/react";
 
 export default function PostCard({post, user}) {
-    console.log(post, user);
     return (
         <div className="post-card">
             {(user?.user?._id == post.user || user?._id == post.user && post?.popularityScore) ? <p>Popularity Score: {post?.popularityScore}</p> : null}
