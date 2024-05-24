@@ -81,7 +81,24 @@ export default function Index() {
     <>
       <Banner user={user} tags={top5Tags} />
       <section className="content">
-          
+        {questions.length > 0 && (
+          <>
+            <h2>Populære Spørgsmål</h2>
+            <p>Find svar på dine spørgsmål.</p>
+            <section className="blog-grid">
+              {questions
+                .map(question => ({
+                  ...question,
+                }))
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map((question) => (
+                  <Link style={{textDecoration: "none", height:"max-content"}} to={`/question/${question._id}`} key={question._id}>
+                    <PostCard post={question} />
+                  </Link>
+                )).slice(0, 9)}
+            </section>
+          </>
+        )}
       </section>
       <section className="content">
         <h2>Populær Blog Posts</h2>
@@ -101,9 +118,6 @@ export default function Index() {
               <p>No blog posts found</p>
             )}
         </section>
-      </section>
-      <section className="content">
-        
       </section>
     </>
   );
