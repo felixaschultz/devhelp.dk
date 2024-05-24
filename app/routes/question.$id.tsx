@@ -18,7 +18,7 @@ export const loader = async ({request, params}) => {
 export const meta = ({data}) => {
     return [
         {
-            title: data.question.title,
+            title: "Question: " + data.question.title + " | Devhelp.dk",
             description: data.question.body
         }
     ];
