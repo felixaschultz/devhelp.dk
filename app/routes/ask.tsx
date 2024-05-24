@@ -119,7 +119,7 @@ export default function Ask() {
                             })}>X</button>
                             <fieldset>
                                 <h2>Ask a professional</h2>
-                                <p>Du er ved at spørg {openAskForm.profesional} for hjælp. Efter afsendelsen for han besked om at der ligger et nyt spørgsmål / hjælp klar for ham.</p>
+                                <p>Du er ved at spørg {openAskForm.profesional || sessionStorage.getItem("pro")} for hjælp. Efter afsendelsen for han besked om at der ligger et nyt spørgsmål / hjælp klar for ham.</p>
                                 <p>Han vil svar dig så snart han har tid til det.</p>
                                 {actionData && (
                                     actionData?.error && (<p className="highlight errorMessage">{actionData?.error}</p>),
