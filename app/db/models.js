@@ -74,8 +74,8 @@ const userSchema = new Schema({
                 },
                 notification_type: {
                     type: String,
-                    enum: ["new_post", "new_comment", "new_answer", "new_group", "new_member", "new_message", "new_request", "new_connection", "new_like", "new_follow", "new_tag", "new_mention", "questions_to_me", "new_answer"],
-                    default: "questions_to_me"
+                    enum: ["new_post", "new_comment", "new_answer", "new_group", "new_member", "new_message", "new_request", "new_connection", "new_like", "new_follow", "new_tag", "new_mention", "Questions_to_me", "new_answer"],
+                    default: "Questions_to_me"
                 },
                 enabled: {
                     type: Boolean,
@@ -136,7 +136,7 @@ const lookedAtLast = new Schema({
             type: String
         }
     ],
-    question: [
+    Question: [
         {
             type: Schema.Types.ObjectId,
             ref: "Question"
@@ -324,7 +324,7 @@ const blogPostSchema = new Schema({
 
 });
 
-const questionSchema = new Schema({
+const QuestionSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -359,7 +359,39 @@ const questionSchema = new Schema({
             user: {
                 type: Schema.Types.ObjectId,
                 ref: "User"
-            }
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            },
+            likes: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: "User"
+                }
+            ],
+            reply: [
+                {
+                    body: {
+                        type: String,
+                        required: true
+                    },
+                    user: {
+                        type: Schema.Types.ObjectId,
+                        ref: "User"
+                    },
+                    likes: [
+                        {
+                            type: Schema.Types.ObjectId,
+                            ref: "User"
+                        }
+                    ],
+                    date: {
+                        type: Date,
+                        default: Date.now
+                    }
+                }
+            ]
         }
     ],
     timestamp: {
@@ -373,7 +405,7 @@ const answerSchema = new Schema({
         type: String,
         required: true
     },
-    question: {
+    Question: {
         type: Schema.Types.ObjectId,
         ref: "Question"
     }
@@ -400,8 +432,8 @@ export const models = [
     },
     {
         name: "Question",
-        schema: questionSchema,
-        collection: "questions",
+        schema: QuestionSchema,
+        collection: "Questions",
     },
     {
         name: "Answer",
