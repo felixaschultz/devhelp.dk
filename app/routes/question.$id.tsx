@@ -29,7 +29,7 @@ export default function Question(){
     return (
         <div className="content">
             <h1>Question: {question.title}</h1>
-            <p>Asked by: {question.user.name.firstname} {question.user.name.lastname}</p>
+            <p className="flex">Asked by: {(question.user.image) ? <img className="comment-profileImage" src={question.user.image} alt="" /> : null}{question.user.name.firstname} {question.user.name.lastname}</p>
             <p>{question.body}</p>
             <Comments user={user} post={question} />
         </div>
