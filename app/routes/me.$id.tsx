@@ -132,8 +132,8 @@ export default function Me() {
                                 <input className="input-fields" type="file" id="image" name="image" />
                             </div>
                             <section className="flex">
-                                <button className="cta" type="submit">Submit</button>
-                                <button className="cta --error" onClick={() => {
+                                <button className="btn" type="submit">Submit</button>
+                                <button className="btn --error" onClick={() => {
                                     setOpenImage(false);
                                 }}>Cancel</button>
                             </section>
