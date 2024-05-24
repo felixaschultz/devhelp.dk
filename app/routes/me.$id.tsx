@@ -1,7 +1,7 @@
 import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import { useLoaderData, Link, useFetcher } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import "../styles/UserProfile.css";
 import PostCard from "~/components/PostCard";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ export const loader = async ({ request, params }) => {
         user = await oauthAuthenticated(request);
     }
 
-    const userId = new mongoose.Types.ObjectId(user?.user?._id || params?.id);
+    const userId = user?.user?._id || params?.id;
 
     const published = (!user) ? { user: userId, published: true } :  { user: userId };
 
@@ -215,10 +215,14 @@ export const action = async ({ request }) => {
         return json(updatedUser);
     }
 
-    if(image) {
+    if(image && image instanceof File && image !== null || image !== "") {
         const newImage = await uploadImage(image);
-        const userId = new mongoose.Types.ObjectId(user?.user?._id);
+        const userId = user?.user?._id || user?._id;
         const updatedUser = await mongoose.model("User").findByIdAndUpdate(userId, { image: newImage });
         return json(updatedUser);
+    }else{
+        return json({ message: "No image provided" }, {
+            status: 400
+        });
     }
 };

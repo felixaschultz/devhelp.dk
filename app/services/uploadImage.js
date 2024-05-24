@@ -1,7 +1,6 @@
 export async function uploadImage(imageFile) {
     const imageData = await imageFile.arrayBuffer(); // Convert the image file to ArrayBuffer
     const buffer = Buffer.from(imageData); // Convert ArrayBuffer to Node.js Buffer
-  
     const url = `https://firebasestorage.googleapis.com/v0/b/devhelp-3e125.appspot.com/o/${imageFile.name}`; // URL to upload image to Firebase Storage
   
     // POST request to upload image
