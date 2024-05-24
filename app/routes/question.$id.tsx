@@ -141,6 +141,7 @@ export const action = async ({ request, params }) => {
             ]
         });
     }else if(_action === "unlike-comment"){
+        console.log("unlike-comment");
         const commentId = formData.get("commentId");
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
             $pull: {

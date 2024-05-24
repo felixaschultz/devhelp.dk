@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 import { useLoaderData, Link } from "@remix-run/react";
 import "../styles/Admin-pro.css";
 
-export const loader = async ({request}) => {
+export const loader = async ({request, params}) => {
     const user = await authenticator.isAuthenticated(request, {
         failureRedirect: "/"
     });
 
-    const questionForMe = await mongoose.model("Question").find({to: user?.user?._id});
+    const questionForMe = await mongoose.model("Question").find({to: params.id});
 
     return {user, questionForMe};
 };

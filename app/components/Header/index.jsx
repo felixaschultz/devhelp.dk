@@ -57,7 +57,7 @@ export default function Header({setOpen, open, user}) {
                                             color: isActive
                                                 ? "#fff"
                                                 : "",
-                                        })} to={`/me/${user?.user?._id}/questions`} >
+                                        })} to={`/me/${user?.user?._id || user?._id}/questions`} >
                                         Forspørgsler
                                     </NavLink> : null}
                                     <NavLink className="navitem" style={({ isActive }) => ({
