@@ -93,7 +93,7 @@ export default function BlogEntry() {
                     </div>
                 
                 )}
-                <Link className="created_by" to={"/me/" + post.user._id}>By {post.user.name.firstname} {post.user.name.lastname}</Link>
+                <Link className="created_by" to={"/me/" + post.user._id}>By {post.user.image ? <img src={post.user.image} alt="" /> : null} {post.user.name.firstname} {post.user.name.lastname}</Link>
                 {
                     post.likes && (
                         <div className="likes">
