@@ -5,6 +5,7 @@ import like from "../../assets/like-icon.svg";
 import likeFillOut from "../../assets/like-icon-fillout.svg";
 
 export default function Comments({ postId, post, user }) {
+    console.log(user)
     const fetcher = useFetcher();
     const [newReply, setReply] = useState(false);
     const [activeReply, setActiveReply] = useState({
@@ -34,7 +35,7 @@ export default function Comments({ postId, post, user }) {
                                 <input type="hidden" name="postId" value={postId} />
                             )
                         }
-                        <input type="hidden" name="user" value={user?.user?._id} />
+                        <input type="hidden" name="user" value={user?.user?._id || user._id} />
                     </div>
                     { user ? <>
                         <section className="flex">
@@ -139,7 +140,7 @@ export default function Comments({ postId, post, user }) {
                                                 <div>
                                                     <label htmlFor="reply">Reply</label>
                                                     <textarea className="input-fields textarea comment" id="reply" name="body" placeholder={"Write your reply to " + activeReply.user} />
-                                                    <input type="hidden" name="user" value={user?.user?._id} />
+                                                    <input type="hidden" name="user" value={user?.user?._id || user?._id} />
                                                     <input type="hidden" name="commentId" value={comment?._id} />
                                                     {
                                                         (postId) && (

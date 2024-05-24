@@ -99,7 +99,7 @@ export default function BlogEntry() {
                         <div className="likes">
                             <fetcher.Form method="post">
                                 {
-                                    post.likes.includes(user?.user?._id) ? (
+                                    post.likes.includes(user?.user?._id || user?._id) ? (
                                         <button disabled={!user} className="like dislike" name="_action" value="unlike"><img src={likeFillOut} className="likeIcon" alt="" /> {post.likes.length}</button>
                                     ) : (
                                         <button disabled={!user} className="like" name="_action" value="like"><img src={like} className="likeIcon" alt="" /> {post.likes.length}</button>
