@@ -138,6 +138,7 @@ export default function Ask() {
                                     <section>
                                         <label htmlFor="public">Vil du offentliggør dit spørgsmål?</label>
                                         <input type="checkbox" id="public" name="shouldBePublic" />
+                                        <p>Ved at afkrydse "Vil du offentliggør dit spørgsmål?" bliver dit spørgsmål lagt op på hjemmesiden for alle til at se og besvare/ kommentere op den.</p>
                                     </section>
                                     <button className="btn" name="_action" value="ask" type="submit">Ask</button>
                                 </section>
@@ -173,10 +174,6 @@ export const action = async ({ request }) => {
             status: 401
         });
     }
-
-    console.log("Title: ", title);
-    console.log("To: ", to);
-    console.log("Question: ", question);
 
     if(!title || !to || !question){
         return {
