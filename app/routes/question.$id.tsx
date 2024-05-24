@@ -28,7 +28,8 @@ export default function Question(){
     const {question, user} = useLoaderData();
     return (
         <div className="content">
-            <h1>{question.title}</h1>
+            <h1>Question: {question.title}</h1>
+            <p>Asked by: {question.user.name.firstname} {question.user.name.lastname}</p>
             <p>{question.body}</p>
             <Comments user={user} post={question} />
         </div>
