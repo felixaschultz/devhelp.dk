@@ -22,13 +22,14 @@ import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Button from "./components/Button";
 import { authenticator,oauthAuthenticated } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
 import Loader from "./components/Loader";
+import { loadStripe } from '@stripe/stripe-js';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -82,6 +83,11 @@ export const loader = async ({ request }) => {
   };
 }
 
+const stripePromise = loadStripe('pk_test_cdjFXrTVnj1SdyYXzlTz95Sk');
+export const AppContext = createContext({
+  stripePromise: stripePromise,
+});
+
 export default function App() {
   const [open, setOpen] = useState({
     open: false,
@@ -115,8 +121,6 @@ export default function App() {
     }
   }, [error, user]);
 
-  
-
   return (
     <html lang="en">
       <head>
@@ -131,7 +135,11 @@ export default function App() {
         {state === 'loading' && (
           <Loader />
         )}
-        <Outlet context={[open, setOpen]} />
+        <AppContext.Provider value={{
+          stripePromise: stripePromise
+        }}>
+          <Outlet context={[open, setOpen]} />
+        </AppContext.Provider>
         <Footer />
         <ScrollRestoration />
         <Scripts />
@@ -276,7 +284,7 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }) {
-  const user = "";
+  const user = useLoaderData();
   const [open, setOpen] = useState(false);
   const routeError = useRouteError();
 

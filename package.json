@@ -16,6 +16,8 @@
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@remix-run/serve": "^2.8.1",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.4.1",
     "@tinymce/tinymce-react": "^4.3.2",
     "@vercel/speed-insights": "^1.0.11",
     "bcrypt": "^5.1.1",
@@ -31,6 +33,7 @@
     "remix-auth-form": "^1.4.0",
     "remix-auth-webauthn": "^0.2.1",
     "resend": "^3.2.0",
+    "stripe": "^15.8.0",
     "tinymce": "^6.8.3"
   },
   "devDependencies": {

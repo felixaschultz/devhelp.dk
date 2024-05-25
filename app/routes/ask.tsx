@@ -1,4 +1,4 @@
-import { Form, redirect, useActionData, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
+import { Form, Link, redirect, useActionData, useFetcher, useLoaderData, useLocation, useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import mongoose, { set } from "mongoose";
@@ -91,6 +91,7 @@ export default function Ask() {
                     <div key={user._id}>
                         <img className="proUser-image" src={user.image} alt={user.name.firstname} />
                         <h2>{user.name.firstname} {user.name.lastname}</h2>
+                        <Link to={`/me/${user._id}`}>Se profil</Link>
                         <button className="btn" onClick={handleClicked} data-userId={user._id} data-user={user.name.firstname + " " + user.name.lastname}>Spørg {user.name.firstname} om hjælp</button>
                         {
                             (user?.skills.length > 0) && (
