@@ -8,6 +8,7 @@ export const loader = async ({ request }) => {
         user = await oauthAuthenticated(request);
     }
     const analyticsData = await mongoose.model("Analytics").find();
+    analyticsData.reduce((data) => data.date);
     return { analyticsData, user };
 }
 
