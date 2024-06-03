@@ -81,6 +81,8 @@ export const action = async ({ request }) => {
                 if (pathExist) {
                     const pathIndex = pathExist.landingPage.findIndex((page) => page.path === event.pathname);
                     pathExist.landingPage[pathIndex].views += 1;
+                    pathExist.landingPage[pathIndex].timeSpendOnPage += timeSpendOnPage.current;
+                    pathExist.landingPage[pathIndex].pageTitle = event.title;
                 } else {
                     /* If not existing push the new path into the landingPage array in the data array */
                     pageView.data[0].landingPage.push({
