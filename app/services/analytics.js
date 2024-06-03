@@ -78,7 +78,7 @@ export function ca(event, argument) {
             return domain;
         }
 
-        fetch("/analytics/track?layer=" + JSON.stringify(dataLayer), {
+        fetch("/api/analytics?layer=" + JSON.stringify(dataLayer), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -9,17 +9,17 @@ const userSchema = new Schema({
         required: [true, "Please enter an email address."],
         //lowercase: true,
         match: [
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        "Please enter a valid email address",
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            "Please enter a valid email address",
         ],
         validate: {
             validator: async function (email) {
                 const user = await this.constructor.findOne({ email });
                 if (user) {
-                if (this.id === user.id) {
-                    return true;
-                }
-                return false;
+                    if (this.id === user.id) {
+                        return true;
+                    }
+                    return false;
                 }
                 return true;
             },
@@ -66,7 +66,7 @@ const userSchema = new Schema({
         },
         notifications: [
             {
-                
+
                 receiving: {
                     type: String,
                     enum: ["email", "push"],
@@ -238,7 +238,7 @@ const StudyGroups = new Schema({
                 default: Date.now
             }
         }
-    
+
     ]
 });
 
@@ -323,6 +323,94 @@ const blogPostSchema = new Schema({
     }
 
 });
+
+const AnalyticsSchema = new Schema([
+    {
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        data: [
+            {
+                event: {
+                    type: String,
+                    required: true,
+                    enum: ["PageView", "Login", "Signup", "Click"]
+                },
+                title: {
+                    type: String,
+                    required: true
+                },
+                uniqueViews: [
+                    {
+                        view: {
+                            type: Number,
+                            default: 0
+                        },
+                        uniqueUser: {
+                            type: String,
+                        }
+                    }
+                ],
+                totalViews: {
+                    type: Number,
+                    default: 0
+                },
+                landingPage: [{
+                    path: {
+                        type: String,
+                    },
+                    pageTitle: {
+                        type: String,
+                    },
+                    referrer: {
+                        type: String,
+                    },
+                    views: {
+                        type: Number,
+                        default: 0
+                    },
+                }],
+                timeSpendOnPage: {
+                    type: Number,
+                    default: 0
+                },
+                device: [
+                    {
+                        browser: {
+                            type: String,
+                            required: true
+                        },
+                        language: {
+                            type: String,
+                            required: true
+                        },
+                        userAgent: {
+                            type: String,
+                            required: true
+                        },
+                        screenSize: {
+                            type: String,
+                            required: true
+                        },
+                        devicePixelRatio: {
+                            type: Number,
+                            required: true
+                        },
+                        platform: {
+                            type: String,
+                            required: true
+                        },
+                        osVersion: {
+                            type: String,
+                            required: true
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]);
 
 const QuestionSchema = new Schema({
     title: {
@@ -413,12 +501,12 @@ const answerSchema = new Schema({
 
 userSchema.pre("save", async function (next) {
     const user = this; // this refers to the user document
-  
+
     // only hash the password if it has been modified (or is new)
     if (!user.isModified("password")) {
-      return next(); // continue
+        return next(); // continue
     }
-  
+
     const salt = await bcrypt.genSalt(10); // generate a salt
     user.password = await bcrypt.hash(user.password, salt); // hash the password
     next(); // continue
@@ -454,5 +542,10 @@ export const models = [
         name: "LookedAtLast",
         schema: lookedAtLast,
         collection: "lookedatlast",
+    },
+    {
+        name: "Analytics",
+        schema: AnalyticsSchema,
+        collection: "analytics",
     }
 ]

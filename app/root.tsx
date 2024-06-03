@@ -22,14 +22,15 @@ import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
 import Button from "./components/Button";
-import { authenticator,oauthAuthenticated } from "./services/auth.server";
+import { authenticator, oauthAuthenticated } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
 import Loader from "./components/Loader";
 import { loadStripe } from '@stripe/stripe-js';
+import { ca } from "./services/analytics";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -63,9 +64,9 @@ export const links: LinksFunction = () => [
 
 export const loader = async ({ request }) => {
   let user = await authenticator.isAuthenticated(request);
-    if(!user){
-        user = await oauthAuthenticated(request);
-    }
+  if (!user) {
+    user = await oauthAuthenticated(request);
+  }
   const session = await getSession(request.headers.get("Cookie"));
 
   /* const webAuthn = await webAuthnStrategy.generateOptions(request, request.headers.get("Cookie"), user); */
@@ -100,10 +101,10 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(open){
+    if (open) {
       const button = document.querySelector("#login");
       Intastellar.accounts.id.renderButton(button);
-      if(document.querySelector(".IntastellarSignin")){
+      if (document.querySelector(".IntastellarSignin")) {
         document.querySelector(".IntastellarSignin")?.addEventListener("click", (e) => {
           e.preventDefault();
         })
@@ -113,13 +114,30 @@ export default function App() {
 
   useEffect(() => {
 
-    if(!error){
+    if (!error) {
       setOpen({
         open: false,
         type: "login"
       })
     }
   }, [error, user]);
+  const timeOnPageRef = useRef(0);
+  useEffect(() => {
+    let startTime = new Date().getTime();
+    window.onfocus = function () {
+      startTime = new Date().getTime();
+    };
+
+    window.onblur = function () {
+      const endTime = new Date().getTime();
+      timeOnPageRef.current += (endTime - startTime) / 1000;
+    }
+    ca("PageView", {
+      timeSpendOnPage: timeOnPageRef,
+      title: document.title,
+      pathname: window.location.pathname,
+    });
+  }, []);
 
   return (
     <html lang="en">
@@ -146,39 +164,39 @@ export default function App() {
         <SpeedInsights />
         <LiveReload />
         {
-            (open.open && open.type == "login") && (
-                <div className="popup">
-                    <div className="popup_container">
-                        <Button className="close" onClick={() => {
-                          if(sessionStorage.getItem('askButtonClicked')){
-                            sessionStorage.removeItem('askButtonClicked');
-                          }
-                          setOpen(false);
-                        }}>X</Button>
-                        <section className="grid">
-                          <Form action="/login" method="post" className="login-form">
-                              <h2>Login</h2>
-                              {
+          (open.open && open.type == "login") && (
+            <div className="popup">
+              <div className="popup_container">
+                <Button className="close" onClick={() => {
+                  if (sessionStorage.getItem('askButtonClicked')) {
+                    sessionStorage.removeItem('askButtonClicked');
+                  }
+                  setOpen(false);
+                }}>X</Button>
+                <section className="grid">
+                  <Form action="/login" method="post" className="login-form">
+                    <h2>Login</h2>
+                    {
                                 /* (!user.passKey) &&  */(
-                                  <>
-                                    <label htmlFor="mail">Email</label>
-                                    <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
-                                    <label htmlFor="password">Password</label>
-                                    <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
-                                    <section>
-                                      {
-                                          error?.message && (
-                                              <p className="error">{error?.message}</p>
-                                          )
-                                      }
-                                      <section>
-                                        <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
-                                      </section>
-                                    </section>
-                                  </>
-                                )
-                              }
-                              {/* {
+                        <>
+                          <label htmlFor="mail">Email</label>
+                          <input className="input-fields" id="mail" type="email" name="mail" placeholder="john@doe.com" />
+                          <label htmlFor="password">Password</label>
+                          <input className="input-fields" id="password" type="password" name="password" placeholder="*******" />
+                          <section>
+                            {
+                              error?.message && (
+                                <p className="error">{error?.message}</p>
+                              )
+                            }
+                            <section>
+                              <Button name="_action" value="login" className="btn signin no-margin">Login</Button>
+                            </section>
+                          </section>
+                        </>
+                      )
+                    }
+                    {/* {
                                 (user.passKey) && (
                                   <section>
                                     <h2>Brug din Passkey</h2>
@@ -196,87 +214,87 @@ export default function App() {
                                     </section>
                                 )
                               } */}
-                              <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
-                                open: true,
-                                type: "reset"
-                            })}>Sæt det tilbage</button></p>
-                          </Form>
-                          <section>
-                            <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={window.location.host + "/login"}></div>
-                            <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
-                                open: true,
-                                type: "signup"
-                            })}>Registrer dig i dag</button></p>
-                          </section>
-                        </section>
-                    </div>
-                </div>
-            )
+                    <p>Glemt adgangskode? <button type="button" className="rest-link" onClick={() => setOpen({
+                      open: true,
+                      type: "reset"
+                    })}>Sæt det tilbage</button></p>
+                  </Form>
+                  <section>
+                    <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={window.location.host + "/login"}></div>
+                    <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
+                      open: true,
+                      type: "signup"
+                    })}>Registrer dig i dag</button></p>
+                  </section>
+                </section>
+              </div>
+            </div>
+          )
         }
         {
-            (open.open && open.type == "reset") && (
-                <div className="popup">
-                    <div className="popup_container">
-                        <Button className="close" onClick={() => setOpen(false)}>X</Button>
-                        <fetcher.Form method="post">
-                            <h2>Reset Password</h2>
-                            <label htmlFor="email">Email</label>
-                            <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
-                            <section>
-                              {
-                                  actionData?.message && (
-                                      <p>{actionData?.message}</p>
-                                  )
-                              }
-                              <Button name="_action" value="reset" className="btn signin no-margin">Reset</Button>
-                              <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
-                                  open: true,
-                                  type: "login"
-                              })}>Login</button></p>
-                            </section>
-                        </fetcher.Form>
-                    </div>
-                </div>
-            )
+          (open.open && open.type == "reset") && (
+            <div className="popup">
+              <div className="popup_container">
+                <Button className="close" onClick={() => setOpen(false)}>X</Button>
+                <fetcher.Form method="post">
+                  <h2>Reset Password</h2>
+                  <label htmlFor="email">Email</label>
+                  <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
+                  <section>
+                    {
+                      actionData?.message && (
+                        <p>{actionData?.message}</p>
+                      )
+                    }
+                    <Button name="_action" value="reset" className="btn signin no-margin">Reset</Button>
+                    <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
+                      open: true,
+                      type: "login"
+                    })}>Login</button></p>
+                  </section>
+                </fetcher.Form>
+              </div>
+            </div>
+          )
         }
         {
-            (open.open && open.type == "signup") && (
-                <div className="popup">
-                    <div className="popup_container">
-                        <Button className="close" onClick={() => setOpen(false)}>X</Button>
-                        <section className="grid">
-                          <fetcher.Form method="post" className="login-form">
-                              <h2>Registrering</h2>
-                              <label htmlFor="firstname">Fornavn</label>
-                              <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
-                              <label htmlFor="lastname">Efternavn</label>
-                              <input className="input-fields" type="text" name="lastname" id="lastname" placeholder="Doe" />
-                              <label htmlFor="email">Email</label>
-                              <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
-                              <label htmlFor="password">Password</label>
-                              <input className="input-fields" type="password" name="password" id="password" placeholder="******'" />
-                              <label htmlFor="re-password">Repeat Password</label>
-                              <input className="input-fields" type="password" name="repeat-password" id="re-password" placeholder="******" />
-                              <section>
-                                {
-                                    error?.error && (
-                                        <p>{error?.error?.message}</p>
-                                    )
-                                }
-                                <Button name="_action" value="signup" className="btn signin no-margin">Signup</Button>
-                              </section>
-                          </fetcher.Form>
-                          <section>
-                            <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login-type="signup" data-login_uri={window.location.host + "/signup"}></div>
-                            <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
-                                open: true,
-                                type: "login"
-                            })}>Login</button></p>
-                          </section>
-                        </section>
-                    </div>
-                </div>
-            )
+          (open.open && open.type == "signup") && (
+            <div className="popup">
+              <div className="popup_container">
+                <Button className="close" onClick={() => setOpen(false)}>X</Button>
+                <section className="grid">
+                  <fetcher.Form method="post" className="login-form">
+                    <h2>Registrering</h2>
+                    <label htmlFor="firstname">Fornavn</label>
+                    <input className="input-fields" type="text" name="firstname" id="firstname" placeholder="John" />
+                    <label htmlFor="lastname">Efternavn</label>
+                    <input className="input-fields" type="text" name="lastname" id="lastname" placeholder="Doe" />
+                    <label htmlFor="email">Email</label>
+                    <input className="input-fields" type="email" name="email" id="email" placeholder="john@doe.com" />
+                    <label htmlFor="password">Password</label>
+                    <input className="input-fields" type="password" name="password" id="password" placeholder="******'" />
+                    <label htmlFor="re-password">Repeat Password</label>
+                    <input className="input-fields" type="password" name="repeat-password" id="re-password" placeholder="******" />
+                    <section>
+                      {
+                        error?.error && (
+                          <p>{error?.error?.message}</p>
+                        )
+                      }
+                      <Button name="_action" value="signup" className="btn signin no-margin">Signup</Button>
+                    </section>
+                  </fetcher.Form>
+                  <section>
+                    <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login-type="signup" data-login_uri={window.location.host + "/signup"}></div>
+                    <p>Er du medlem? <button className="ask-btn" type="button" onClick={() => setOpen({
+                      open: true,
+                      type: "login"
+                    })}>Login</button></p>
+                  </section>
+                </section>
+              </div>
+            </div>
+          )
         }
       </body>
     </html>
@@ -299,7 +317,7 @@ export function ErrorBoundary({ error }) {
       <body>
         <Header setOpen={setOpen} open={open} user={user} />
         <section className="content">
-        {isRouteErrorResponse(error) ? (
+          {isRouteErrorResponse(error) ? (
             <h2>
               {error?.status} – {error?.statusText}
             </h2>
@@ -341,11 +359,11 @@ export const action = async ({ request }) => {
 
 async function Authenticate(request) {
   const data = await request.formData();
-  const {_action} = Object.fromEntries(data);
+  const { _action } = Object.fromEntries(data);
 
   if (_action === "signup") {
     return handleSignup(Object.fromEntries(data));
-  }else if (_action === "logout") {
+  } else if (_action === "logout") {
     const referrer = request.headers.get('Referer') || '/';
     return await authenticator.logout(request, {
       redirectTo: referrer,
@@ -358,29 +376,29 @@ async function Authenticate(request) {
 }
 
 async function handleResetPassword(infos) {
-    const {email} = Object.fromEntries(infos);
-    const resend = new Resend(process.env.RESENDGRID_API_KEY);
-    const { data, error } = await resend.emails.send({
-      from: 'Support Devhelp.dk <account.no_reply@devhelp.dk>',
-      to: email,
-      subject: 'You´ve requested an Password Reset | Devhelp.dk',
-      html: `
+  const { email } = Object.fromEntries(infos);
+  const resend = new Resend(process.env.RESENDGRID_API_KEY);
+  const { data, error } = await resend.emails.send({
+    from: 'Support Devhelp.dk <account.no_reply@devhelp.dk>',
+    to: email,
+    subject: 'You´ve requested an Password Reset | Devhelp.dk',
+    html: `
           <h1>You´ve requested a passowrd Reset</h1>
           <p>We have detected that you´ve asked for a password reset.</p>
           <p>If it wasn´t you you can forget this email.</p>
           <p>Click the link below to reset your password</p>
           <a href="http://localhost:3000/reset/${email}">Reset</a>
       `,
-    });
+  });
 
-    if (error) {
-      return {
-          error,
-          status: 400
-      };
-    }else{
-        return json({ message: "We´ve send you an email with an link to reset your Password." }, { status: 200 });
-    }
+  if (error) {
+    return {
+      error,
+      status: 400
+    };
+  } else {
+    return json({ message: "We´ve send you an email with an link to reset your Password." }, { status: 200 });
+  }
 }
 
 async function handleSignup(data) {
