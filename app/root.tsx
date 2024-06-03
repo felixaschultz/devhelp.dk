@@ -16,7 +16,8 @@ import {
   isRouteErrorResponse,
   useNavigation,
   Link,
-  useNavigate
+  useNavigate,
+  useLocation
 } from "@remix-run/react";
 import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { json } from "@remix-run/node";
@@ -99,6 +100,7 @@ export default function App() {
   const { user, error } = useLoaderData();
   const actionData = useActionData();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (open) {
@@ -135,9 +137,9 @@ export default function App() {
     ca("PageView", {
       timeSpendOnPage: timeOnPageRef,
       title: document.title,
-      pathname: window.location.pathname,
+      pathname: location.pathname,
     });
-  }, []);
+  }, [location]);
 
   return (
     <html lang="en">
