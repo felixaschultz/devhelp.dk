@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { getClientIPAddress } from "remix-utils/get-client-ip-address";
 
 function getCookieValue(cookieHeader, cookieName) {
     const match = cookieHeader.match(new RegExp('(^| )' + cookieName + '=([^;]+)'));
@@ -10,7 +11,20 @@ export const action = async ({ request }) => {
     const cookieHeader = request.headers.get("Cookie");
     const hasVisitedBefore = cookieHeader && cookieHeader.includes("_ca=1");
     let userID = getCookieValue(cookieHeader, "_ca") && getCookieValue(cookieHeader, "_ca").split(".")[1];
+    const ip = getClientIPAddress(request.headers);
     /* const userID = cookieHeader && cookieHeader.get("_ca").split(); */
+
+    /* Get users IP address */
+    if (ip) {
+        fetch(`https://ipapi.co/${ip}/json/`).then((response) => {
+            return response.json();
+        }).then((re) => {
+            console.log(re);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     data.forEach(async (event) => {
         if (userID === null) {
             userID = event.uniqueID;

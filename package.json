@@ -24,6 +24,7 @@
     "bcryptjs": "^2.4.3",
     "fs-extra": "^11.2.0",
     "install": "^0.13.0",
+    "is-ip": "^5.0.1",
     "isbot": "^4.1.0",
     "mongoose": "^8.2.1",
     "react": "^18.2.0",
@@ -32,6 +33,7 @@
     "remix-auth": "^3.6.0",
     "remix-auth-form": "^1.4.0",
     "remix-auth-webauthn": "^0.2.1",
+    "remix-utils": "^7.6.0",
     "resend": "^3.2.0",
     "stripe": "^15.8.0",
     "tinymce": "^6.8.3"
