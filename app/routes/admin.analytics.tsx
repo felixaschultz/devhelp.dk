@@ -93,7 +93,7 @@ export default function AdminAnalytics() {
                                 width: "100%",
                                 backgroundColor: "lightgray",
                                 position: "relative",
-                                height: ".6rem",
+                                height: ".3rem",
                                 display: "flex",
                                 justifyContent: "space-between",
                             }}>
