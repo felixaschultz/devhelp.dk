@@ -51,31 +51,31 @@ export const action = async ({ request }) => {
             const endOfToday = new Date();
             endOfToday.setHours(23, 59, 59, 999);
 
-            const pageView = await mongoose.model("Analytics").findOne({
-                date: {
-                    $gte: startOfToday,
-                    $lte: endOfToday
-                },
-                data: {
-                    $elemMatch: {
-                        event: "PageView",
+            const updateObject = {
+                $inc: { "data.$.totalViews": 1 },
+            };
+
+            if (!hasVisitedBefore) {
+                updateObject.$push = { "data.$.uniqueViews": { view: 1, uniqueUser: userID } };
+            }
+
+            const pageView = await mongoose.model("Analytics").findOneAndUpdate(
+                {
+                    date: {
+                        $gte: startOfToday,
+                        $lte: endOfToday
                     },
-                }
-            });
+                    data: {
+                        $elemMatch: {
+                            event: "PageView",
+                        },
+                    }
+                },
+                updateObject,
+                { new: true, upsert: true }
+            );
 
             if (pageView) {
-                /* Update total Views */
-                pageView.data[0].totalViews += 1;
-                /* Check if the user is unique */
-                const userExist = pageView.data[0].uniqueViews.find((user) => user.uniqueUser === userID);
-
-                if (!userExist) {
-                    pageView.data[0].uniqueViews.push({
-                        view: 1,
-                        uniqueUser: userID,
-                    });
-                }
-
                 /* Check if current path exist in the landingPage array in the data array if so increase only that page view */
                 const pathExist = pageView.data.find((landingPage) => landingPage.landingPage.find((page) => page.path === event.pathname));
                 if (pathExist) {
@@ -93,46 +93,7 @@ export const action = async ({ request }) => {
                     });
                 }
                 return await pageView.save();
-            } else {
-                const newPageView = await mongoose.model("Analytics").create({
-                    date: today,
-                    data: [
-                        {
-                            event: "PageView",
-                            title: event.title,
-                            uniqueViews: [
-                                {
-                                    view: 1,
-                                    uniqueUser: userID,
-                                },
-                            ],
-                            totalViews: 1,
-                            landingPage: [
-                                {
-                                    path: event.pathname,
-                                    views: 1,
-                                    pageTitle: event.title,
-                                    referrer: event.referrer,
-                                }
-                            ],
-                            timeSpendOnPage: timeSpendOnPage.current,
-                            device: [
-                                {
-                                    browser: event.device.browser,
-                                    devicePixelRatio: event.device.devicePixelRatio,
-                                    screenSize: event.device.screenSize,
-                                    userAgent: event.device.userAgent,
-                                    language: event.device.language,
-                                    platform: event.device.platform,
-                                    osVersion: event.device.osVersion,
-                                },
-                            ],
-                        },
-                    ],
-                });
-                await newPageView.save();
             }
-
         }
     });
 

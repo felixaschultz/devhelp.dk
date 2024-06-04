@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Months from "./Modules/Months";
+import "./Styles/Calendar.css";
 
 export default function Calendar({ selectedDays, setSelectedDays, startDate, endDate, setDateRange }) {
     let dateToBegin = startDate;

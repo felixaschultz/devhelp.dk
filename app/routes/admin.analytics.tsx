@@ -1,11 +1,18 @@
 import mongoose from "mongoose";
 import { useLoaderData } from "@remix-run/react";
 import { authenticator, oauthAuthenticated } from "~/services/auth.server";
+import { redirect } from "@remix-run/node";
+import Filter from "../components/Calendar/Filter";
+import { useEffect, useState } from "react";
 
 export const loader = async ({ request }) => {
     let user = await authenticator.isAuthenticated(request);
     if (!user) {
         user = await oauthAuthenticated(request);
+    }
+
+    if (!user) {
+        return redirect("/");
     }
 
     const startOfYesterday = new Date();
@@ -52,7 +59,7 @@ export const loader = async ({ request }) => {
         []
     ).sort((a, b) => {
         return b.views - a.views;
-    }).slice(0, 5);
+    }).slice(0, 7);
     // Initialize acc as an empty array
 
     const deviceInfo = analyticsData.reduce((acc, data) => {
@@ -66,7 +73,13 @@ export const loader = async ({ request }) => {
         totalViews,
         uniqueViews,
         landingPages,
-        deviceInfo
+        deviceInfo,
+        numberOfDays: 30,
+        compareRange: 7,
+        startXDays: startOfYesterday,
+        endXDays: endOfToday,
+        previousPeriod: new Date(startOfYesterday.setDate(startOfYesterday.getDate() - 1)),
+        previousPeriod2: new Date(startOfYesterday.setDate(startOfYesterday.getDate() - 1))
     };
 }
 
@@ -84,17 +97,39 @@ export default function AdminAnalytics() {
         totalViews,
         uniqueViews,
         landingPages,
-        deviceInfo
+        deviceInfo,
+        numberOfDays,
+        compareRange,
+        startXDays,
+        endXDays,
+        previousPeriod,
+        previousPeriod2
     } = useLoaderData();
+    const [numbersofDays, setNumberOfDays] = useState(numberOfDays);
+
     return (
         <main className="content">
+            <Filter
+                numberOfDays={numbersofDays}
+                setNumberOfDays={setNumberOfDays}
+                compareRange={compareRange}
+                startDate={startXDays}
+                date={
+                    {
+                        start: startXDays,
+                        end: endXDays,
+                        previousStart: previousPeriod,
+                        previousEnd: previousPeriod2
+                    }
+                }
+            />
             <h1>Admin Analytics</h1>
             <p>Admin Analytics content</p>
             <p>Total Views: {totalViews}</p>
             <p>Unique Views: {uniqueViews}</p>
             {landingPages && (
                 <div>
-                    <h2>Landing Pages</h2>
+                    <h2>Views by Page title</h2>
                     {landingPages.map((page, index) => (
                         <div key={index}>
                             <div style={{

@@ -1,44 +1,51 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-img{
+img {
     max-width: 100%;
 }
 
-a{
+a {
     text-decoration: none;
     color: #e4e4e4;
 }
 
-a[target="_blank"]::after{
+a[target="_blank"]::after {
     content: url('https://img.icons8.com/ios/20/000000/external-link.png');
     margin-left: 10px;
     display: inline-block;
     filter: invert(1);
 }
 
-a[target="_blank"]{
+a[target="_blank"] {
     display: inline-block;
     color: #b4b4b4;
     text-decoration: underline;
 }
 
-h2 a[target="_blank"]{
+h2 a[target="_blank"] {
     color: #e4e4e4;
     text-decoration: none;
 }
 
-fieldset{
+fieldset {
     border: none;
 }
 
-fieldset:disabled{
+fieldset:disabled {
     background-color: #f4f4f4;
     opacity: 0.5;
 }
 
-body{
+button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: inherit;
+}
+
+body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -46,12 +53,12 @@ body{
     color: #e4e4e4;
 }
 
-.flex{
+.flex {
     display: flex;
     align-items: center;
 }
 
-.input-fields{
+.input-fields {
     display: flex;
     flex-direction: column;
     padding: 15px;
@@ -62,7 +69,7 @@ body{
 
 /* Content */
 
-.content{
+.content {
     width: 100%;
     max-width: 1500px;
     margin: auto;
@@ -70,17 +77,17 @@ body{
     padding: 20px;
 }
 
-.search{
+.search {
     width: 100%;
 }
 
-.search .input-fields{
+.search .input-fields {
     color: #e4e4e4;
     background-color: #212121;
     border: 1px solid #5d5d5d;
 }
 
-.hero-tagline .search .input-fields{
+.hero-tagline .search .input-fields {
     width: 100%;
     border: 1px solid #cacaca;
     background-color: #e4e4e4;
@@ -88,24 +95,24 @@ body{
 }
 
 /* Error */
-.error{
+.error {
     color: #ff0033;
     font-size: 14px;
 }
 
 /* Under Constraction */
-.underconstruction{
+.underconstruction {
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ffffff;
 }
 
-.search-results{
+.search-results {
     list-style: none;
 }
 
-.rest-link{
+.rest-link {
     background: transparent;
     border: none;
     color: #e4e4e4;
@@ -115,7 +122,7 @@ body{
 }
 
 /* Popup close */
-.close{
+.close {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -126,6 +133,6 @@ body{
     border: none;
 }
 
-.btn.--error{
+.btn.--error {
     background-color: #ff0033;
 }

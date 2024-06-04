@@ -17,7 +17,7 @@ export default function Months({ currentMonth, year, selectedStartDate, selected
 
     return (
         <div className="w-full flex flex-wrap justify-center items-center">
-            <section className="grid grid-cols-7 gap-2">
+            <section className="calendar-grid grid-cols-7 gap-2">
                 {
                     /* Adding the week days of the current month not in US style */
                     ["M", "T", "O", "T", "F", "L", "S"].map((day, index) => (
@@ -40,7 +40,7 @@ export default function Months({ currentMonth, year, selectedStartDate, selected
 
                         if (date && day != null && new Date(selectedStartDate).toISOString().split("T")[0] <= date && date <= new Date(selectedEndDate).toISOString().split("T")[0]) {
                             resultClass = "bg-primary text-slate-100 flex justify-center items-center text-center p-4 w-[20px] h-[20px] cursor-pointer hover:text-slate-100 hover:bg-primaryHover rounded-full";
-                        } else if (today < date || date < new Date("2024-04-01").toISOString().split("T")[0]) {
+                        } else if (today < date || date < new Date("2024-06-03").toISOString().split("T")[0]) {
                             resultClass = "text-slate-200 flex justify-center items-center text-center p-4 w-[20px] h-[20px] cursor-pointer hover:text-slate-100 hover:bg-primaryHover rounded-full";
                         } else if (clicked.isClicked && clicked.Date === date) {
                             resultClass = "bg-primary text-slate-100 flex justify-center items-center text-center p-4 w-[20px] h-[20px] cursor-pointer hover:text-slate-100 hover:bg-primaryHover rounded-full";
@@ -51,12 +51,12 @@ export default function Months({ currentMonth, year, selectedStartDate, selected
                         }
 
                         return (
-                            <div onClick={() => {
+                            <button onClick={() => {
                                 if (day === null || date > today) {
                                     return;
                                 }
 
-                                if (date < new Date("2024-04-01").toISOString().split("T")[0]) {
+                                if (date < new Date("2024-06-03").toISOString().split("T")[0]) {
                                     return;
                                 }
 
@@ -83,7 +83,7 @@ export default function Months({ currentMonth, year, selectedStartDate, selected
                                 {
                                     day
                                 }
-                            </div>
+                            </button>
                         );
                     })
                 }

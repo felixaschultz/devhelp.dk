@@ -1,6 +1,7 @@
+import "./Styles/Filter.css";
 import { useState } from "react";
 import { useNavigate } from "@remix-run/react";
-import { ToggleButton } from "~/components";
+/* import { ToggleButton } from "~/components"; */
 import Calendar from "./Calendar";
 import { RiArrowDownSLine } from "react-icons/ri";
 export default function Filter({ className, numberOfDays, setNumberOfDays, compareRange, date }) {
@@ -35,13 +36,13 @@ export default function Filter({ className, numberOfDays, setNumberOfDays, compa
     }
 
     return (
-        <div className={className + " relative z-40"}>
-            <div className="flex justify-center items-center cursor-pointer w-max ml-auto" onClick={
+        <div className={className ?? className + " calendar relative z-40"}>
+            <button className="flex justify-center cursor-pointer w-max ml-auto text-slate-100" onClick={
                 handleCalendarToggle
             }>
                 <p className="bg-primaryHover text-slate-100 text-sm rounded-md mr-2 px-2">Last {numberOfDays} days</p>
                 <section>
-                    <p className="text-sm text-right">{
+                    <p className="text-slate-100 text-sm text-right">{
                         new Intl.DateTimeFormat("da-DK", {
                             dateStyle: "short",
                         }).format(
@@ -56,7 +57,7 @@ export default function Filter({ className, numberOfDays, setNumberOfDays, compa
                         }
                     </p>
                     {compareRangeCheck ? (
-                        <p className="text-sm text-right"><span className="mx-2">compare</span>
+                        <p className="text-slate-100 text-sm text-right"><span className="mx-2">compare</span>
                             {
                                 new Intl.DateTimeFormat("da-DK", {
                                     dateStyle: "short",
@@ -74,10 +75,10 @@ export default function Filter({ className, numberOfDays, setNumberOfDays, compa
                     ) : null}
                 </section>
                 <RiArrowDownSLine size={25} />
-            </div>
+            </button>
             {calendar && (
-                <div className="grid auto-rows-max grid-cols-1 bg-slate-100 shadow-md absolute z-10 right-0 mt-3 w-[512px] h-[445px] rounded-md overflow-hidden">
-                    <section className="grid grid-cols-2 h-[406px]">
+                <div className="calendar-grid auto-rows-max grid-cols-1 bg-slate-100 shadow-md absolute z-10 right-0 mt-3 w-[512px] h-[445px] rounded-md overflow-hidden">
+                    <section className="calendar-grid grid-cols-2 h-[406px]">
                         <section className="border-r-2">
                             {/* <button onClick={(e) => {
                                 e.preventDefault();
@@ -149,11 +150,11 @@ export default function Filter({ className, numberOfDays, setNumberOfDays, compa
                                 }
                             }} className={selectedDays !== 90 ? "block w-full text-left p-2 hover:bg-primaryHover hover:text-slate-100 cursor-pointer" : "block bg-primary text-slate-100 hover:text-slate-100 w-full text-left p-2 hover:bg-primaryHover cursor-pointer"}>Last 90 days</button>
                             <section className="border-t-2 pt-4">
-                                {isCompare ? <div className="flex justify-between px-2">Compare <ToggleButton enabled={true} onChange={() => {
+                                {/* {isCompare ? <div className="flex justify-between px-2">Compare <ToggleButton enabled={true} onChange={() => {
                                     setIsCompare(!isCompare);
                                 }} /></div> : <div className="flex justify-between px-2">Compare <ToggleButton enabled={false} onChange={() => {
                                     setIsCompare(!isCompare);
-                                }} /></div>}
+                                }} /></div>} */}
                                 {isCompare && (
                                     <section>
                                         <button onClick={(e) => {
