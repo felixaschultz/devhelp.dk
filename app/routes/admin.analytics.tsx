@@ -8,14 +8,15 @@ export const loader = async ({ request }) => {
         user = await oauthAuthenticated(request);
     }
 
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
+    const startOfYesterday = new Date();
+    startOfYesterday.setDate(startOfYesterday.getDate() - 1);
+    startOfYesterday.setHours(0, 0, 0, 0);
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
     const analyticsData = await mongoose.model("Analytics").find({
         date: {
-            $gte: startOfToday,
+            $gte: startOfYesterday,
             $lte: endOfToday
         },
         data: {
@@ -38,7 +39,21 @@ export const loader = async ({ request }) => {
     const landingPages = analyticsData.reduce((acc, data) => {
         const pageViewEventIndex = data.data.findIndex((event) => event.event === "PageView");
         return pageViewEventIndex !== -1 ? acc.concat(data.data[pageViewEventIndex].landingPage) : acc;
-    }, []); // Initialize acc as an empty array
+    }, []).reduce(
+        (acc, page) => {
+            const existingPage = acc.find((p) => p.path === page.path);
+            if (existingPage) {
+                existingPage.views += page.views;
+            } else {
+                acc.push(page);
+            }
+            return acc;
+        },
+        []
+    ).sort((a, b) => {
+        return b.views - a.views;
+    }).slice(0, 5);
+    // Initialize acc as an empty array
 
     const deviceInfo = analyticsData.reduce((acc, data) => {
         const pageViewEventIndex = data.data.findIndex((event) => event.event === "PageView");
