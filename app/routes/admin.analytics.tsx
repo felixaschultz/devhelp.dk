@@ -4,6 +4,7 @@ import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import { redirect } from "@remix-run/node";
 import Filter from "../components/Calendar/Filter";
 import { useEffect, useState } from "react";
+import "../components/Card/Styles/Card.css"
 
 export const loader = async ({ request }) => {
     let user = await authenticator.isAuthenticated(request);
@@ -75,7 +76,7 @@ export const loader = async ({ request }) => {
         landingPages,
         deviceInfo,
         numberOfDays: 30,
-        compareRange: 7,
+        compareRange: 0,
         startXDays: startOfYesterday,
         endXDays: endOfToday,
         previousPeriod: new Date(startOfYesterday.setDate(startOfYesterday.getDate() - 1)),
@@ -127,49 +128,51 @@ export default function AdminAnalytics() {
             <p>Admin Analytics content</p>
             <p>Total Views: {totalViews}</p>
             <p>Unique Views: {uniqueViews}</p>
-            {landingPages && (
-                <div>
-                    <h2>Views by Page title</h2>
-                    {landingPages.map((page, index) => (
-                        <div key={index}>
-                            <div style={{
-                                display: "flex",
-                                justifyContent: "space-between"
-                            }}>
-                                <p>{page.pageTitle}</p>
-                                <p>{page.views}</p>
-                            </div>
-                            <div className="indicator" style={{
-                                width: "100%",
-                                backgroundColor: "lightgray",
-                                position: "relative",
-                                height: ".3rem",
-                                display: "flex",
-                                justifyContent: "space-between",
-                            }}>
+            <div className="grid">
+                {landingPages && (
+                    <div className="card">
+                        <h2>Views by Page title</h2>
+                        {landingPages.map((page, index) => (
+                            <div key={index}>
                                 <div style={{
-                                    width: `${(page.views / totalViews) * 100}%`,
-                                    backgroundColor: "rgb(192, 159, 83)",
-                                    height: "100%",
-                                }}></div>
+                                    display: "flex",
+                                    justifyContent: "space-between"
+                                }}>
+                                    <p>{page.pageTitle}</p>
+                                    <p>{page.views}</p>
+                                </div>
+                                <div className="indicator" style={{
+                                    width: "100%",
+                                    backgroundColor: "lightgray",
+                                    position: "relative",
+                                    height: ".3rem",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                }}>
+                                    <div style={{
+                                        width: `${(page.views / totalViews) * 100}%`,
+                                        backgroundColor: "rgb(192, 159, 83)",
+                                        height: "100%",
+                                    }}></div>
 
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-            {deviceInfo && (
-                <div>
-                    <h2>Device Info</h2>
-                    {deviceInfo.map((device, index) => (
-                        <div key={index}>
-                            <p>Browser: {device.browser}</p>
-                            <p>OS Version: {device.osVersion}</p>
-                            <p>Language: {device.language}</p>
-                        </div>
-                    ))}
-                </div>
-            )}
+                        ))}
+                    </div>
+                )}
+                {deviceInfo && (
+                    <div className="card">
+                        <h2>Device Info</h2>
+                        {deviceInfo.map((device, index) => (
+                            <div key={index}>
+                                <p>Browser: {device.browser}</p>
+                                <p>OS Version: {device.osVersion}</p>
+                                <p>Language: {device.language}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </main>
     )
 }
