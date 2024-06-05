@@ -12,7 +12,9 @@ export const loader = async ({ request }) => {
         user = await oauthAuthenticated(request);
     }
 
-    if (!user) {
+    const admin = user && user?.admin;
+
+    if (!user || !admin) {
         return redirect("/");
     }
 

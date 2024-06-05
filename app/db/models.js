@@ -49,6 +49,10 @@ const userSchema = new Schema({
         type: String,
         default: "user"
     },
+    admin: {
+        type: Boolean,
+        default: false
+    },
     public: {
         type: Boolean,
         default: false
