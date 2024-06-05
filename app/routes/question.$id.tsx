@@ -2,20 +2,21 @@ import { useLoaderData } from "@remix-run/react";
 import mongoose from "mongoose";
 import { authenticator, oauthAuthenticated } from "~/services/auth.server";
 import Comments from "~/components/Comments";
+import { Resend } from "resend";
 
-export const loader = async ({request, params}) => {
+export const loader = async ({ request, params }) => {
     let user = await authenticator.isAuthenticated(request);
-    if(!user){
+    if (!user) {
         user = await oauthAuthenticated(request);
     }
     const question = await mongoose.model("Question").findOne({
         _id: params.id
     }).populate("user").populate("comments.user").populate("comments.reply.user");
 
-    return {question, user};
+    return { question, user };
 };
 
-export const meta = ({data}) => {
+export const meta = ({ data }) => {
     return [
         {
             title: "Question: " + data.question.title + " | Devhelp.dk",
@@ -24,8 +25,8 @@ export const meta = ({data}) => {
     ];
 }
 
-export default function Question(){
-    const {question, user} = useLoaderData();
+export default function Question() {
+    const { question, user } = useLoaderData();
     return (
         <div className="content">
             <h1>Question: {question.title}</h1>
@@ -38,14 +39,14 @@ export default function Question(){
 
 export const action = async ({ request, params }) => {
     let user = await authenticator.isAuthenticated(request);
-    if(!user){
+    if (!user) {
         user = await oauthAuthenticated(request);
     }
     const postId = params.id;
     const formData = await request.formData();
     const _action = formData.get("_action");
 
-    if(!user){
+    if (!user) {
         return json(
             { message: "You need to be logged in to like a post" },
             {
@@ -54,29 +55,50 @@ export const action = async ({ request, params }) => {
         )
     }
 
-    if(_action === "like") {
-        return  await mongoose.model("Question").findByIdAndUpdate(postId, {
+    if (_action === "like") {
+        return await mongoose.model("Question").findByIdAndUpdate(postId, {
             $push: {
                 likes: user?.user?._id || user?._id
             }
         });
-    }else if(_action === "unlike") {
+    } else if (_action === "unlike") {
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
             $pull: {
                 likes: user?.user?._id || user?._id
             }
         });
 
-    }else if(_action === "comment") {
+    } else if (_action === "comment") {
         const comment = Object.fromEntries(formData);
         comment.user = user?.user?._id || user?._id;
+
+        const questionUser = await mongoose.model("Question").findById(postId).populate("user");
+        const proUser = questionUser.user;
+
+        const resend = new Resend(process.env.RESENDGRID_API_KEY);
+
+        const { data, error } = await resend.emails.send({
+            from: 'Support Devhelp.dk <no_reply@devhelp.dk>',
+            to: proUser.email,
+            subject: 'Someone comment on your Question | Devhelp.dk',
+            html: `
+                    <h1>Someone comment on your question</h1>
+                    <p>${comment.body}</p>
+                    <p>Click <a href="${process.env.HOST}/question/${postId}">here</a> to view the comment</p>
+                `,
+        });
+
+        if (error) {
+            console.error(error);
+        }
+
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
             $push: {
                 comments: comment
             }
         });
 
-    } else if(_action === "reply") {
+    } else if (_action === "reply") {
         const reply = Object.fromEntries(formData);
         const commentId = formData.get("commentId");
         reply.user = user?.user?._id || user?._id;
@@ -92,7 +114,7 @@ export const action = async ({ request, params }) => {
             ]
         });
 
-    }else if(_action === "like-comment") {
+    } else if (_action === "like-comment") {
         const commentId = formData.get("commentId");
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
             $push: {
@@ -105,8 +127,8 @@ export const action = async ({ request, params }) => {
                 }
             ]
         });
-    
-    }else if(_action === "like-reply"){
+
+    } else if (_action === "like-reply") {
         const commentId = formData.get("commentId");
         const replyId = formData.get("replyId");
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
@@ -123,7 +145,7 @@ export const action = async ({ request, params }) => {
                 }
             ]
         });
-    }else if(_action === "unlike-reply"){
+    } else if (_action === "unlike-reply") {
         const commentId = formData.get("commentId");
         const replyId = formData.get("replyId");
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
@@ -140,7 +162,7 @@ export const action = async ({ request, params }) => {
                 }
             ]
         });
-    }else if(_action === "unlike-comment"){
+    } else if (_action === "unlike-comment") {
         console.log("unlike-comment");
         const commentId = formData.get("commentId");
         return await mongoose.model("Question").findByIdAndUpdate(postId, {
