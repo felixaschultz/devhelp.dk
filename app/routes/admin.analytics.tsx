@@ -39,6 +39,11 @@ export const loader = async ({ request }) => {
         return pageViewEventIndex !== -1 ? acc + data.data[pageViewEventIndex].totalViews : acc;
     }, 0);
 
+    const spendTimeOnPage = analyticsData.reduce((acc, data) => {
+        const pageViewEventIndex = data.data.findIndex((event) => event.event === "PageView");
+        return pageViewEventIndex !== -1 ? acc + data.data[pageViewEventIndex].spendTimeOnPage : acc;
+    }, 0);
+
     const uniqueViews = analyticsData.reduce((acc, data) => {
         const pageViewEventIndex = data.data.findIndex((event) => event.event === "PageView");
         return pageViewEventIndex !== -1 ? acc + data.data[pageViewEventIndex].uniqueViews.length : acc;
@@ -75,6 +80,7 @@ export const loader = async ({ request }) => {
         uniqueViews,
         landingPages,
         deviceInfo,
+        spendTimeOnPage,
         numberOfDays: 30,
         compareRange: 0,
         startXDays: startOfYesterday,
@@ -99,6 +105,7 @@ export default function AdminAnalytics() {
         uniqueViews,
         landingPages,
         deviceInfo,
+        spendTimeOnPage,
         numberOfDays,
         compareRange,
         startXDays,
@@ -128,6 +135,7 @@ export default function AdminAnalytics() {
             <p>Admin Analytics content</p>
             <p>Total Views: {totalViews}</p>
             <p>Unique Views: {uniqueViews}</p>
+            <p>Spend Time On Page: {spendTimeOnPage}</p>
             <div className="grid">
                 {landingPages && (
                     <div className="card">

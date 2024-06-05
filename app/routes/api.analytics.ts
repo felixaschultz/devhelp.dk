@@ -90,6 +90,7 @@ export const action = async ({ request }) => {
                         views: 1,
                         pageTitle: event.title,
                         referrer: event.referrer,
+                        timeSpendOnPage: timeSpendOnPage.current,
                     });
                 }
                 return await pageView.save();

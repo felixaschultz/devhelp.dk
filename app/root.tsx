@@ -134,6 +134,24 @@ export default function App() {
       const endTime = new Date().getTime();
       timeOnPageRef.current += (endTime - startTime) / 1000;
     }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === 'hidden') {
+        const endTime = new Date().getTime();
+        timeOnPageRef.current += (endTime - startTime) / 1000;
+      }
+    });
+
+    document.addEventListener("beforeunload", function () {
+      const endTime = new Date().getTime();
+      timeOnPageRef.current += (endTime - startTime) / 1000;
+    })
+
+    document.addEventListener("unload", function () {
+      const endTime = new Date().getTime();
+      timeOnPageRef.current += (endTime - startTime) / 1000;
+    });
+
     ca("PageView", {
       timeSpendOnPage: timeOnPageRef,
       title: document.title,
