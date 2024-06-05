@@ -37,9 +37,11 @@ export const action = async ({ request }) => {
                 browser: event.device.browser,
                 devicePixelRatio: event.device.devicePixelRatio,
                 language: event.device.language,
+                userAgent: event.device.userAgent,
                 platform: event.device.platform,
                 osVersion: event.device.osVersion,
                 viewport: event.device.screenSize,
+                screenSize: event.device.screenSize,
             };
 
             const timeSpendOnPage = event.timeSpendOnPage;
@@ -58,8 +60,47 @@ export const action = async ({ request }) => {
             if (!hasVisitedBefore) {
                 updateObject.$push = { "data.$.uniqueViews": { view: 1, uniqueUser: userID } };
             }
+            const AnalyticsModel = mongoose.model("Analytics");
+            const exists = await AnalyticsModel.findOne({
+                date: {
+                    $gte: startOfToday,
+                    $lte: endOfToday
+                },
+                data: {
+                    $elemMatch: {
+                        event: "PageView",
+                    },
+                }
+            });
 
-            const pageView = await mongoose.model("Analytics").findOneAndUpdate(
+            if (!exists) {
+                const pageView = await new AnalyticsModel({
+                    date: today,
+                    data: [
+                        {
+                            event: "PageView",
+                            totalViews: 1,
+                            spendTimeOnPage: timeSpendOnPage.current,
+                            uniqueViews: hasVisitedBefore ? [] : [{ view: 1, uniqueUser: userID }],
+                            title: event.title,
+                            landingPage: [
+                                {
+                                    path: event.pathname,
+                                    views: 1,
+                                    pageTitle: event.title,
+                                    referrer: event.referrer,
+                                    timeSpendOnPage: timeSpendOnPage.current,
+                                }
+                            ],
+                            device: [deviceInfo],
+                        }
+                    ]
+                });
+
+                return await pageView.save();
+            }
+
+            const pageView = await AnalyticsModel.findOneAndUpdate(
                 {
                     date: {
                         $gte: startOfToday,
