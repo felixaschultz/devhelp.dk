@@ -7,9 +7,6 @@ import { RiArrowDownSLine } from "react-icons/ri";
 export default function Filter({ className, numberOfDays, setNumberOfDays, compareRange, date }) {
     const compareRangeCheck = compareRange === 0 ? false : true;
 
-
-    console.log(compareRangeCheck);
-
     const [calendar, setCalendar] = useState(false);
     const [isCompare, setIsCompare] = useState(compareRangeCheck);
     const [selectedDays, setSelectedDays] = useState(numberOfDays);
