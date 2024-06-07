@@ -33,6 +33,23 @@ import Loader from "./components/Loader";
 import { loadStripe } from '@stripe/stripe-js';
 import { ca } from "./services/analytics";
 
+export const meta = () => {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1.0",
+    },
+    {
+      name: "description",
+      content: "Devhelp.dk is a platform for developers to ask questions, share their knowledge and get help from other developers.",
+    },
+    {
+      title: "Devhelp.dk",
+    },
+  ];
+
+}
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   {

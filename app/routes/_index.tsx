@@ -11,9 +11,9 @@ import { AppContext } from "../root";
 
 export const loader = async ({ request }) => {
   let user = await authenticator.isAuthenticated(request);
-    if(!user){
-        user = await oauthAuthenticated(request);
-    }
+  if (!user) {
+    user = await oauthAuthenticated(request);
+  }
   const blogPosts = await mongoose.model("BlogPost").find({
     published: true
   });
@@ -42,10 +42,10 @@ export const loader = async ({ request }) => {
 
   const clientSecret = await createCheckoutSession(amount); */
 
-  return { user, blogPosts, questions, userTags, clientSecret: null, amount};
+  return { user, blogPosts, questions, userTags, clientSecret: null, amount };
 };
 
-export const meta: MetaFunction = () => {
+export function meta() {
   return [
     { title: "Devhelp.dk - For din hjælp fra direkte fra en professionelt!" },
     { name: "description", content: "Din digitale partner til udvikling af Webløsninger" },
@@ -54,15 +54,15 @@ export const meta: MetaFunction = () => {
       content: "Devhelp.dk - For din hjælp fra direkte fra en professionelt!"
     },
     {
-        name: "og:description",
-        content: "Din digitale partner til udvikling af Webløsninger"
+      name: "og:description",
+      content: "Din digitale partner til udvikling af Webløsninger"
     },
     {
-        name: "og:image",
-        content: ""
+      name: "og:image",
+      content: ""
     }
   ];
-};
+}
 
 export default function Index() {
   const { user, blogPosts, questions, userTags, clientSecret, amount } = useLoaderData();
@@ -89,19 +89,19 @@ export default function Index() {
   const tagCounts = {};
   tags.forEach(tag => {
     const newTag = tag.toLowerCase();
-      if (tagCounts[newTag]) {
-          tagCounts[newTag]++;
-      } else {
-          tagCounts[newTag] = 1;
-      }
+    if (tagCounts[newTag]) {
+      tagCounts[newTag]++;
+    } else {
+      tagCounts[newTag] = 1;
+    }
   });
   foundUserTags.forEach(tag => {
     const newTag = tag.name.toLowerCase();
-      if (tagCounts[newTag]) {
-          tagCounts[newTag]++;
-      } else {
-          tagCounts[newTag] = 1;
-      }
+    if (tagCounts[newTag]) {
+      tagCounts[newTag]++;
+    } else {
+      tagCounts[newTag] = 1;
+    }
   });
 
   // Step 2: Convert the object to an array of [tag, count] pairs
@@ -136,7 +136,7 @@ export default function Index() {
                 }))
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .map((question) => (
-                  <Link style={{textDecoration: "none", height:"max-content"}} to={`/question/${question._id}`} key={question._id}>
+                  <Link style={{ textDecoration: "none", height: "max-content" }} to={`/question/${question._id}`} key={question._id}>
                     <PostCard post={question} />
                   </Link>
                 )).slice(0, 9)}
@@ -155,12 +155,12 @@ export default function Index() {
             }))
             .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.date) - new Date(a.date))
             .map((post) => (
-              <Link style={{textDecoration: "none", height:"max-content"}} to={`/blog/${post._id}`} key={post._id}>
+              <Link style={{ textDecoration: "none", height: "max-content" }} to={`/blog/${post._id}`} key={post._id}>
                 <PostCard post={post} />
               </Link>
             )).slice(0, 9) : (
-              <p>No blog posts found</p>
-            )}
+            <p>No blog posts found</p>
+          )}
         </section>
         <Elements stripe={context.stripePromise} options={
           stripeOptions
