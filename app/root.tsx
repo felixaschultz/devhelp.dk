@@ -339,7 +339,6 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }) {
-  const user = useLoaderData();
   const [open, setOpen] = useState(false);
   const routeError = useRouteError();
 
@@ -352,7 +351,7 @@ export function ErrorBoundary({ error }) {
         <Links />
       </head>
       <body>
-        <Header setOpen={setOpen} open={open} user={user} />
+        <Header setOpen={setOpen} open={open} user={{}} />
         <section className="content">
           {isRouteErrorResponse(error) ? (
             <h2>
