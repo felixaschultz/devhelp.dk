@@ -121,8 +121,9 @@ export default function App() {
 
   useEffect(() => {
     if (open) {
-      const button = document.querySelector("#login");
-      Intastellar.accounts.id.renderButton(button);
+      Intastellar.accounts.id.renderButton("login", {
+        "theme": "dark",
+      });
       if (document.querySelector(".IntastellarSignin")) {
         document.querySelector(".IntastellarSignin")?.addEventListener("click", (e) => {
           e.preventDefault();
