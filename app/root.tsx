@@ -182,7 +182,7 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script src="https://account.api.intastellarsolutions.com/login.js"></script>
+        <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
         <Meta />
         <Links />
       </head>
