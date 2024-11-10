@@ -54,7 +54,7 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   {
     rel: 'stylesheet',
-    href: 'https://account.api.intastellarsolutions.com/insign/style.css'
+    href: 'https://account.api.intastellarsolutions.com/v1/insign/style.css'
   },
   {
     rel: 'apple-touch-icon',
@@ -120,17 +120,22 @@ export default function App() {
   const location = useLocation();
 
   useEffect(() => {
-    if (open) {
-      Intastellar.accounts.id.renderButton("login", {
-        "theme": "dark",
-      });
+    Intastellar.accounts.id.renderButton("login", {
+      "theme": "dark",
+      "picker": "popup",
+      "appName": "Devhelp.dk",
+      "login_uri": window.location.host + "/login",
+      "client_id": "d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d",
+    });
+    /* if (open) {
+      
       if (document.querySelector(".IntastellarSignin")) {
         document.querySelector(".IntastellarSignin")?.addEventListener("click", (e) => {
           e.preventDefault();
         })
       }
-    }
-  }, [open]);
+    } */
+  }, []);
 
   useEffect(() => {
 
