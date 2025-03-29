@@ -59,6 +59,7 @@ export const Scripts = () => {
             settings: {
               company: "Intastellar Solutions",
               color: "#292929",
+              design: "banner",
               logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
             }
           }
