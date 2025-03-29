@@ -60,6 +60,7 @@ export const Scripts = () => {
               company: "Intastellar Solutions",
               color: "#292929",
               design: "banner",
+              rootDomain: "devhelp.dk",
               requiredCookies: [
                 {
                   "cookie": "inta_state",
@@ -156,7 +157,6 @@ export default function App() {
   const location = useLocation();
 
   useEffect(() => {
-    
     /* if (open) {
       
       if (document.querySelector(".IntastellarSignin")) {
@@ -235,14 +235,6 @@ export default function App() {
         <ScrollRestoration />
         <SpeedInsights />
         <LiveReload />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            Intastellar.accounts.id.renderButton("login", {
-              theme: "dark",
-              picker: "popup"
-            });
-          `
-        }} />
         {
           (open.open && open.type == "login") && (
             <div className="popup">
@@ -375,6 +367,14 @@ export default function App() {
             </div>
           )
         }
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            Intastellar.accounts.id.renderButton("login", {
+              theme: "dark",
+              picker: "popup"
+            });
+          `
+        }} />
       </body>
     </html>
   );
