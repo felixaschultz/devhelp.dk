@@ -61,8 +61,18 @@ export const Scripts = () => {
               color: "#292929",
               design: "banner",
               requiredCookies: [
-                "_ca",
-                "inta_state"
+                {
+                  "cookie": "inta_state",
+                  "domain": "devhelp.dk",
+                  "type": "functional",
+                  "description": "Intastellar state cookie, used to store the state of the Intastellar account.",
+                },
+                {
+                  "cookie": "_ca",
+                  "domain": "devhelp.dk",
+                  "description": "This cookie is used to keep track of the user session.",
+                  "type": "analytics",
+                }
               ],
               logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
             }
