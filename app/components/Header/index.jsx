@@ -4,8 +4,10 @@ import Button from "../Button";
 import { Form } from "@remix-run/react";
 import Logo from "../../assets/devhelp-logo-white.svg";
 import IntastellarServices from "../IntastellarServices";
-export default function Header({setOpen, open, user}) {
+export default function Header({setOpen, open, user, hostname}) {
     user = user?.user || user;
+    
+
     return (
         <>
         <header className="header">
@@ -46,6 +48,7 @@ export default function Header({setOpen, open, user}) {
                                     : "",
                             })} className="navitem" to="/about">About</NavLink>
                     </section>
+                    <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={hostname + "/login"}></div>
                     <section className="btn_container">
                         {user && user._id ? (
                             <>

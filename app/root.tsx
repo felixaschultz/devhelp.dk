@@ -7,7 +7,6 @@ import {
   LiveReload,
   Meta,
   Outlet,
-  Scripts,
   ScrollRestoration,
   useActionData,
   useFetcher,
@@ -48,6 +47,27 @@ export const meta = () => {
     },
   ];
 
+}
+
+export const Scripts = () => {
+  return (
+    <>
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          window.INTA = {
+            policy_link: "https://www.intastellarsolutions.com/privacy-policy",
+            settings: {
+              company: "Intastellar Solutions",
+              color: "#c4c4c4",
+              logo: "https://www.intastellarsolutions.com/assets/icons/fav/apple-icon-57x57.png",
+            }
+          }
+        `
+      }} />
+      <script src="https://consents.cdn.intastellarsolutions.com/uc.js"></script>
+      <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
+    </>
+  );
 }
 
 export const links: LinksFunction = () => [
@@ -98,7 +118,8 @@ export const loader = async ({ request }) => {
   return {
     user,
     error,
-    headers
+    headers,
+    hostname: request.headers.get("host"),
   };
 }
 
@@ -114,7 +135,7 @@ export default function App() {
   });
   const { state } = useNavigation();
   const fetcher = useFetcher();
-  const { user, error } = useLoaderData();
+  const { user, error, hostname } = useLoaderData();
   const actionData = useActionData();
   const navigate = useNavigate();
   const location = useLocation();
@@ -181,31 +202,12 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script>
-          window.INTA = {
-            privacy_policy: "https://www.intastellarsolutions.com/privacy-policy",
-            settings: {
-              color: "#000000",
-              logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-white-CBYKCMEQ.svg",
-            }
-          }
-        </script>
-        <script src="https://consents.cdn.intastellarsolutions.com/uc.js"></script>
-        <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
-        <script>
-          Intastellar.accounts.id.renderButton("login", {
-            "theme": "dark",
-            "picker": "popup",
-            "appName": "Devhelp.dk",
-            "login_uri": window.location.host + "/login",
-            "client_id": "d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d",
-          });
-        </script>
+        <Scripts />
         <Meta />
         <Links />
       </head>
       <body>
-        <Header setOpen={setOpen} open={open} user={user} />
+        <Header setOpen={setOpen} open={open} user={user} hostname={hostname} />
         {state === 'loading' && (
           <Loader />
         )}
@@ -216,9 +218,16 @@ export default function App() {
         </AppContext.Provider>
         <Footer />
         <ScrollRestoration />
-        <Scripts />
         <SpeedInsights />
         <LiveReload />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            Intastellar.accounts.id.renderButton("login", {
+              theme: "dark",
+              picker: "popup"
+            });
+          `
+        }} />
         {
           (open.open && open.type == "login") && (
             <div className="popup">
@@ -276,7 +285,6 @@ export default function App() {
                     })}>Sæt det tilbage</button></p>
                   </Form>
                   <section>
-                    <div id="login" data-client_id="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d" data-app-name="Devhelp.dk" data-login_uri={window.location.host + "/login"}></div>
                     <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
                       open: true,
                       type: "signup"
