@@ -23,31 +23,15 @@ import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { json } from "@remix-run/node";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import Button from "./components/Button";
 import { authenticator, oauthAuthenticated } from "./services/auth.server";
 import mongoose from "mongoose";
 import { getSession, commitSession } from "./services/session.server";
 import { Resend } from 'resend';
 import Loader from "./components/Loader";
-import { loadStripe } from '@stripe/stripe-js';
+/* import { loadStripe } from '@stripe/stripe-js'; */
 import { ca } from "./services/analytics";
-import { ExternalScripts, ExternalScriptsHandle } from "remix-utils/external-scripts";
-
-export let handle: ExternalScriptsHandle = {
-  scripts: [
-    {
-      src: "https://consents.cdn.intastellarsolutions.com/uc.js",
-      async: false,
-      defer: false,
-    },
-    {
-      src: "https://account.api.intastellarsolutions.com/v1/login.js",
-      async: false,
-      defer: false,
-    }
-  ],
-};
 
 export const meta = () => {
   return [
@@ -157,10 +141,59 @@ export const loader = async ({ request }) => {
   };
 }
 
-const stripePromise = loadStripe('pk_test_cdjFXrTVnj1SdyYXzlTz95Sk');
+/* const stripePromise = loadStripe('pk_test_cdjFXrTVnj1SdyYXzlTz95Sk'); */
 export const AppContext = createContext({
-  stripePromise: stripePromise,
+  stripePromise: null,
 });
+
+export const ExternalScripts = () => {
+    return (
+      <>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.INTA = {
+              policy_link: {
+                url: "https://www.intastellarsolutions.com/about/legal/privacy",
+                target: "_blank",
+              },
+              settings: {
+                company: "Intastellar Solutions",
+                color: "#292929",
+                design: "banner",
+                rootDomain: "devhelp.dk",
+                requiredCookies: [
+                  {
+                    "cookie": "inta_state",
+                    "domain": "devhelp.dk",
+                    "type": "functional",
+                    "purpose": "Intastellar state cookie, used to store the state of the Intastellar account.",
+                  },
+                  {
+                    "cookie": "_ca",
+                    "domain": "devhelp.dk",
+                    "purpose": "This cookie is used to keep track of the user session.",
+                    "type": "analytics",
+                  }
+                ],
+                logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
+              }
+            }
+          `
+        }} />
+        <script src="https://consents.cdn.intastellarsolutions.com/uc.js"></script>
+        <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            Intastellar.accounts.id.renderButton("login", {
+              login_type: "login",
+              theme: "dark",
+              picker: "popup"
+            })
+          `
+        }}></script>
+      </>
+    );
+  }
 
 export default function App() {
   const [open, setOpen] = useState({
@@ -230,73 +263,29 @@ export default function App() {
     });
   }, [location]);
 
+    
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.INTA = {
-            policy_link: {
-              url: "https://www.intastellarsolutions.com/about/legal/privacy",
-              target: "_blank",
-            },
-            settings: {
-              company: "Intastellar Solutions",
-              color: "#292929",
-              design: "banner",
-              rootDomain: "devhelp.dk",
-              requiredCookies: [
-                {
-                  "cookie": "inta_state",
-                  "domain": "devhelp.dk",
-                  "type": "functional",
-                  "purpose": "Intastellar state cookie, used to store the state of the Intastellar account.",
-                },
-                {
-                  "cookie": "_ca",
-                  "domain": "devhelp.dk",
-                  "purpose": "This cookie is used to keep track of the user session.",
-                  "type": "analytics",
-                }
-              ],
-              logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
-            }
-          }
-            `
-        }}></script>
-        <ExternalScripts />
-        <Scripts />
         <Meta />
         <Links />
+        <Scripts />
+        <ExternalScripts />
       </head>
       <body>
         <Header setOpen={setOpen} open={open} user={user} hostname={hostname} />
         {state === 'loading' && (
           <Loader />
         )}
-        <AppContext.Provider value={{
-          stripePromise: stripePromise
-        }}>
+        <AppContext.Provider value={{ stripePromise: null }}>
           <Outlet context={[open, setOpen]} />
         </AppContext.Provider>
         <Footer />
         <ScrollRestoration />
         <SpeedInsights />
         <LiveReload />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            Intastellar.accounts.id.renderButton("login", {
-              client_id: "d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d",
-              app_name: "Devhelp.dk",
-              login_type: "login",
-              login_uri: "${hostname}/login",
-              theme: "dark",
-              picker: "popup"
-            })
-          `
-        }}></script>
         {
           (open.open && open.type == "login") && (
             <div className="popup">
