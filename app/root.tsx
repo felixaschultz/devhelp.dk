@@ -120,13 +120,7 @@ export default function App() {
   const location = useLocation();
 
   useEffect(() => {
-    Intastellar.accounts.id.renderButton("login", {
-      "theme": "dark",
-      "picker": "popup",
-      "appName": "Devhelp.dk",
-      "login_uri": window.location.host + "/login",
-      "client_id": "d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d",
-    });
+    
     /* if (open) {
       
       if (document.querySelector(".IntastellarSignin")) {
@@ -187,7 +181,26 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+          window.INTA = {
+            privacy_policy: "https://www.intastellarsolutions.com/privacy-policy",
+            settings: {
+              color: "#000000",
+              logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-white-CBYKCMEQ.svg",
+            }
+          }
+        </script>
+        <script src="https://consents.cdn.intastellarsolutions.com/uc.js"></script>
         <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
+        <script>
+          Intastellar.accounts.id.renderButton("login", {
+            "theme": "dark",
+            "picker": "popup",
+            "appName": "Devhelp.dk",
+            "login_uri": window.location.host + "/login",
+            "client_id": "d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d",
+          });
+        </script>
         <Meta />
         <Links />
       </head>
