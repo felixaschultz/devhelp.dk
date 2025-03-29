@@ -60,6 +60,10 @@ export const Scripts = () => {
               company: "Intastellar Solutions",
               color: "#292929",
               design: "banner",
+              requiredCookies: [
+                "_ca",
+                "inta_state"
+              ]
               logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
             }
           }
