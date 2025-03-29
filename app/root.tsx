@@ -16,7 +16,8 @@ import {
   useNavigation,
   Link,
   useNavigate,
-  useLocation
+  useLocation,
+  Scripts
 } from "@remix-run/react";
 import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { json } from "@remix-run/node";
@@ -31,6 +32,22 @@ import { Resend } from 'resend';
 import Loader from "./components/Loader";
 import { loadStripe } from '@stripe/stripe-js';
 import { ca } from "./services/analytics";
+import { ExternalScripts, ExternalScriptsHandle } from "remix-utils/external-scripts";
+
+export let handle: ExternalScriptsHandle = {
+  scripts: [
+    {
+      src: "https://consents.cdn.intastellarsolutions.com/uc.js",
+      async: false,
+      defer: false,
+    },
+    {
+      src: "https://account.api.intastellarsolutions.com/v1/login.js",
+      async: false,
+      defer: false,
+    }
+  ],
+};
 
 export const meta = () => {
   return [
@@ -49,7 +66,7 @@ export const meta = () => {
 
 }
 
-export const Scripts = () => {
+/* export const Scripts = () => {
   return (
     <>
       <script dangerouslySetInnerHTML={{
@@ -83,11 +100,9 @@ export const Scripts = () => {
           }
         `
       }} />
-      <script src="https://consents.cdn.intastellarsolutions.com/uc.js"></script>
-      <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
     </>
   );
-}
+} */
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -220,6 +235,38 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.INTA = {
+            policy_link: {
+              url: "https://www.intastellarsolutions.com/about/legal/privacy",
+              target: "_blank",
+            },
+            settings: {
+              company: "Intastellar Solutions",
+              color: "#292929",
+              design: "banner",
+              rootDomain: "devhelp.dk",
+              requiredCookies: [
+                {
+                  "cookie": "inta_state",
+                  "domain": "devhelp.dk",
+                  "type": "functional",
+                  "purpose": "Intastellar state cookie, used to store the state of the Intastellar account.",
+                },
+                {
+                  "cookie": "_ca",
+                  "domain": "devhelp.dk",
+                  "purpose": "This cookie is used to keep track of the user session.",
+                  "type": "analytics",
+                }
+              ],
+              logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
+            }
+          }
+            `
+        }}></script>
+        <ExternalScripts />
         <Scripts />
         <Meta />
         <Links />
@@ -238,6 +285,18 @@ export default function App() {
         <ScrollRestoration />
         <SpeedInsights />
         <LiveReload />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            Intastellar.accounts.id.renderButton("login", {
+              client_id: "d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d",
+              app_name: "Devhelp.dk",
+              login_type: "login",
+              login_uri: "${hostname}/login",
+              theme: "dark",
+              picker: "popup"
+            })
+          `
+        }}></script>
         {
           (open.open && open.type == "login") && (
             <div className="popup">
@@ -370,14 +429,6 @@ export default function App() {
             </div>
           )
         }
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            Intastellar.accounts.id.renderButton("login", {
-              theme: "dark",
-              picker: "popup"
-            });
-          `
-        }} />
       </body>
     </html>
   );
