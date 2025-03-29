@@ -58,8 +58,8 @@ export const Scripts = () => {
             policy_link: "https://www.intastellarsolutions.com/privacy-policy",
             settings: {
               company: "Intastellar Solutions",
-              color: "#c4c4c4",
-              logo: "https://www.intastellarsolutions.com/assets/icons/fav/apple-icon-57x57.png",
+              color: "#292929",
+              logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
             }
           }
         `
