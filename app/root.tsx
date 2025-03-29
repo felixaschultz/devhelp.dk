@@ -55,7 +55,10 @@ export const Scripts = () => {
       <script dangerouslySetInnerHTML={{
         __html: `
           window.INTA = {
-            policy_link: "https://www.intastellarsolutions.com/privacy-policy",
+            policy_link: {
+              url: "https://www.intastellarsolutions.com/about/legal/privacy",
+              target: "_blank",
+            },
             settings: {
               company: "Intastellar Solutions",
               color: "#292929",
