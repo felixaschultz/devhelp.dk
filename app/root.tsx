@@ -65,12 +65,12 @@ export const Scripts = () => {
                   "cookie": "inta_state",
                   "domain": "devhelp.dk",
                   "type": "functional",
-                  "description": "Intastellar state cookie, used to store the state of the Intastellar account.",
+                  "purpose": "Intastellar state cookie, used to store the state of the Intastellar account.",
                 },
                 {
                   "cookie": "_ca",
                   "domain": "devhelp.dk",
-                  "description": "This cookie is used to keep track of the user session.",
+                  "purpose": "This cookie is used to keep track of the user session.",
                   "type": "analytics",
                 }
               ],
