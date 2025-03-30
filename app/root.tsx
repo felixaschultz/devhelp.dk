@@ -146,54 +146,40 @@ export const AppContext = createContext({
   stripePromise: null,
 });
 
-export const ExternalScripts = () => {
-    return (
-      <>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.INTA = {
-              policy_link: {
-                url: "https://www.intastellarsolutions.com/about/legal/privacy",
-                target: "_blank",
-              },
-              settings: {
-                company: "Intastellar Solutions",
-                color: "#292929",
-                design: "banner",
-                rootDomain: "devhelp.dk",
-                requiredCookies: [
-                  {
-                    "cookie": "inta_state",
-                    "domain": "devhelp.dk",
-                    "type": "functional",
-                    "purpose": "Intastellar state cookie, used to store the state of the Intastellar account.",
-                  },
-                  {
-                    "cookie": "_ca",
-                    "domain": "devhelp.dk",
-                    "purpose": "This cookie is used to keep track of the user session.",
-                    "type": "analytics",
-                  }
-                ],
-                logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
-              }
-            }
-          `
-        }} />
-        <script src="https://consents.cdn.intastellarsolutions.com/uc.js"></script>
-        <script src="https://account.api.intastellarsolutions.com/v1/login.js"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            Intastellar.accounts.id.renderButton("login", {
-              login_type: "login",
-              theme: "dark",
-              picker: "popup"
-            })
-          `
-        }}></script>
-      </>
+export function ExternalScriptLoader() {
+  useEffect(() => {
+    const loadScript = (src, onLoad) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = onLoad;
+      document.head.appendChild(script);
+      return script;
+    };
+
+    const script1 = loadScript(
+      "https://consents.cdn.intastellarsolutions.com/uc.js",
+      () => {
+        // callback: uc.js loaded, if you need to trigger something specific, do it here
+        
+      }
     );
-  }
+    const script2 = loadScript(
+      "https://account.api.intastellarsolutions.com/v1/login.js",
+      () => {
+        // After this script loads, it should set up its listener.
+        // If needed, you might trigger a function here to force the append.
+        
+      }
+    );
+
+    return () => {
+      document.head.removeChild(script1);
+      document.head.removeChild(script2);
+    };
+  }, []);
+
+  return null;
+}
 
 export default function App() {
   const [open, setOpen] = useState({
@@ -270,9 +256,40 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.INTA = {
+              policy_link: {
+                url: "https://www.intastellarsolutions.com/about/legal/privacy",
+                target: "_blank",
+              },
+              settings: {
+                company: "Intastellar Solutions",
+                color: "#292929",
+                design: "banner",
+                rootDomain: "devhelp.dk",
+                requiredCookies: [
+                  {
+                    "cookie": "inta_state",
+                    "domain": "devhelp.dk",
+                    "type": "functional",
+                    "purpose": "Intastellar state cookie, used to store the state of the Intastellar account.",
+                  },
+                  {
+                    "cookie": "_ca",
+                    "domain": "devhelp.dk",
+                    "purpose": "This cookie is used to keep track of the user session.",
+                    "type": "analytics",
+                  }
+                ],
+                logo: "https://www.devhelp.dk/build/_assets/devhelp-logo-HFKXMVDE.svg",
+              }
+            }
+          `
+        }} />
+        <ExternalScriptLoader />
         <Links />
         <Scripts />
-        <ExternalScripts />
       </head>
       <body>
         <Header setOpen={setOpen} open={open} user={user} hostname={hostname} />
