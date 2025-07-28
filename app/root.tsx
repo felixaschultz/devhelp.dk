@@ -32,6 +32,7 @@ import { Resend } from 'resend';
 import Loader from "./components/Loader";
 /* import { loadStripe } from '@stripe/stripe-js'; */
 import { ca } from "./services/analytics";
+import { IntastellarButton } from "@intastellar/signin-sdk-react";
 
 export const meta = () => {
   return [
@@ -163,18 +164,9 @@ export function ExternalScriptLoader() {
         
       }
     );
-    const script2 = loadScript(
-      "https://account.api.intastellarsolutions.com/v1/login.js",
-      () => {
-        // After this script loads, it should set up its listener.
-        // If needed, you might trigger a function here to force the append.
-        
-      }
-    );
 
     return () => {
       document.head.removeChild(script1);
-      document.head.removeChild(script2);
     };
   }, []);
 
@@ -289,7 +281,6 @@ export default function App() {
         }} />
         <ExternalScriptLoader />
         <Links />
-        <Scripts />
       </head>
       <body>
         <Header setOpen={setOpen} open={open} user={user} hostname={hostname} />
@@ -302,6 +293,7 @@ export default function App() {
         <Footer />
         <ScrollRestoration />
         <SpeedInsights />
+        <Scripts />
         <LiveReload />
         {
           (open.open && open.type == "login") && (
@@ -360,6 +352,15 @@ export default function App() {
                     })}>Sæt det tilbage</button></p>
                   </Form>
                   <section>
+                    <IntastellarButton
+                      clientId="d2eefd7f1564fa4c9714000456183a6b0f51e8c9519e1089ec41ce905ffc0c453dfac91ae8645c41ebae9c59e7a6e5233b1339e41a15723a9ba6d934bbb3e92d"
+                      appName="Devhelp.dk"
+                      scopes="profile"
+                      theme={{ theme: "dark" }}
+                      loginCallback={(account) => {
+                        console.log("Logged in with Intastellar", account);
+                      }}
+                    />
                     <p>Ikke medlem i nu? <button className="ask-btn" type="button" onClick={() => setOpen({
                       open: true,
                       type: "signup"
@@ -451,6 +452,7 @@ export function ErrorBoundary({ error }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <ExternalScriptLoader />
       </head>
       <body>
         <Header setOpen={setOpen} open={open} user={{}} />
