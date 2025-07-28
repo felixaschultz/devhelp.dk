@@ -256,9 +256,9 @@ export default function App() {
                 target: "_blank",
               },
               settings: {
-                company: "Intastellar Solutions",
+                company: "Intastellar Solutions, International",
                 color: "#292929",
-                design: "banner",
+                design: "bannerV2",
                 rootDomain: "devhelp.dk",
                 requiredCookies: [
                   {
